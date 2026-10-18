@@ -76,8 +76,15 @@
     display: block;
   }
 
-  button {
+  /* No grey flash on tap, and no double-tap-to-zoom delay on controls. */
+  a,
+  button,
+  label,
+  select,
+  summary,
+  [role='button'] {
     -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
 
   /*
@@ -287,4 +294,39 @@
   background: repeating-conic-gradient(from 270deg at 50% 100%, rgb(var(--accent) / 0.16) 0deg 0.35deg, transparent 0.35deg 6deg);
   mask-image: radial-gradient(circle at 50% 100%, black 0%, black 55%, transparent 72%);
   -webkit-mask-image: radial-gradient(circle at 50% 100%, black 0%, black 55%, transparent 72%);
+}
+
+/* Touch feedback: on screens without hover, controls dip slightly while pressed. */
+@media (hover: none) {
+  .press {
+    transition-property: transform, color, background-color, border-color;
+  }
+  .press:active {
+    transform: scale(0.97);
+    transition-duration: 80ms;
+  }
+}
+@media (hover: none) and (prefers-reduced-motion: reduce) {
+  .press:active {
+    transform: none;
+    opacity: 0.85;
+  }
+}
+
+/*
+ * Bigger touch areas without changing the layout: on touch screens a small control's tappable area is extended by an
+ * invisible ::before (::after is left free for .link-underline). The element must be positioned (relative/absolute);
+ * pair with enough spacing that neighbouring areas do not overlap. .tap-ring is the smaller version for dense plans.
+ */
+@media (pointer: coarse) {
+  .tap-target::before,
+  .tap-ring::before {
+    content: '';
+    position: absolute;
+    inset: -12px -8px;
+  }
+  .tap-ring::before {
+    inset: -5px;
+    border-radius: 9999px;
+  }
 }

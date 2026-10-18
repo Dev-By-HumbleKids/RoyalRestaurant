@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import { tableById } from '@/data/tables';
+import { useCoarsePointer } from '@/hooks/useMedia';
 import { useI18n } from '@/i18n';
 import type { RestaurantTable } from '@/types';
 import type { FloorPlanProps, TableState } from './planTypes';
@@ -220,7 +221,7 @@ function Hotspot({ x, z, index, active, onSelect, label }: { x: number; z: numbe
         onClick={onSelect}
         aria-label={`${index}. ${label}`}
         aria-pressed={active}
-        className={`grid h-10 w-10 place-items-center rounded-full border text-xs font-semibold transition-colors ${
+        className={`tap-target relative grid h-10 w-10 place-items-center rounded-full border text-xs font-semibold transition-colors ${
           active ? 'border-champagne bg-champagne text-obsidian' : 'border-champagne/70 bg-obsidian/85 text-champagne hover:bg-champagne hover:text-obsidian'
         }`}
       >
@@ -230,9 +231,25 @@ function Hotspot({ x, z, index, active, onSelect, label }: { x: number; z: numbe
   );
 }
 
-function CameraRig({ focus }: { focus: [number, number] | null }) {
+/** No touch gesture: one finger is left to the page (scroll) and to tapping tables. */
+const TOUCH_NONE = -1 as THREE.TOUCH;
+
+function CameraRig({ focus, touch }: { focus: [number, number] | null; touch: boolean }) {
   const controls = useRef<OrbitControlsImpl>(null);
   const target = useMemo(() => new THREE.Vector3(), []);
+  const gl = useThree((s) => s.gl);
+
+  // OrbitControls claims every touch (touch-action: none on the element it listens to — R3F's wrapper div, not the
+  // canvas), which would trap the page's scrolling on a phone. On touch screens one finger scrolls the page or taps
+  // a table, and two fingers turn the room. touch-action combines with ancestors, so both elements need pan-y.
+  useEffect(() => {
+    if (!touch) return;
+    const id = requestAnimationFrame(() => {
+      for (const el of [gl.domElement, controls.current?.domElement]) if (el) el.style.touchAction = 'pan-y';
+    });
+    return () => cancelAnimationFrame(id);
+  }, [gl, touch]);
+
   useFrame((_, dt) => {
     const c = controls.current;
     if (!c) return;
@@ -249,7 +266,8 @@ function CameraRig({ focus }: { focus: [number, number] | null }) {
       maxPolarAngle={1.05}
       minAzimuthAngle={-0.7}
       maxAzimuthAngle={0.7}
-      rotateSpeed={0.5}
+      rotateSpeed={touch ? 0.9 : 0.5}
+      touches={touch ? { ONE: TOUCH_NONE, TWO: THREE.TOUCH.DOLLY_ROTATE } : undefined}
       enableDamping
     />
   );
@@ -287,6 +305,7 @@ const PALMS: [number, number][] = [
 export default function FloorPlanScene({ mode, tables, selectedId, onSelectTable, spaces = [], activeSpaceId, onSelectSpace }: FloorPlanProps) {
   const wrap = useRef<HTMLDivElement>(null);
   const { t } = useI18n();
+  const touch = useCoarsePointer();
   const [visible, setVisible] = useState(true);
   // Resolution steps down if the device struggles, and back up when it recovers.
   const [dpr, setDpr] = useState(1.5);
@@ -423,9 +442,9 @@ export default function FloorPlanScene({ mode, tables, selectedId, onSelectTable
           ))}
 
         <StaticShadows version={tables.map((x) => x.table.id).join()} />
-        <CameraRig focus={focus} />
+        <CameraRig focus={focus} touch={touch} />
       </Canvas>
-      <p className="pointer-events-none absolute bottom-3 left-4 text-[10px] uppercase tracking-[0.2em] text-muted">{t.plan.drag}</p>
+      <p className="pointer-events-none absolute bottom-3 left-4 text-[11px] uppercase tracking-[0.2em] text-muted">{touch ? t.plan.dragTouch : t.plan.drag}</p>
     </div>
   );
 }

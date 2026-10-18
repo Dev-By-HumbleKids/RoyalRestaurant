@@ -34,7 +34,7 @@ export function ArchitectureTeaser() {
         </div>
       </motion.div>
 
-      <div className="container-x mt-16 grid gap-14 lg:grid-cols-12">
+      <div className="container-x mt-16 grid grid-cols-1 gap-14 lg:grid-cols-12">
         <div className="lg:col-span-5">
           <Reveal>
             <p className="lede">

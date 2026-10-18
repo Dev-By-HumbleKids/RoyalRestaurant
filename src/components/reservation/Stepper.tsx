@@ -19,7 +19,7 @@ export function Stepper({ step, maxReached, onStep }: { step: Step; maxReached: 
                 disabled={!reachable}
                 onClick={() => onStep(i as Step)}
                 aria-current={current ? 'step' : undefined}
-                className="group w-full text-left disabled:cursor-default"
+                className="group w-full py-1 text-left disabled:cursor-default"
               >
                 <span className="relative block h-px w-full bg-line/20">
                   <span
@@ -29,7 +29,7 @@ export function Stepper({ step, maxReached, onStep }: { step: Step; maxReached: 
                 <span className="mt-3 flex items-center gap-2">
                   <span
                     className={cn(
-                      'grid h-6 w-6 shrink-0 place-items-center rounded-full border text-[10px] font-semibold tabular transition-colors',
+                      'grid h-6 w-6 shrink-0 place-items-center rounded-full border text-[11px] font-semibold tabular transition-colors',
                       current ? 'border-champagne bg-champagne text-obsidian' : done ? 'border-champagne text-champagne' : 'border-line/30 text-muted',
                     )}
                   >

@@ -80,7 +80,7 @@ export default function ManageReservation() {
       </section>
 
       <section className="bg-obsidian pb-28">
-        <div className="container-x grid gap-12 lg:grid-cols-12">
+        <div className="container-x grid grid-cols-1 gap-12 lg:grid-cols-12">
           <form onSubmit={onLookup} noValidate className="space-y-8 border-t border-line/15 pt-10 lg:col-span-4" aria-label={m.findAria}>
             <Field label={m.reference} required error={errors.reference?.message} hint={m.referenceHint}>
               {({ id, describedBy }) => (
@@ -176,7 +176,7 @@ function ReservationCard({ reservation: r, email, onChange }: { reservation: Res
     <motion.article initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.6, ease }} className="border border-line/20 bg-espresso">
       <header className="flex flex-wrap items-center justify-between gap-4 border-b border-line/15 p-6 sm:p-8">
         <div>
-          <p className="text-[10px] uppercase tracking-[0.2em] text-muted">{m.reference}</p>
+          <p className="text-[11px] uppercase tracking-[0.2em] text-muted">{m.reference}</p>
           <p className="font-display text-3xl tracking-[0.08em] text-champagne">{r.reference}</p>
         </div>
         <span className={cn('border px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em]', statusStyle[r.status])}>{m.status[r.status]}</span>
@@ -192,7 +192,7 @@ function ReservationCard({ reservation: r, email, onChange }: { reservation: Res
           [m.fields.email, maskEmail(r.guest.email)],
         ].map(([k, v]) => (
           <div key={k} className="bg-espresso p-5">
-            <dt className="text-[10px] uppercase tracking-[0.18em] text-muted">{k}</dt>
+            <dt className="text-[11px] uppercase tracking-[0.18em] text-muted">{k}</dt>
             <dd className={cn('mt-1 break-words text-ivory [overflow-wrap:anywhere]', cancelled && 'line-through decoration-status-full/60')}>{v}</dd>
           </div>
         ))}
@@ -236,7 +236,7 @@ function ReservationCard({ reservation: r, email, onChange }: { reservation: Res
             }}
             aria-label={m.changeAria}
           >
-            <div className="grid gap-6 p-6 sm:grid-cols-3 sm:p-8">
+            <div className="grid grid-cols-1 gap-6 p-6 sm:grid-cols-3 sm:p-8">
               <Field label={m.fields.date} required>
                 {({ id }) => (
                   <Select

@@ -56,9 +56,9 @@ export function Header() {
             scrolled ? 'border-b border-line/15 bg-obsidian/95' : 'border-b border-transparent bg-gradient-to-b from-obsidian/75 via-obsidian/25 to-transparent',
           )}
         />
-        <div className="container-x relative flex h-[76px] items-center justify-between gap-6">
-          <Link to="/" aria-label={t.header.home} className="shrink-0">
-            <Wordmark />
+        <div className="container-x relative flex h-[68px] items-center justify-between gap-3 sm:h-[76px] sm:gap-6">
+          <Link to="/" aria-label={t.header.home} className="flex h-11 min-w-[44px] shrink-0 items-center">
+            <Wordmark collapse />
           </Link>
 
           <nav aria-label={t.header.primary} className="hidden xl:block">
@@ -82,7 +82,7 @@ export function Header() {
             </ul>
           </nav>
 
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex shrink-0 items-center gap-1.5 sm:gap-3">
             <LanguageSwitch />
             {wishCount > 0 && (
               <button

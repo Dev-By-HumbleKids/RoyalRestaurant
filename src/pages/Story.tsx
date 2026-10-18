@@ -26,7 +26,7 @@ function Timeline() {
             {c.timeline.map((m, i) => {
               const flip = i % 2 === 1;
               return (
-                <li key={m.year} className="relative grid gap-8 pl-12 md:grid-cols-2 md:gap-20 md:pl-0">
+                <li key={m.year} className="relative grid grid-cols-1 gap-8 pl-12 md:grid-cols-2 md:gap-20 md:pl-0">
                   <span aria-hidden className="absolute left-[5px] top-3 h-[13px] w-[13px] rotate-45 border border-accent bg-bg md:left-1/2 md:-translate-x-1/2" />
                   <div className={flip ? 'md:order-2' : 'md:text-right'}>
                     <Reveal>
@@ -59,7 +59,7 @@ export default function Story() {
 
       {/* Founding */}
       <section className="section-y bg-obsidian" aria-labelledby="founding-title">
-        <div className="container-x grid gap-14 lg:grid-cols-12">
+        <div className="container-x grid grid-cols-1 gap-14 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <SectionHeading id="founding-title" eyebrow={s.founding.eyebrow} lines={renderLines(s.founding.lines)} />
           </div>
@@ -93,7 +93,7 @@ export default function Story() {
       <section className="section-y bg-obsidian" aria-labelledby="philosophy-title">
         <div className="container-x">
           <SectionHeading id="philosophy-title" eyebrow={s.philosophy.eyebrow} lines={renderLines(s.philosophy.lines)} />
-          <ol className="mt-16 grid gap-px bg-line/15 md:grid-cols-3">
+          <ol className="mt-16 grid grid-cols-1 gap-px bg-line/15 md:grid-cols-3">
             {c.pillars.map((p, i) => (
               <li key={p.title} className="bg-obsidian p-8 md:p-10">
                 <Reveal delay={i * 0.1}>
@@ -109,7 +109,7 @@ export default function Story() {
 
       {/* Sourcing & techniques */}
       <section className="section-y relative overflow-hidden bg-espresso" aria-labelledby="sourcing-title">
-        <div className="container-x grid gap-16 lg:grid-cols-12">
+        <div className="container-x grid grid-cols-1 gap-16 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <SectionHeading id="sourcing-title" eyebrow={s.sourcing.eyebrow} lines={renderLines(s.sourcing.lines)} />
             <ParallaxImage k="s-a5" className="mt-12 aspect-[4/5] w-full max-w-sm" sizes="(min-width: 1024px) 28vw, 80vw" />
@@ -128,7 +128,7 @@ export default function Story() {
             <Reveal>
               <p className="eyebrow mb-6 mt-16">{s.sourcing.techniques}</p>
             </Reveal>
-            <dl className="grid gap-px bg-line/15 sm:grid-cols-2">
+            <dl className="grid grid-cols-1 gap-px bg-line/15 sm:grid-cols-2">
               {c.techniques.map((tech) => (
                 <div key={tech.title} className="bg-espresso p-6">
                   <dt className="font-display text-2xl text-champagne">{tech.title}</dt>
@@ -156,7 +156,7 @@ export default function Story() {
       {/* Chef & team */}
       <section id="chef" className="theme-ivory section-y scroll-mt-10 bg-bg text-fg" aria-labelledby="team-title">
         <div className="container-x">
-          <div className="grid items-end gap-12 lg:grid-cols-12">
+          <div className="grid grid-cols-1 items-end gap-12 lg:grid-cols-12">
             <div className="lg:col-span-5">
               <ParallaxImage k={chef.image} arch className="aspect-[4/5] w-full" sizes="(min-width: 1024px) 38vw, 92vw" />
             </div>
@@ -184,7 +184,7 @@ export default function Story() {
             <Reveal>
               <p className="eyebrow mb-10">{s.chef.brigade}</p>
             </Reveal>
-            <ul className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
+            <ul className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3">
               {c.team.map((m, i) => (
                 <li key={m.name} className={i % 3 === 1 ? 'lg:mt-16' : ''}>
                   <Reveal delay={i * 0.08}>
@@ -208,7 +208,7 @@ export default function Story() {
 
       {/* Accolades */}
       <section className="section-y bg-obsidian" aria-labelledby="accolades-title">
-        <div className="container-x grid gap-12 lg:grid-cols-12">
+        <div className="container-x grid grid-cols-1 gap-12 lg:grid-cols-12">
           <div className="lg:col-span-4">
             <SectionHeading id="accolades-title" eyebrow={s.recognition.eyebrow} lines={renderLines(s.recognition.lines)} size="md" />
             <p className="mt-6 text-xs text-muted">{s.recognition.disclaimer}</p>

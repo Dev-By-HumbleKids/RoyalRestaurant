@@ -30,7 +30,7 @@ function Details({ item }: { item: MenuItem }) {
   const w = item.wine;
 
   return (
-    <div className="grid min-h-0 flex-1 overflow-y-auto lg:grid-cols-2 lg:overflow-hidden">
+    <div className="grid grid-cols-1 min-h-0 flex-1 overflow-y-auto lg:grid-cols-2 lg:overflow-hidden">
       <div className="relative aspect-[4/3] bg-charcoal lg:aspect-auto lg:h-full">
         <Img k={item.image} priority sizes="(min-width: 1024px) 50vw, 100vw" className="absolute inset-0 h-full w-full object-cover" />
         <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-espresso/80 via-transparent to-transparent lg:bg-gradient-to-r lg:from-transparent lg:to-espresso/30" />
@@ -68,7 +68,7 @@ function Details({ item }: { item: MenuItem }) {
               [t.dish.serves, s.serves ? t.dish.servesN(s.serves) : t.dish.oneGuest],
             ].map(([k, v]) => (
               <div key={k} className="bg-espresso p-4">
-                <dt className="text-[10px] uppercase tracking-[0.18em] text-muted">{k}</dt>
+                <dt className="text-[11px] uppercase tracking-[0.18em] text-muted">{k}</dt>
                 <dd className="mt-1 text-fg">{v}</dd>
               </div>
             ))}
@@ -85,7 +85,7 @@ function Details({ item }: { item: MenuItem }) {
               [t.dish.vintage, w.vintage ? String(w.vintage) : t.dish.nonVintage],
             ].map(([k, v]) => (
               <div key={k} className="bg-espresso p-4">
-                <dt className="text-[10px] uppercase tracking-[0.18em] text-muted">{k}</dt>
+                <dt className="text-[11px] uppercase tracking-[0.18em] text-muted">{k}</dt>
                 <dd className="mt-1 text-fg">{v}</dd>
               </div>
             ))}
@@ -108,7 +108,7 @@ function Details({ item }: { item: MenuItem }) {
           </section>
         )}
 
-        <section aria-labelledby="allergens-h" className="grid gap-6 sm:grid-cols-2">
+        <section aria-labelledby="allergens-h" className="grid grid-cols-1 gap-6 sm:grid-cols-2">
           <div>
             <h3 id="allergens-h" className="eyebrow mb-3">
               {t.dish.allergens}

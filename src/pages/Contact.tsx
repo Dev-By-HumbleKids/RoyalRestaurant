@@ -94,7 +94,7 @@ function InquiryForm() {
           </Button>
         </motion.div>
       ) : (
-        <motion.form key="form" id="inquiry" onSubmit={submit} noValidate initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="grid gap-8 sm:grid-cols-2">
+        <motion.form key="form" id="inquiry" onSubmit={submit} noValidate initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="grid grid-cols-1 gap-8 sm:grid-cols-2">
           <Field label={f.name} required error={errors.name?.message}>
             {({ id, describedBy }) => <Input id={id} autoComplete="name" aria-invalid={!!errors.name} aria-describedby={describedBy} {...register('name')} />}
           </Field>
@@ -172,7 +172,7 @@ export default function Contact() {
       <PageHero image="i-bar-warm" eyebrow={ct.hero.eyebrow} lines={renderLines(ct.hero.lines)} lede={ct.hero.lede} />
 
       <section className="section-y bg-obsidian" aria-labelledby="visit-title">
-        <div className="container-x grid gap-14 lg:grid-cols-12">
+        <div className="container-x grid grid-cols-1 gap-14 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <SectionHeading id="visit-title" eyebrow={ct.visit.eyebrow} lines={renderLines(ct.visit.lines)} size="md" />
             <Reveal delay={0.1}>
@@ -184,7 +184,7 @@ export default function Contact() {
               </address>
               <dl className="mt-10 divide-y divide-line/15 border-y border-line/15 text-sm">
                 {c.site.hours.map((h) => (
-                  <div key={h.days} className="grid gap-1 py-4 sm:grid-cols-[160px_1fr]">
+                  <div key={h.days} className="grid grid-cols-1 gap-1 py-4 sm:grid-cols-[160px_1fr]">
                     <dt className="text-muted">{h.days}</dt>
                     <dd className="text-ivory">{h.times}</dd>
                   </div>
@@ -211,7 +211,7 @@ export default function Contact() {
       </section>
 
       <section id="private-dining" className="section-y scroll-mt-10 bg-espresso" aria-labelledby="pd-title">
-        <div className="container-x grid gap-14 lg:grid-cols-12">
+        <div className="container-x grid grid-cols-1 gap-14 lg:grid-cols-12">
           <div className="lg:col-span-4">
             <SectionHeading id="pd-title" eyebrow={ct.pd.eyebrow} lines={renderLines(ct.pd.lines)} lede={ct.pd.lede} size="md" />
           </div>

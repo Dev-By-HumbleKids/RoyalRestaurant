@@ -47,7 +47,7 @@ export function ExperienceList() {
           </Reveal>
         </div>
 
-        <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <ul className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {c.experiences.map((exp, i) => {
             const tone = tones[exp.tone];
             return (

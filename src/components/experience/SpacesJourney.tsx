@@ -23,7 +23,7 @@ export function SpacesJourney() {
           {c.spaces.map((s, i) => {
             const flip = i % 2 === 1;
             return (
-              <li key={s.id} id={`space-${s.id}`} className="grid items-center gap-10 md:grid-cols-12 md:gap-8">
+              <li key={s.id} id={`space-${s.id}`} className="grid grid-cols-1 items-center gap-10 md:grid-cols-12 md:gap-8">
                 <div className={cn('md:col-span-7', flip && 'md:order-2 md:col-start-6')}>
                   <ParallaxImage
                     k={s.image}

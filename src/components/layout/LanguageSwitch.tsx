@@ -24,7 +24,7 @@ export function LanguageSwitch({ className }: { className?: string }) {
           aria-pressed={lang === o.value}
           lang={o.value}
           className={cn(
-            'h-9 min-w-[40px] px-2.5 transition-colors duration-300',
+            'press h-10 min-w-[42px] px-2.5 transition-colors duration-300',
             lang === o.value ? 'bg-champagne text-obsidian' : 'text-fg/70 hover:text-fg',
           )}
         >

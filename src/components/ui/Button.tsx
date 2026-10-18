@@ -7,7 +7,7 @@ import { Magnetic } from './Magnetic';
 type Variant = 'primary' | 'outline' | 'ghost';
 
 const base =
-  'group relative inline-flex min-h-[48px] items-center justify-center gap-3 overflow-hidden px-7 text-[12px] font-semibold uppercase tracking-[0.22em] transition-colors duration-500 ease-luxe disabled:cursor-not-allowed disabled:opacity-40';
+  'press group relative inline-flex min-h-[48px] items-center justify-center gap-3 overflow-hidden px-7 text-[12px] font-semibold uppercase tracking-[0.22em] transition-colors duration-500 ease-luxe disabled:cursor-not-allowed disabled:opacity-40';
 
 const variants: Record<Variant, string> = {
   primary: 'bg-champagne text-obsidian hover:text-obsidian',

@@ -138,7 +138,7 @@ export default function Menu() {
       <section className="bg-obsidian pb-28 pt-14" aria-labelledby="menu-section-title">
         <div className="container-x" ref={listRef}>
           {/* Filters */}
-          <div className="grid gap-8 border-b border-line/15 pb-10 lg:grid-cols-12 lg:items-end">
+          <div className="grid grid-cols-1 gap-8 border-b border-line/15 pb-10 lg:grid-cols-12 lg:items-end">
             <div className="lg:col-span-5">
               <AnimatePresence mode="wait">
                 <motion.div key={q ? 'search' : category} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.4, ease }}>
@@ -232,7 +232,7 @@ export default function Menu() {
               ))}
             </motion.div>
           ) : (
-            <motion.ul layout className="mt-8 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+            <motion.ul layout className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
               <AnimatePresence mode="popLayout">
                 {results.map((item, i) => (
                   <motion.li

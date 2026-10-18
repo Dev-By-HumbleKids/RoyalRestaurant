@@ -41,7 +41,7 @@ export function ExploreSpace() {
           </Reveal>
         </div>
 
-        <div className="grid gap-8 lg:grid-cols-12">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
           <Reveal className="lg:col-span-8">
             <FloorPlan mode="explore" tables={idleTables} spaces={spaces} activeSpaceId={active} onSelectSpace={setActive} />
           </Reveal>

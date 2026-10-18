@@ -20,7 +20,7 @@ function Panel({ onClose }: { onClose: () => void }) {
   return (
     <motion.div
       id="mobile-menu"
-      className="fixed inset-0 z-40 flex flex-col overflow-y-auto bg-espresso pt-[76px]"
+      className="fixed inset-0 z-40 flex flex-col overflow-y-auto overscroll-contain bg-espresso pt-[68px] sm:pt-[76px]"
       initial={{ clipPath: 'inset(0 0 100% 0)' }}
       animate={{ clipPath: 'inset(0 0 0% 0)' }}
       exit={{ clipPath: 'inset(0 0 100% 0)' }}
@@ -60,7 +60,7 @@ function Panel({ onClose }: { onClose: () => void }) {
         </ul>
       </nav>
       <motion.div
-        className="container-x relative grid gap-6 border-t border-line/15 py-8 sm:grid-cols-2"
+        className="container-x relative grid grid-cols-1 gap-6 border-t border-line/15 py-8 sm:grid-cols-2"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.6, duration: 0.6 }}

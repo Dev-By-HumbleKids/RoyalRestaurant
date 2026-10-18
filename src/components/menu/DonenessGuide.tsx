@@ -41,7 +41,7 @@ export function DonenessGuide() {
         </div>
       </div>
 
-      <div className="mt-5 grid items-center gap-6 sm:grid-cols-[150px_1fr]">
+      <div className="mt-5 grid grid-cols-1 items-center gap-6 sm:grid-cols-[150px_1fr]">
         <svg viewBox="0 0 160 110" className="mx-auto w-40 sm:w-full" role="img" aria-label={t.doneness.crossSection(l.name)}>
           <defs>
             <radialGradient id={`${id}-g`} cx="50%" cy="50%" r="55%">
@@ -77,7 +77,7 @@ export function DonenessGuide() {
         aria-valuetext={t.doneness.valueText(l.name, temp, unit)}
         className="mt-6 w-full accent-[#C5A46D]"
       />
-      <div className="mt-2 flex justify-between text-[10px] uppercase tracking-[0.14em] text-muted" aria-hidden>
+      <div className="mt-2 flex justify-between text-[11px] uppercase tracking-[0.14em] text-muted" aria-hidden>
         {t.doneness.scale.map((s) => (
           <span key={s}>{s}</span>
         ))}

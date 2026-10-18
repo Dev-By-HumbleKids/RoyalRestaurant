@@ -13,7 +13,7 @@ export function Footer() {
     <footer className="relative overflow-hidden border-t border-line/15 bg-obsidian" aria-labelledby="footer-title">
       <div aria-hidden className="deco-fan pointer-events-none absolute -bottom-24 left-1/2 h-[520px] w-[1100px] -translate-x-1/2 opacity-50" />
       <div className="container-x relative pb-10 pt-20 md:pt-28">
-        <div className="grid gap-12 border-b border-line/15 pb-16 lg:grid-cols-12">
+        <div className="grid grid-cols-1 gap-12 border-b border-line/15 pb-16 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <h2 id="footer-title" className="sr-only">
               {t.footer.title}
@@ -29,19 +29,19 @@ export function Footer() {
             </div>
           </div>
 
-          <div className="grid gap-10 sm:grid-cols-3 lg:col-span-7">
+          <div className="grid grid-cols-1 gap-10 sm:grid-cols-3 lg:col-span-7">
             <div>
               <p className="eyebrow mb-5">{t.footer.explore}</p>
-              <ul className="space-y-3 text-sm">
+              <ul className="space-y-3 text-sm [@media(pointer:coarse)]:space-y-6">
                 {site.nav.map((n) => (
                   <li key={n.to}>
-                    <Link to={n.to} className="link-underline text-fg/80 hover:text-fg">
+                    <Link to={n.to} className="link-underline tap-target text-fg/80 hover:text-fg">
                       {t.nav[n.to]}
                     </Link>
                   </li>
                 ))}
                 <li>
-                  <Link to="/reservations/manage" className="link-underline text-fg/80 hover:text-fg">
+                  <Link to="/reservations/manage" className="link-underline tap-target text-fg/80 hover:text-fg">
                     {t.footer.manage}
                   </Link>
                 </li>
@@ -49,10 +49,10 @@ export function Footer() {
             </div>
             <div>
               <p className="eyebrow mb-5">{t.footer.theMenu}</p>
-              <ul className="space-y-3 text-sm">
+              <ul className="space-y-3 text-sm [@media(pointer:coarse)]:space-y-6">
                 {c.categories.map((cat) => (
                   <li key={cat.id}>
-                    <Link to={`/menu?c=${cat.id}`} className="link-underline text-fg/80 hover:text-fg">
+                    <Link to={`/menu?c=${cat.id}`} className="link-underline tap-target text-fg/80 hover:text-fg">
                       {cat.label}
                     </Link>
                   </li>
@@ -66,13 +66,13 @@ export function Footer() {
                 <p>
                   {c.site.address.line2}, {c.site.address.city}
                 </p>
-                <p className="pt-3">
-                  <a href={site.phoneHref} className="link-underline hover:text-fg">
+                <p className="pt-3 [@media(pointer:coarse)]:py-3">
+                  <a href={site.phoneHref} className="link-underline tap-target hover:text-fg">
                     {site.phone}
                   </a>
                 </p>
-                <p>
-                  <a href={`mailto:${site.email}`} className="link-underline hover:text-fg">
+                <p className="[@media(pointer:coarse)]:py-3">
+                  <a href={`mailto:${site.email}`} className="link-underline tap-target break-all hover:text-fg">
                     {site.email}
                   </a>
                 </p>
@@ -81,10 +81,10 @@ export function Footer() {
                 <li>{t.footer.dinner}</li>
                 <li>{t.footer.lunch}</li>
               </ul>
-              <ul className="mt-6 flex gap-5 text-[11px] font-semibold uppercase tracking-[0.18em]" aria-label={t.footer.social}>
+              <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-4 text-[11px] font-semibold uppercase tracking-[0.18em]" aria-label={t.footer.social}>
                 {site.socials.map((s) => (
                   <li key={s.label}>
-                    <a href={s.href} target="_blank" rel="noopener noreferrer" className="link-underline text-fg/70 hover:text-accent">
+                    <a href={s.href} target="_blank" rel="noopener noreferrer" className="link-underline tap-target text-fg/70 hover:text-accent">
                       {s.label}
                       <span className="sr-only">{t.footer.socialSr}</span>
                     </a>
@@ -98,12 +98,12 @@ export function Footer() {
         <div className="flex flex-col gap-6 pt-8 text-xs text-muted md:flex-row md:items-center md:justify-between">
           <p className="max-w-2xl leading-relaxed">
             {t.footer.copyright(new Date().getFullYear())}{' '}
-            <Link to="/credits" className="link-underline text-fg/70">
+            <Link to="/credits" className="link-underline tap-target text-fg/70">
               {t.footer.credits}
             </Link>
-            <span className="mt-3 block">
+            <span className="mt-3 block [@media(pointer:coarse)]:mt-5">
               {t.footer.builtBy}{' '}
-              <a href={site.developer.url} target="_blank" rel="noopener noreferrer" className="link-underline text-accent">
+              <a href={site.developer.url} target="_blank" rel="noopener noreferrer" className="link-underline tap-target text-accent">
                 {site.developer.name}
               </a>
             </span>

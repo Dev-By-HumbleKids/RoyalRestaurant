@@ -24,7 +24,7 @@ export function ExperiencesTeaser() {
           </Reveal>
         </div>
 
-        <ul className="mt-16 grid gap-12 md:grid-cols-3 md:gap-8">
+        <ul className="mt-16 grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-8">
           {featured.map((exp, i) => (
             <li key={exp.id} className={cn(i === 1 && 'md:mt-24', i === 2 && 'md:mt-10')}>
               <Reveal delay={i * 0.1}>

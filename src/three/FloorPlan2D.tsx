@@ -100,7 +100,7 @@ export function FloorPlan2D({ mode, tables, selectedId, onSelectTable, spaces = 
               aria-pressed={selected}
               aria-label={t.plan.tableAria(table.label, table.minSeats, table.maxSeats, statusText)}
               className={cn(
-                'absolute grid min-h-[30px] min-w-[30px] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full text-[9px] font-semibold tabular transition-transform sm:min-h-[36px] sm:min-w-[36px] sm:text-[10px]',
+                'tap-ring absolute grid min-h-[30px] min-w-[30px] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full text-[9px] font-semibold tabular transition-transform sm:min-h-[36px] sm:min-w-[36px] sm:text-[10px]',
                 selected ? 'text-obsidian' : state === 'free' ? 'text-champagne hover:scale-110' : 'cursor-not-allowed text-muted/60',
               )}
               style={pct(table.x, table.z)}
@@ -121,7 +121,7 @@ export function FloorPlan2D({ mode, tables, selectedId, onSelectTable, spaces = 
               aria-pressed={active}
               aria-label={`${i + 1}. ${s.name}`}
               className={cn(
-                'absolute grid h-9 w-9 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border text-[11px] font-semibold tabular transition-all duration-300 sm:h-10 sm:w-10',
+                'tap-ring absolute grid h-9 w-9 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border text-[11px] font-semibold tabular transition-all duration-300 sm:h-10 sm:w-10',
                 active ? 'scale-110 border-champagne bg-champagne text-obsidian' : 'border-champagne/60 bg-obsidian/80 text-champagne hover:bg-champagne hover:text-obsidian',
               )}
               style={pct(s.hotspot.x, s.hotspot.z)}

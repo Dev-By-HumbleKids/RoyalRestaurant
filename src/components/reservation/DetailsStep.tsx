@@ -97,7 +97,7 @@ export function DetailsStep({ formId, onValid }: { formId: string; onValid: () =
   return (
     <div>
       <StepTitle n={4} title={d.title} hint={d.hint} />
-      <form id={formId} onSubmit={submit} noValidate className="grid gap-8 sm:grid-cols-2">
+      <form id={formId} onSubmit={submit} noValidate className="grid grid-cols-1 gap-8 sm:grid-cols-2">
         <Field label={d.name} required error={errors.name?.message} className="sm:col-span-2">
           {({ id, describedBy }) => (
             <Input id={id} autoComplete="name" aria-invalid={!!errors.name} aria-describedby={describedBy} {...register('name')} />

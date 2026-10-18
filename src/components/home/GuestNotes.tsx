@@ -7,7 +7,7 @@ import { cn, pad2 } from '@/lib/utils';
 import { Reveal } from '@/motion/Reveal';
 import { ease } from '@/motion/tokens';
 
-/** Cross-fading sample guest notes — clearly labelled as fictional, with pause and manual controls. */
+/** Cross-fading sample guest notes — clearly labelled as fictional, with pause, manual controls and swipe. */
 export function GuestNotes() {
   const reduced = usePrefersReducedMotion();
   const { t, c } = useI18n();
@@ -37,7 +37,7 @@ export function GuestNotes() {
       <div aria-hidden className="pointer-events-none absolute -left-40 top-0 font-display text-[28rem] leading-none text-obsidian/25">
         “
       </div>
-      <div className="container-x relative grid gap-12 lg:grid-cols-12">
+      <div className="container-x relative grid grid-cols-1 gap-12 lg:grid-cols-12">
         <div className="lg:col-span-4">
           <Reveal>
             <p className="eyebrow mb-6 flex items-center gap-4 !text-champagne-soft">
@@ -52,7 +52,21 @@ export function GuestNotes() {
         </div>
 
         <div className="lg:col-span-8">
-          <div className="relative min-h-[260px] md:min-h-[220px]" aria-live="polite">
+          {/* Swipe left/right on touch screens (or drag with a mouse); autoplay pauses while a finger is down. */}
+          <motion.div
+            className="relative min-h-[260px] md:min-h-[220px]"
+            aria-live="polite"
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={0.18}
+            dragSnapToOrigin
+            onDragStart={() => setHovered(true)}
+            onDragEnd={(_, info) => {
+              setHovered(false);
+              if (info.offset.x < -60 || info.velocity.x < -400) go(1);
+              else if (info.offset.x > 60 || info.velocity.x > 400) go(-1);
+            }}
+          >
             <AnimatePresence mode="wait">
               <motion.figure
                 key={index}
@@ -67,7 +81,7 @@ export function GuestNotes() {
                 </figcaption>
               </motion.figure>
             </AnimatePresence>
-          </div>
+          </motion.div>
 
           <div className="mt-10 flex items-center gap-6">
             <div className="flex gap-2">
@@ -86,7 +100,8 @@ export function GuestNotes() {
                 {playing ? <Pause className="h-4 w-4" aria-hidden /> : <Play className="h-4 w-4" aria-hidden />}
               </button>
             </div>
-            <ol className="flex flex-1 gap-2" aria-label={t.home.notes.choose}>
+            {/* Dots only from `sm` up; on phones the arrows, swipe and counter do the same job at a comfortable size. */}
+            <ol className="hidden flex-1 gap-2 sm:flex" aria-label={t.home.notes.choose}>
               {testimonials.map((n, i) => (
                 <li key={n.name} className="flex-1">
                   <button
@@ -94,14 +109,14 @@ export function GuestNotes() {
                     onClick={() => setIndex(i)}
                     aria-label={t.home.notes.noteN(i + 1, testimonials.length)}
                     aria-current={i === index}
-                    className="block w-full py-4"
+                    className="block w-full py-5"
                   >
                     <span className={cn('block h-px transition-colors duration-500', i === index ? 'bg-champagne' : 'bg-ivory/20')} />
                   </button>
                 </li>
               ))}
             </ol>
-            <span className="text-xs text-ivory/60 tabular">
+            <span className="ml-auto text-xs text-ivory/60 tabular sm:ml-0">
               {pad2(index + 1)} / {pad2(testimonials.length)}
             </span>
           </div>

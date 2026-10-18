@@ -66,7 +66,7 @@ export function TonightStrip() {
                 className="flex min-h-[64px] min-w-[104px] flex-col items-start justify-center gap-1 border border-line/20 px-4 text-left transition-colors hover:border-accent disabled:cursor-not-allowed disabled:opacity-45 disabled:hover:border-line/20"
               >
                 <span className="font-display text-xl tabular text-ivory">{slot.time}</span>
-                <StatusBadge status={slot.status} label={slot.status === 'limited' ? t.status.left(slot.freeTables) : undefined} className="!text-[10px]" />
+                <StatusBadge status={slot.status} label={slot.status === 'limited' ? t.status.left(slot.freeTables) : undefined} className="!text-[11px]" />
               </button>
             </li>
           ))}

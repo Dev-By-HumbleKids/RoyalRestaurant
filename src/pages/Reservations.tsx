@@ -17,6 +17,8 @@ import { useWishlist } from '@/store/wishlistStore';
 import type { DiningArea } from '@/types';
 
 const FORM_ID = 'details-form';
+/** The forward action fills the pinned bar on phones and returns to its natural width from `sm` up. */
+const ACTION = 'min-w-0 flex-1 !px-4 text-center leading-snug sm:flex-none sm:!px-7';
 
 export default function Reservations() {
   const store = useReservation();
@@ -103,7 +105,7 @@ export default function Reservations() {
             <p className="flex gap-3 border-l-2 border-champagne/60 pl-4">{r.demoNote}</p>
             <p>
               {r.already}{' '}
-              <Link to="/reservations/manage" className="link-underline text-accent">
+              <Link to="/reservations/manage" className="link-underline tap-target text-accent">
                 {r.manageLink}
               </Link>
             </p>
@@ -123,7 +125,7 @@ export default function Reservations() {
                 <Stepper step={step} maxReached={maxReached} onStep={go} />
               </div>
 
-              <div className="mt-12 grid gap-12 lg:grid-cols-12">
+              <div className="mt-12 grid grid-cols-1 gap-12 lg:grid-cols-12">
                 <div className="min-w-0 lg:col-span-8">
                   <AnimatePresence mode="wait">
                     <motion.div
@@ -165,23 +167,25 @@ export default function Reservations() {
                     </div>
                   )}
 
-                  <div className="mt-12 flex items-center justify-between gap-4 border-t border-line/15 pt-8">
-                    <Button variant="ghost" onClick={back} disabled={step === 0} className="!px-0">
+                  {/* On phones and tablets the step actions stay pinned to the bottom of the screen (above the home bar). */}
+                  <div className="sticky bottom-0 z-20 -mx-[clamp(16px,4.2vw,64px)] mt-12 flex items-center justify-between gap-3 border-t border-line/15 bg-obsidian/95 px-[clamp(16px,4.2vw,64px)] pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3 backdrop-blur-md lg:static lg:mx-0 lg:bg-transparent lg:px-0 lg:pb-0 lg:pt-8 lg:backdrop-blur-none">
+                    <Button variant="ghost" onClick={back} disabled={step === 0} className="shrink-0 !px-0">
                       <ArrowLeft className="relative h-4 w-4" aria-hidden />
                       {t.common.back}
                     </Button>
                     {step < 3 && (
-                      <Button onClick={next} disabled={!canContinue} icon>
-                        {r.continueTo(r.steps[step + 1])}
+                      <Button onClick={next} disabled={!canContinue} icon className={ACTION}>
+                        <span className="sm:hidden">{r.continue}</span>
+                        <span className="hidden sm:inline">{r.continueTo(r.steps[step + 1])}</span>
                       </Button>
                     )}
                     {step === 3 && (
-                      <Button type="submit" form={FORM_ID} icon>
+                      <Button type="submit" form={FORM_ID} icon className={ACTION}>
                         {r.reviewRequest}
                       </Button>
                     )}
                     {step === 4 && (
-                      <Button onClick={submit} disabled={submitting} aria-busy={submitting} icon={!submitting}>
+                      <Button onClick={submit} disabled={submitting} aria-busy={submitting} icon={!submitting} className={ACTION}>
                         {submitting ? (
                           <span className="flex items-center gap-3">
                             <span className="h-4 w-4 animate-spin rounded-full border-2 border-obsidian/30 border-t-obsidian" aria-hidden />
@@ -240,7 +244,7 @@ function SummaryRow({ label, value, onEdit }: { label: string; value: string; on
       <dd className="flex items-center gap-3 text-right text-ivory">
         {value}
         {onEdit && value !== '—' && (
-          <button type="button" onClick={onEdit} className="link-underline text-[10px] uppercase tracking-[0.16em] text-accent">
+          <button type="button" onClick={onEdit} className="link-underline tap-target text-[11px] uppercase tracking-[0.16em] text-accent">
             {t.common.edit}
             <span className="sr-only"> {label}</span>
           </button>
@@ -274,11 +278,11 @@ function Review({ onEdit }: { onEdit: (s: Step) => void }) {
       <StepTitle n={5} title={rv.title} hint={rv.hint} />
       <dl className="divide-y divide-line/15 border-y border-line/15">
         {rows.map(([k, v, s]) => (
-          <div key={k} className="grid gap-1 py-4 sm:grid-cols-[160px_1fr_auto] sm:items-baseline sm:gap-6">
+          <div key={k} className="grid grid-cols-1 gap-1 py-4 sm:grid-cols-[160px_1fr_auto] sm:items-baseline sm:gap-6">
             <dt className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted">{k}</dt>
             <dd className="break-words text-ivory">{v}</dd>
             <dd>
-              <button type="button" onClick={() => onEdit(s)} className="link-underline text-[10px] uppercase tracking-[0.16em] text-accent">
+              <button type="button" onClick={() => onEdit(s)} className="link-underline tap-target text-[11px] uppercase tracking-[0.16em] text-accent">
                 {t.common.edit}
                 <span className="sr-only"> {k}</span>
               </button>

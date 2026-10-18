@@ -16,3 +16,6 @@ export function useMediaQuery(query: string): boolean {
 export const useFinePointer = () => useMediaQuery('(hover: hover) and (pointer: fine) and (min-width: 1024px)');
 
 export const usePrefersReducedMotion = () => useMediaQuery('(prefers-reduced-motion: reduce)');
+
+/** True on touch screens (phones, tablets). */
+export const useCoarsePointer = () => useMediaQuery('(pointer: coarse)');

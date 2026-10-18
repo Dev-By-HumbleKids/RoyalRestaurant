@@ -1,6 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{ts,tsx}'],
+  // Hover styles only where a real hover exists, so a tapped card never stays "stuck" highlighted on touch screens.
+  future: { hoverOnlyWhenSupported: true },
   theme: {
     extend: {
       colors: {

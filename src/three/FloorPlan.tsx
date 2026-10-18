@@ -1,6 +1,6 @@
 import { Box, Map as MapIcon } from 'lucide-react';
 import { lazy, Suspense, useState } from 'react';
-import { useFinePointer, usePrefersReducedMotion } from '@/hooks/useMedia';
+import { useFinePointer, useMediaQuery, usePrefersReducedMotion } from '@/hooks/useMedia';
 import { useI18n } from '@/i18n';
 import { cn } from '@/lib/utils';
 import { FloorPlan2D } from './FloorPlan2D';
@@ -18,16 +18,18 @@ function webglAvailable() {
 }
 
 /**
- * Chooses the presentation: the lazy-loaded 3D scene on capable desktops, the 2D plan everywhere else.
- * Visitors can switch at any time; the 2D plan is always the keyboard/screen-reader path.
+ * Chooses the presentation: the lazy-loaded 3D scene on desktops and tablets, the 2D plan on phones (where it
+ * reads better at that width). Visitors can switch at any time; the 2D plan is always the keyboard/screen-reader path.
  */
 export function FloorPlan(props: FloorPlanProps) {
   const { t } = useI18n();
   const fine = useFinePointer();
+  // Tablets, not phones turned sideways: landscape phones are too short for the 3D plan.
+  const tablet = useMediaQuery('(pointer: coarse) and (min-width: 768px) and (min-height: 600px)');
   const reduced = usePrefersReducedMotion();
   const [can3D] = useState(webglAvailable);
   const [pref, setPref] = useState<'3d' | '2d' | null>(null);
-  const view = pref ?? (fine && !reduced && can3D ? '3d' : '2d');
+  const view = pref ?? ((fine || tablet) && !reduced && can3D ? '3d' : '2d');
 
   return (
     <div className="relative">

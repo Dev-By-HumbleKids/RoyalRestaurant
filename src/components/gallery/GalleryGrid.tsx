@@ -29,14 +29,14 @@ export function GalleryGrid({ items, className }: { items: LightboxItem[]; class
             <button
               type="button"
               onClick={() => setOpen(i)}
-              className="group block h-full w-full"
+              className="press group block h-full w-full"
               aria-label={t.lightbox.open(item.caption)}
               data-cursor={t.common.viewCursor}
             >
               <Img k={item.image} alt="" sizes="(min-width: 768px) 25vw, 50vw" className="h-full w-full object-cover transition-transform duration-[1.4s] ease-luxe group-hover:scale-[1.06]" />
               <span
                 aria-hidden
-                className="absolute inset-x-0 bottom-0 translate-y-2 bg-gradient-to-t from-obsidian/85 to-transparent p-4 text-left font-display text-lg italic text-ivory opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100"
+                className="absolute inset-x-0 bottom-0 translate-y-2 bg-gradient-to-t from-obsidian/85 to-transparent p-4 text-left font-display text-lg italic text-ivory opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100 [@media(hover:none)]:translate-y-0 [@media(hover:none)]:opacity-100"
               >
                 {item.caption}
               </span>

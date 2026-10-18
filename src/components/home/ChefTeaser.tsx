@@ -11,7 +11,7 @@ export function ChefTeaser() {
   const chef = c.chef;
   return (
     <section className="theme-ivory section-y relative bg-bg text-fg" aria-labelledby="chef-title">
-      <div className="container-x grid items-center gap-14 lg:grid-cols-12">
+      <div className="container-x grid grid-cols-1 items-center gap-14 lg:grid-cols-12">
         <div className="lg:col-span-5">
           <ParallaxImage k={chef.image} arch className="aspect-[4/5] w-full max-w-md" sizes="(min-width: 1024px) 36vw, 90vw" />
         </div>

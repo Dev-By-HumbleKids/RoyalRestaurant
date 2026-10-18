@@ -31,7 +31,7 @@ export function SignatureShowcase() {
 
   return (
     <section className="section-y relative bg-obsidian" aria-labelledby="signatures-title">
-      <div className="container-x grid gap-14 lg:grid-cols-12 lg:gap-10">
+      <div className="container-x grid grid-cols-1 gap-14 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-6">
           <SectionHeading
             id="signatures-title"
@@ -77,9 +77,9 @@ export function SignatureShowcase() {
                         transition={{ duration: 0.6, ease }}
                         className="overflow-hidden lg:hidden"
                       >
-                        <div className="grid gap-5 pb-8 pl-[3.25rem] sm:grid-cols-[1fr_auto]">
+                        <div className="grid grid-cols-1 gap-5 pb-8 pl-[3.25rem] sm:grid-cols-[1fr_auto]">
                           <div className="space-y-3">
-                            <p className="eyebrow !text-[10px]">
+                            <p className="eyebrow !text-[11px]">
                               {c.categoryLabel(item.category)}
                               {item.priceNote ? ` · ${item.priceNote}` : ''} · <span className="sm:hidden">{fmt.price(item.price)}</span>
                             </p>
@@ -141,7 +141,7 @@ export function SignatureShowcase() {
                 aria-live="polite"
               >
                 <div className="space-y-2">
-                  <p className="eyebrow !text-[10px]">
+                  <p className="eyebrow !text-[11px]">
                     {c.categoryLabel(current.category)}
                     {current.priceNote ? ` · ${current.priceNote}` : ''}
                   </p>

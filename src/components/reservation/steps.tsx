@@ -64,7 +64,7 @@ export function DateStep() {
         </div>
         <p className="text-sm text-muted">
           {d.nine}{' '}
-          <Link to="/contact#private-dining" className="link-underline text-accent">
+          <Link to="/contact#private-dining" className="link-underline tap-target text-accent">
             {d.inquiry}
           </Link>
         </p>
@@ -135,12 +135,12 @@ export function TimeStep() {
                       >
                         <span className={cn('font-display text-2xl tabular', selected ? 'text-obsidian' : 'text-ivory')}>{slot.time}</span>
                         {selected ? (
-                          <span className="text-[10px] font-semibold uppercase tracking-[0.16em]">{tt.selected}</span>
+                          <span className="text-[11px] font-semibold uppercase tracking-[0.16em]">{tt.selected}</span>
                         ) : (
                           <StatusBadge
                             status={slot.status}
                             label={slot.status === 'limited' ? t.status.left(slot.freeTables) : slot.status === 'closed' ? reason : undefined}
-                            className="!text-[10px]"
+                            className="!text-[11px]"
                           />
                         )}
                       </button>
@@ -228,7 +228,7 @@ export function TableStep() {
         </p>
       )}
 
-      <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-3" role="radiogroup" aria-label={tb.areaAria}>
+      <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 xl:grid-cols-3" role="radiogroup" aria-label={tb.areaAria}>
         <AreaOption
           label={tb.noPref}
           description={tb.noPrefDesc}

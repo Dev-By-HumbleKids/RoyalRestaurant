@@ -69,7 +69,7 @@ export function MenuCard({ item }: { item: MenuItem }) {
       <motion.div style={tilt ? { rotateX, rotateY, transformStyle: 'preserve-3d' } : undefined} className="h-full">
         <Link
           to={{ pathname: `/menu/${item.slug}`, search }}
-          className="flex h-full flex-col border border-line/15 bg-espresso/60 transition-colors duration-500 hover:border-line/40"
+          className="press flex h-full flex-col border border-line/15 bg-espresso/60 transition-colors duration-500 hover:border-line/40"
           data-cursor={t.common.viewCursor}
           aria-label={t.card.viewDetails(item.name, `${fmt.price(item.price)}${item.priceNote ? ` ${item.priceNote}` : ''}`)}
         >
@@ -82,17 +82,19 @@ export function MenuCard({ item }: { item: MenuItem }) {
             />
             <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-obsidian/50 via-transparent to-transparent" />
             {(item.chefRecommended || item.signature) && (
-              <span className="absolute left-4 top-4 bg-obsidian/75 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-champagne backdrop-blur-sm">
+              <span className="absolute left-4 top-4 bg-obsidian/75 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-champagne backdrop-blur-sm">
                 {item.signature ? t.card.signature : t.card.chefRec}
               </span>
             )}
           </div>
           <div className="flex flex-1 flex-col p-5 sm:p-6">
-            <div className="flex items-baseline justify-between gap-4">
-              <h3 className="font-display text-[1.65rem] font-normal leading-tight text-ivory transition-colors group-hover:text-champagne">{item.name}</h3>
+            <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+              <h3 className="min-w-0 font-display text-[1.5rem] font-normal leading-tight text-ivory transition-colors group-hover:text-champagne [overflow-wrap:anywhere] min-[400px]:text-[1.65rem]">
+                {item.name}
+              </h3>
               <p className="shrink-0 text-right">
                 <span className="text-base text-champagne tabular">{fmt.price(item.price)}</span>
-                {item.priceNote && <span className="block text-[10px] uppercase tracking-[0.14em] text-muted">{item.priceNote}</span>}
+                {item.priceNote && <span className="block text-[11px] uppercase tracking-[0.14em] text-muted">{item.priceNote}</span>}
               </p>
             </div>
             <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-fg/75">{item.description}</p>
@@ -120,14 +122,14 @@ export function WineRow({ item }: { item: MenuItem }) {
     <article className="group relative border-b border-line/15">
       <Link
         to={{ pathname: `/menu/${item.slug}`, search }}
-        className="grid gap-3 py-6 pr-14 transition-colors sm:grid-cols-[80px_1fr_auto] sm:items-center sm:gap-6"
+        className="grid grid-cols-1 gap-3 py-6 pr-14 transition-colors sm:grid-cols-[80px_1fr_auto] sm:items-center sm:gap-6"
         aria-label={t.card.viewDetails(`${item.name} ${w.vintage ?? 'NV'}`, `${fmt.price(item.price)} / ${t.card.bottle}`)}
       >
         <span className="hidden aspect-[3/4] w-20 overflow-hidden bg-charcoal sm:block">
           <Img k={item.image} alt="" sizes="80px" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
         </span>
         <span>
-          <span className="eyebrow !text-[10px]">
+          <span className="eyebrow !text-[11px]">
             {c.wineStyle(w.style)} · {w.region}
           </span>
           <span className="mt-1 block font-display text-2xl text-ivory transition-colors group-hover:text-champagne sm:text-[1.7rem]">
