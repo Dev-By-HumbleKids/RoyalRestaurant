@@ -69,7 +69,7 @@ function buildContent(lang: Lang) {
     pillars: pillars.map((p, i) => (isMy ? { ...p, body: storyMy.pillars[i].body } : p)),
     sourcing: sourcing.map((s, i) => (isMy ? { ...s, body: storyMy.sourcing[i].body } : s)),
     techniques: techniques.map((x, i) => (isMy ? { ...x, detail: storyMy.techniques[i].detail } : x)),
-    chef: isMy ? { ...chef, bio: storyMy.chef.bio, philosophy: storyMy.chef.philosophy, quote: storyMy.chef.quote, specialties: storyMy.chef.specialties } : chef,
+    chef: isMy ? { ...chef, bio: storyMy.chef.bio, philosophy: storyMy.chef.philosophy, specialties: storyMy.chef.specialties } : chef,
     team: team.map((m) => (isMy ? { ...m, bio: storyMy.team[m.name].bio, specialties: storyMy.team[m.name].specialties } : m)),
     testimonials: testimonials.map((t, i) => (isMy ? { ...t, quote: storyMy.testimonials[i].quote } : t)),
     accolades,

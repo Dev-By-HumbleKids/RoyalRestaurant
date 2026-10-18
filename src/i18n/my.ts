@@ -670,6 +670,7 @@ const KEEP_ENGLISH = [
   'home.tonight.tonight',
   'home.tonight.forTwo',
   'home.manifesto.eyebrow',
+  'home.manifesto.text',
   'home.signatures.eyebrow',
   'home.signatures.lines',
   'home.ways.eyebrow',
