@@ -79,7 +79,7 @@ export function SignatureShowcase() {
                       >
                         <div className="grid grid-cols-1 gap-5 pb-8 pl-[3.25rem] sm:grid-cols-[1fr_auto]">
                           <div className="space-y-3">
-                            <p className="eyebrow !text-[11px]">
+                            <p className="eyebrow !text-[11px] lg:text-[10px]">
                               {c.categoryLabel(item.category)}
                               {item.priceNote ? ` · ${item.priceNote}` : ''} · <span className="sm:hidden">{fmt.price(item.price)}</span>
                             </p>
@@ -114,13 +114,15 @@ export function SignatureShowcase() {
                 <motion.div
                   key={current.id}
                   className="absolute inset-0"
-                  initial={{ clipPath: 'inset(0% 0% 100% 0%)', scale: 1.08 }}
+                  // 99%, not 100%: a fully clipped frame never counts as on screen, so a lazy photo would not load.
+                  initial={{ clipPath: 'inset(0% 0% 99% 0%)', scale: 1.08 }}
                   animate={{ clipPath: 'inset(0% 0% 0% 0%)', scale: 1 }}
                   exit={{ opacity: 0.4 }}
                   transition={{ duration: 1, ease }}
                 >
                   <Link to={`/menu/${current.slug}`} aria-label={t.home.signatures.viewNamed(current.name)} tabIndex={-1}>
-                    <Img k={current.image} sizes="45vw" className="h-full w-full object-cover" />
+                    {/* Swapped on hover/tap without scrolling, so it loads straight away rather than lazily. */}
+                    <Img k={current.image} sizes="45vw" loading="eager" className="h-full w-full object-cover" />
                   </Link>
                 </motion.div>
               </AnimatePresence>
@@ -141,7 +143,7 @@ export function SignatureShowcase() {
                 aria-live="polite"
               >
                 <div className="space-y-2">
-                  <p className="eyebrow !text-[11px]">
+                  <p className="eyebrow !text-[11px] lg:text-[10px]">
                     {c.categoryLabel(current.category)}
                     {current.priceNote ? ` · ${current.priceNote}` : ''}
                   </p>

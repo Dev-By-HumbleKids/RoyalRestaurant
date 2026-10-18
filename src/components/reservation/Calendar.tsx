@@ -107,7 +107,7 @@ export function Calendar({ partySize, value, onChange }: Props) {
         </div>
       </div>
 
-      <div className="grid grid-cols-7 gap-1 text-center text-[11px] font-semibold uppercase tracking-[0.16em] text-muted" aria-hidden>
+      <div className="grid grid-cols-7 gap-1 text-center text-[11px] lg:text-[10px] font-semibold uppercase tracking-[0.16em] text-muted" aria-hidden>
         {cal.weekdays.map((d) => (
           <span key={d} className="py-2">
             {d}

@@ -28,7 +28,9 @@ export function ParallaxImage({ k, className, imgClassName, strength = 10, arch,
     <motion.div
       ref={ref}
       className={cn('relative overflow-hidden bg-charcoal', arch && 'arch', className)}
-      initial={reveal ? { clipPath: 'inset(100% 0% 0% 0%)' } : false}
+      // Starts at 99%, not 100%: a fully clipped frame never counts as on screen, so the browser would hold back the
+      // lazy-loaded photo inside it until the next scroll.
+      initial={reveal ? { clipPath: 'inset(99% 0% 0% 0%)' } : false}
       whileInView={{ clipPath: 'inset(0% 0% 0% 0%)' }}
       viewport={{ once: true, margin: '0px 0px -10% 0px' }}
       transition={{ duration: 1.3, ease }}

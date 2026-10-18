@@ -135,12 +135,12 @@ export function TimeStep() {
                       >
                         <span className={cn('font-display text-2xl tabular', selected ? 'text-obsidian' : 'text-ivory')}>{slot.time}</span>
                         {selected ? (
-                          <span className="text-[11px] font-semibold uppercase tracking-[0.16em]">{tt.selected}</span>
+                          <span className="text-[11px] lg:text-[10px] font-semibold uppercase tracking-[0.16em]">{tt.selected}</span>
                         ) : (
                           <StatusBadge
                             status={slot.status}
                             label={slot.status === 'limited' ? t.status.left(slot.freeTables) : slot.status === 'closed' ? reason : undefined}
-                            className="!text-[11px]"
+                            className="!text-[11px] lg:text-[10px]"
                           />
                         )}
                       </button>

@@ -77,14 +77,14 @@ export function Confirmation({ reservation, onNew }: { reservation: Reservation;
             [cf.seating, table && table.label.startsWith(short) ? table.label : `${short}${table ? ` · ${table.label}` : ''}`],
           ].map(([k, v]) => (
             <div key={k} className="bg-espresso p-5">
-              <dt className="text-[11px] uppercase tracking-[0.2em] text-muted">{k}</dt>
+              <dt className="text-[11px] lg:text-[10px] uppercase tracking-[0.2em] text-muted">{k}</dt>
               <dd className={k === cf.reference ? 'mt-1 font-display text-2xl tracking-[0.08em] text-champagne' : 'mt-1 text-ivory'}>{v}</dd>
             </div>
           ))}
         </dl>
         <div className="flex flex-col items-center justify-center gap-3 border-t border-line/15 p-6 sm:border-l sm:border-t-0">
           {qr ? <img src={qr} alt={cf.qrAlt(r.reference)} className="h-36 w-36" /> : <div className="h-36 w-36 animate-pulse bg-charcoal" />}
-          <p className="text-center text-[11px] uppercase tracking-[0.18em] text-muted">{cf.qrNote}</p>
+          <p className="text-center text-[11px] lg:text-[10px] uppercase tracking-[0.18em] text-muted">{cf.qrNote}</p>
         </div>
       </motion.div>
 

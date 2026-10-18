@@ -77,24 +77,24 @@ export function MenuCard({ item }: { item: MenuItem }) {
             <Img
               k={item.image}
               alt=""
-              sizes="(min-width: 1280px) 30vw, (min-width: 640px) 45vw, 92vw"
+              sizes="(min-width: 1600px) 23vw, (min-width: 1024px) 30vw, (min-width: 640px) 45vw, 92vw"
               className="h-full w-full object-cover transition-transform duration-[1.2s] ease-luxe group-hover:scale-[1.06]"
             />
             <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-obsidian/50 via-transparent to-transparent" />
             {(item.chefRecommended || item.signature) && (
-              <span className="absolute left-4 top-4 bg-obsidian/75 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-champagne backdrop-blur-sm">
+              <span className="absolute left-4 top-4 bg-obsidian/75 px-3 py-1.5 text-[11px] lg:text-[10px] font-semibold uppercase tracking-[0.18em] text-champagne backdrop-blur-sm">
                 {item.signature ? t.card.signature : t.card.chefRec}
               </span>
             )}
           </div>
           <div className="flex flex-1 flex-col p-5 sm:p-6">
-            <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+            <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 sm:flex-nowrap">
               <h3 className="min-w-0 font-display text-[1.5rem] font-normal leading-tight text-ivory transition-colors group-hover:text-champagne [overflow-wrap:anywhere] min-[400px]:text-[1.65rem]">
                 {item.name}
               </h3>
               <p className="shrink-0 text-right">
                 <span className="text-base text-champagne tabular">{fmt.price(item.price)}</span>
-                {item.priceNote && <span className="block text-[11px] uppercase tracking-[0.14em] text-muted">{item.priceNote}</span>}
+                {item.priceNote && <span className="block text-[11px] lg:text-[10px] uppercase tracking-[0.14em] text-muted">{item.priceNote}</span>}
               </p>
             </div>
             <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-fg/75">{item.description}</p>
@@ -129,7 +129,7 @@ export function WineRow({ item }: { item: MenuItem }) {
           <Img k={item.image} alt="" sizes="80px" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
         </span>
         <span>
-          <span className="eyebrow !text-[11px]">
+          <span className="eyebrow !text-[11px] lg:text-[10px]">
             {c.wineStyle(w.style)} · {w.region}
           </span>
           <span className="mt-1 block font-display text-2xl text-ivory transition-colors group-hover:text-champagne sm:text-[1.7rem]">

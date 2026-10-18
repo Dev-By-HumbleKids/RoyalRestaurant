@@ -77,7 +77,7 @@ export function DonenessGuide() {
         aria-valuetext={t.doneness.valueText(l.name, temp, unit)}
         className="mt-6 w-full accent-[#C5A46D]"
       />
-      <div className="mt-2 flex justify-between text-[11px] uppercase tracking-[0.14em] text-muted" aria-hidden>
+      <div className="mt-2 flex justify-between text-[11px] lg:text-[10px] uppercase tracking-[0.14em] text-muted" aria-hidden>
         {t.doneness.scale.map((s) => (
           <span key={s}>{s}</span>
         ))}

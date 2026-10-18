@@ -444,7 +444,7 @@ export default function FloorPlanScene({ mode, tables, selectedId, onSelectTable
         <StaticShadows version={tables.map((x) => x.table.id).join()} />
         <CameraRig focus={focus} touch={touch} />
       </Canvas>
-      <p className="pointer-events-none absolute bottom-3 left-4 text-[11px] uppercase tracking-[0.2em] text-muted">{touch ? t.plan.dragTouch : t.plan.drag}</p>
+      <p className="pointer-events-none absolute bottom-3 left-4 text-[11px] lg:text-[10px] uppercase tracking-[0.2em] text-muted">{touch ? t.plan.dragTouch : t.plan.drag}</p>
     </div>
   );
 }

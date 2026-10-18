@@ -68,7 +68,7 @@ function Details({ item }: { item: MenuItem }) {
               [t.dish.serves, s.serves ? t.dish.servesN(s.serves) : t.dish.oneGuest],
             ].map(([k, v]) => (
               <div key={k} className="bg-espresso p-4">
-                <dt className="text-[11px] uppercase tracking-[0.18em] text-muted">{k}</dt>
+                <dt className="text-[11px] lg:text-[10px] uppercase tracking-[0.18em] text-muted">{k}</dt>
                 <dd className="mt-1 text-fg">{v}</dd>
               </div>
             ))}
@@ -85,7 +85,7 @@ function Details({ item }: { item: MenuItem }) {
               [t.dish.vintage, w.vintage ? String(w.vintage) : t.dish.nonVintage],
             ].map(([k, v]) => (
               <div key={k} className="bg-espresso p-4">
-                <dt className="text-[11px] uppercase tracking-[0.18em] text-muted">{k}</dt>
+                <dt className="text-[11px] lg:text-[10px] uppercase tracking-[0.18em] text-muted">{k}</dt>
                 <dd className="mt-1 text-fg">{v}</dd>
               </div>
             ))}

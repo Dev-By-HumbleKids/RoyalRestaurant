@@ -244,7 +244,7 @@ function SummaryRow({ label, value, onEdit }: { label: string; value: string; on
       <dd className="flex items-center gap-3 text-right text-ivory">
         {value}
         {onEdit && value !== '—' && (
-          <button type="button" onClick={onEdit} className="link-underline tap-target text-[11px] uppercase tracking-[0.16em] text-accent">
+          <button type="button" onClick={onEdit} className="link-underline tap-target text-[11px] lg:text-[10px] uppercase tracking-[0.16em] text-accent">
             {t.common.edit}
             <span className="sr-only"> {label}</span>
           </button>
@@ -282,7 +282,7 @@ function Review({ onEdit }: { onEdit: (s: Step) => void }) {
             <dt className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted">{k}</dt>
             <dd className="break-words text-ivory">{v}</dd>
             <dd>
-              <button type="button" onClick={() => onEdit(s)} className="link-underline tap-target text-[11px] uppercase tracking-[0.16em] text-accent">
+              <button type="button" onClick={() => onEdit(s)} className="link-underline tap-target text-[11px] lg:text-[10px] uppercase tracking-[0.16em] text-accent">
                 {t.common.edit}
                 <span className="sr-only"> {k}</span>
               </button>

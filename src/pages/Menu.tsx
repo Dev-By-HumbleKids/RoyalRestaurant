@@ -232,7 +232,7 @@ export default function Menu() {
               ))}
             </motion.div>
           ) : (
-            <motion.ul layout className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
+            <motion.ul layout className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 min-[1600px]:grid-cols-4">
               <AnimatePresence mode="popLayout">
                 {results.map((item, i) => (
                   <motion.li
