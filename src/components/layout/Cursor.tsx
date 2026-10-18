@@ -4,7 +4,7 @@ import { useFinePointer, usePrefersReducedMotion } from '@/hooks/useMedia';
 
 /**
  * A quiet custom cursor for desktop only. It never replaces the system cursor —
- * it adds a trailing ring that expands into a label over elements marked with `data-cursor="View"`.
+ * it adds a label bubble that appears over elements marked with `data-cursor="View"`.
  */
 export function Cursor() {
   const fine = useFinePointer();
@@ -50,7 +50,12 @@ function CursorRing() {
     >
       <motion.div
         className="-translate-x-1/2 -translate-y-1/2 rounded-full border border-champagne/70"
-        animate={label ? { width: 88, height: 88, backgroundColor: 'rgba(197,164,109,0.92)' } : { width: 30, height: 30, backgroundColor: 'rgba(197,164,109,0)' }}
+        // The utensil cursor does the pointing; the bubble only appears to label things like "View".
+        animate={
+          label
+            ? { width: 88, height: 88, opacity: 1, backgroundColor: 'rgba(197,164,109,0.92)' }
+            : { width: 24, height: 24, opacity: 0, backgroundColor: 'rgba(197,164,109,0)' }
+        }
         transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
       >
         <AnimatePresence>

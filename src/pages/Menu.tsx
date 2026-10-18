@@ -165,7 +165,7 @@ export default function Menu() {
                 </label>
                 <label className="flex items-center gap-3 text-sm">
                   <span className="text-[11px] uppercase tracking-[0.16em] text-muted">Sort</span>
-                  <select value={sort} onChange={(e) => setSort(e.target.value as Sort)} className="field-input w-auto cursor-pointer bg-obsidian pr-2">
+                  <select value={sort} onChange={(e) => setSort(e.target.value as Sort)} className="field-input w-auto bg-obsidian pr-2">
                     <option value="featured">Featured</option>
                     <option value="price-asc">Price: low to high</option>
                     <option value="price-desc">Price: high to low</option>

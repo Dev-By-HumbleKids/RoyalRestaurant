@@ -86,7 +86,8 @@ function Table3D({
   const over = (e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation();
     setHovered(true);
-    document.body.style.cursor = canPick ? 'pointer' : 'not-allowed';
+    // Free tables keep the site's utensil cursor; unavailable ones show not-allowed.
+    document.body.style.cursor = canPick ? '' : 'not-allowed';
   };
   const out = () => {
     setHovered(false);

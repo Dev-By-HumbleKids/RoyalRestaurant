@@ -59,7 +59,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaHTMLAttributes<H
 });
 
 export const Select = forwardRef<HTMLSelectElement, SelectHTMLAttributes<HTMLSelectElement>>(function Select({ className, ...rest }, ref) {
-  return <select ref={ref} className={cn('field-input cursor-pointer bg-obsidian', className)} {...rest} />;
+  return <select ref={ref} className={cn('field-input bg-obsidian', className)} {...rest} />;
 });
 
 // ——— Step 4 ———
@@ -129,7 +129,7 @@ export function DetailsStep({ formId, onValid }: { formId: string; onValid: () =
           {({ id, describedBy }) => <Textarea id={id} aria-invalid={!!errors.requests} aria-describedby={describedBy} {...register('requests')} />}
         </Field>
         {wishNames.length > 0 && (
-          <label className="flex cursor-pointer items-start gap-4 border border-line/20 p-5 sm:col-span-2">
+          <label className="flex items-start gap-4 border border-line/20 p-5 sm:col-span-2">
             <input type="checkbox" className="mt-1 h-5 w-5 accent-[#C5A46D]" {...register('attachWishlist')} />
             <span>
               <span className="block text-sm text-ivory">Attach “My Evening” for the kitchen</span>

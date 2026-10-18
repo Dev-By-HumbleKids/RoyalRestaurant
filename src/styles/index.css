@@ -80,6 +80,38 @@
     -webkit-tap-highlight-color: transparent;
   }
 
+  /*
+   * Signature cursor: a tilted wooden spoon and fork (hotspot at the spoon tip, 7px 8px).
+   * Mouse/trackpad only. Browsers without image-set() use the plain PNG; anything that cannot
+   * load a custom cursor falls back to the normal arrow, or the hand on links and buttons.
+   */
+  @media (hover: hover) and (pointer: fine) {
+    html,
+    body,
+    canvas {
+      cursor: url('/cursor-utensils.png') 7 8, auto;
+      cursor: image-set(url('/cursor-utensils.png') 1x, url('/cursor-utensils@2x.png') 2x) 7 8, auto;
+    }
+    a,
+    button,
+    select,
+    summary,
+    label,
+    [role='button'],
+    [role='radio'] {
+      cursor: url('/cursor-utensils.png') 7 8, pointer;
+      cursor: image-set(url('/cursor-utensils.png') 1x, url('/cursor-utensils@2x.png') 2x) 7 8, pointer;
+    }
+    input:not([type='checkbox'], [type='radio'], [type='range']),
+    textarea {
+      cursor: text;
+    }
+    :disabled,
+    [aria-disabled='true'] {
+      cursor: not-allowed;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
