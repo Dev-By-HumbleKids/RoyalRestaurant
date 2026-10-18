@@ -32,6 +32,8 @@ export const imageAlts = {
   'p-ines': 'Pastry Chef Inès Moreau piping a dessert',
   'p-camille': 'Head Sommelier Camille Duret holding a glass of white wine at the table',
   'p-amara': 'Sous Chef Amara Diallo standing in the kitchen',
+  'p-kyaw': 'Chef de Cuisine Kyaw Zin Htet plating a dish beneath copper lamps',
+  'p-eimon': 'Pastry Sous Chef Ei Mon smiling at the pass in her black chef’s uniform',
   'c-plating': 'A chef garnishing a small dish with fresh greens',
   'c-plating-2': 'A chef plating a dish with tweezers',
   'c-pass': 'A cook slicing vegetables at the pass',

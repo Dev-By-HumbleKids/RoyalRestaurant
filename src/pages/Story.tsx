@@ -197,12 +197,12 @@ export default function Story() {
             <Reveal>
               <p className="eyebrow mb-10">The brigade</p>
             </Reveal>
-            <ul className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+            <ul className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
               {team.map((m, i) => (
-                <li key={m.name} className={i % 2 === 1 ? 'lg:mt-16' : ''}>
+                <li key={m.name} className={i % 3 === 1 ? 'lg:mt-16' : ''}>
                   <Reveal delay={i * 0.08}>
                     <div className="group aspect-[3/4] overflow-hidden bg-surface">
-                      <Img k={m.image} sizes="(min-width: 1024px) 22vw, (min-width: 640px) 45vw, 92vw" className="h-full w-full object-cover grayscale-[35%] transition duration-[1.2s] ease-luxe group-hover:scale-105 group-hover:grayscale-0" />
+                      <Img k={m.image} sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 92vw" className="h-full w-full object-cover grayscale-[35%] transition duration-[1.2s] ease-luxe group-hover:scale-105 group-hover:grayscale-0" />
                     </div>
                     <h3 className="mt-5 font-display text-2xl">{m.name}</h3>
                     <p className="text-[11px] uppercase tracking-[0.18em] text-accent">{m.role}</p>

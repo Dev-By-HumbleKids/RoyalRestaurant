@@ -101,3 +101,5 @@ and none of the pictured places, dishes or people are affiliated with it.
 | `b-zero` | https://unsplash.com/photos/clear-drinking-glass-with-pink-liquid-and-lemon-1Di03LTniYE |
 | `b-espresso` | https://unsplash.com/photos/a-close-up-of-latte-art-on-a-cappuccino-GT5klubwZhI |
 | `b-coffee` | https://unsplash.com/photos/white-ceramic-cup-on-brown-wooden-table-dQdyO9jsixA |
+| `p-kyaw` | https://unsplash.com/photos/a-chef-preparing-food-in-a-kitchen-EuYy6SqrjAM |
+| `p-eimon` | https://unsplash.com/photos/a-smiling-chef-is-ringing-a-service-bell-20SLLdxZynk |

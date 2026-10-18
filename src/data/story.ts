@@ -90,18 +90,32 @@ export const chef: TeamMember & { philosophy: string; quote: string } = {
 
 export const team: TeamMember[] = [
   {
-    name: 'Kenji Arakawa',
+    name: 'Ko Kyaw Zin Htet',
     role: 'Chef de Cuisine',
+    image: 'p-kyaw',
+    bio: 'Born in Yangon and raised behind his mother’s mohinga stall in Ahlone, Kyaw cooked in Bangkok and Singapore before joining ROYAL in 2016. He has run the kitchen since 2022 and leads the Burmese–French dishes: the mohinga velouté, the tea-leaf burrata and every tamarind glaze.',
+    specialties: ['Burmese–French cuisine', 'Broths & curry pastes'],
+  },
+  {
+    name: 'Ma Ei Mon',
+    role: 'Pastry Sous Chef',
+    image: 'p-eimon',
+    bio: 'From Mandalay, where she learned to cook toddy-palm jaggery with her grandmother. Ei Mon reimagines Myanmar sweets such as sanwin makin, shwe yin aye and mont lone yay paw as plated fine-dining desserts.',
+    specialties: ['Jaggery & palm sugar', 'Myanmar sweets, reimagined'],
+  },
+  {
+    name: 'Kenji Arakawa',
+    role: 'Grill Chef',
     image: 'p-kenji',
-    bio: 'Trained in Kyoto alongside Adrien and moved to Yangon in 2015. He runs the line, the binchotan grill and the fresh-pasta room.',
+    bio: 'Trained in Kyoto alongside Adrien and moved to Yangon in 2015. He commands the binchotan grill and the fresh-pasta room.',
     specialties: ['Binchotan', 'Fresh pasta'],
   },
   {
     name: 'Inès Moreau',
     role: 'Pastry Chef',
     image: 'p-ines',
-    bio: 'Formerly of three Parisian patisseries. She is now in love with jaggery, pandan and Shan coffee, and believes a dessert should surprise the palate once, and only once.',
-    specialties: ['Chocolate', 'Burmese sweets, reimagined'],
+    bio: 'Formerly of three Parisian patisseries. She runs the pastry kitchen with Ei Mon, French restraint meeting Burmese sweetness, and believes a dessert should surprise the palate once, and only once.',
+    specialties: ['Chocolate', 'Viennoiserie'],
   },
   {
     name: 'Camille Duret',
