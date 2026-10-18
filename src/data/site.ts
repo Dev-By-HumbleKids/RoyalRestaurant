@@ -4,9 +4,11 @@ export const site = {
   tagline: 'Fire, Time & Grace.',
   established: 1928,
   statement:
-    'An international fine-dining house in downtown Yangon, built around a tamarind-wood hearth that has burned since 1928.',
+    'An international fine-dining house on Yangon’s Hlaing riverfront, built around a tamarind-wood hearth that has burned since 1928.',
   // A fictional address in a real city. The "0" after +95 makes the number deliberately invalid.
-  address: { line1: '1 Royal Arcade', line2: 'Downtown Heritage Quarter', city: 'Yangon' },
+  address: { line1: '1 Kannar Road', line2: 'Kyimyindaing Riverside', city: 'Yangon' },
+  // Map pin: Kannar Road by Bagayar Pier, Kyimyindaing — a real street; the restaurant is fictional.
+  geo: { lat: 16.8046, lng: 96.1223 },
   phone: '+95 0 000 1928',
   phoneHref: 'tel:+9500001928',
   email: 'reservations@royal.example',

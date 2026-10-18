@@ -5,7 +5,7 @@ import { Mail, Phone } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { QuarterMap } from '@/components/contact/QuarterMap';
+import { LocationMap } from '@/components/contact/LocationMap';
 import { Field, Input, Select, Textarea } from '@/components/reservation/DetailsStep';
 import { Button, ButtonLink } from '@/components/ui/Button';
 import { PageHero } from '@/components/ui/PageHero';
@@ -205,7 +205,7 @@ export default function Contact() {
             </Reveal>
           </div>
           <Reveal className="lg:col-span-7" delay={0.15}>
-            <QuarterMap />
+            <LocationMap />
           </Reveal>
         </div>
       </section>

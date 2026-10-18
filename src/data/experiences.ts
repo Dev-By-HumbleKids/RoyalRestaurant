@@ -106,7 +106,7 @@ export const galleryCategories = ['All', 'Architecture', 'Interiors', 'Steaks', 
 export type GalleryCategory = (typeof galleryCategories)[number];
 
 export const gallery: { image: ImageKey; category: Exclude<GalleryCategory, 'All'>; caption: string }[] = [
-  { image: 'i-arch-facade', category: 'Architecture', caption: 'Seven arches on Royal Arcade' },
+  { image: 'i-arch-facade', category: 'Architecture', caption: 'Seven arches on Kannar Road' },
   { image: 'i-dining-room', category: 'Interiors', caption: 'The Main Dining Room after dark' },
   { image: 's-tomahawk', category: 'Steaks', caption: 'Tomahawk over tamarind wood' },
   { image: 'c-plating-2', category: 'Kitchen', caption: 'Plating at the pass' },

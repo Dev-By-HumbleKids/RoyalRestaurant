@@ -14,7 +14,7 @@ Frontend portfolio project: React, TypeScript, Framer Motion and a lazy-loaded R
 
 ## The concept
 
-ROYAL is a three-generation **international restaurant in downtown Yangon, Myanmar**. It was founded in 1928 by
+ROYAL is a three-generation **international restaurant on the Hlaing riverfront in Kyimyindaing, Yangon, Myanmar**. It was founded in 1928 by
 Henri Varenne, a cook from Lyon, and Daw Khin Mya. Today it sits in a 1926 bank hall with a barrel-vaulted ceiling,
 built around a tamarind-wood hearth that has never gone out. The kitchen is French in technique and Burmese in
 hospitality. The menu brings in Myeik Archipelago seafood, Shan highland produce, tea leaf, tamarind and jaggery,

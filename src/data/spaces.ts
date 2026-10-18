@@ -20,7 +20,7 @@ export const spaces: Space[] = [
     id: 'facade',
     name: 'The Facade',
     kicker: 'Arrival',
-    body: 'Seven cream-washed stone arches face Royal Arcade, one of downtown Yangon’s heritage streets. At dusk the brass revolving door is the warmest light on the block, and guests are greeted by name before they reach it.',
+    body: 'Seven cream-washed stone arches face Kannar Road and the Hlaing River beyond it. At dusk the brass revolving door is the warmest light on the block, and guests are greeted by name before they reach it.',
     image: 'i-arch-facade',
     materials: ['Cream-washed stone', 'Brushed brass', 'Teak shutters'],
     hotspot: { x: 3.5, z: 7.9 },

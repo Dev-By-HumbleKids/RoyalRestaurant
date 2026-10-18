@@ -58,13 +58,13 @@ export const en = {
 
   home: {
     hero: {
-      eyebrow: (year: number) => `Est. ${year} · Downtown Yangon`,
+      eyebrow: (year: number) => `Est. ${year} · Kyimyindaing, Yangon`,
       lines: ['Fire,', 'Time', '& Grace.'],
-      lede: 'An international fine-dining house in downtown Yangon, built around a tamarind-wood hearth that has burned since 1928. French technique, Burmese hospitality, beef aged up to ninety days, a vault of three thousand bottles, and a table kept for you.',
+      lede: 'An international fine-dining house on the Hlaing riverfront in Kyimyindaing, Yangon, built around a tamarind-wood hearth that has burned since 1928. French technique, Burmese hospitality, beef aged up to ninety days, a vault of three thousand bottles, and a table kept for you.',
       caption: 'The Main Dining Room',
       scroll: 'Scroll',
       hours: 'Tue – Sun · Dinner from 18:00',
-      address: 'No. 1 Royal Arcade · Yangon',
+      address: 'No. 1 Kannar Road · Kyimyindaing, Yangon',
     },
     tonight: {
       tonight: 'Tonight',
@@ -97,7 +97,7 @@ export const en = {
     arch: {
       eyebrow: 'The architecture',
       lines: ['The Arch', '~& the Hearth.'],
-      lede: 'A 1926 downtown Yangon bank hall with a barrel-vaulted ceiling, stone arches and a strongroom turned wine cellar. We kept the bones, warmed the light and built the whole house around a fire.',
+      lede: 'A 1926 riverside bank hall in Kyimyindaing, Yangon, with a barrel-vaulted ceiling, stone arches and a strongroom turned wine cellar. We kept the bones, warmed the light and built the whole house around a fire.',
       rooms: ['The Facade', 'Reception', 'Main Dining Room', 'Window Arcade', 'The Hearth', 'The Vault', 'Salon Noir', 'Cellar Room'],
       cta: 'Explore the space',
       vault: 'The Vault · 12°C',
@@ -260,7 +260,7 @@ export const en = {
     hero: {
       eyebrow: 'The experience',
       lines: ['The Arch', '~& the Hearth.'],
-      lede: 'A 1926 bank hall in downtown Yangon, rebuilt around a fire that has burned since 1928. Eight rooms, one standard of hospitality.',
+      lede: 'A 1926 bank hall on Yangon’s Hlaing riverfront, rebuilt around a fire that has burned since 1928. Eight rooms, one standard of hospitality.',
       explore: 'Explore the space',
       dining: 'Dining experiences',
     },
@@ -295,12 +295,12 @@ export const en = {
     hero: {
       eyebrow: 'Our story · since 1928',
       lines: ['Three generations,', '~one fire.'],
-      lede: 'ROYAL began as fourteen seats around a brick hearth in downtown Yangon. Three generations later, the fire has never gone out.',
+      lede: 'ROYAL began as fourteen seats around a brick hearth in Kyimyindaing, on the Hlaing River. Three generations later, the fire has never gone out.',
     },
     founding: {
       eyebrow: 'The founding',
       lines: ['Henri, Khin Mya', '~and a pile of tamarind wood.'],
-      p1: 'In the cool season of 1928, Henri Varenne, a young cook from Lyon with more talent than money, and Daw Khin Mya, who kept the books and the guests in equal order, rented a narrow shophouse a few streets from the Yangon River. They could afford one luxury: a brick hearth wide enough to roast a whole rib over tamarind wood.',
+      p1: 'In the cool season of 1928, Henri Varenne, a young cook from Lyon with more talent than money, and Daw Khin Mya, who kept the books and the guests in equal order, rented a narrow shophouse a few steps from the Hlaing River. They could afford one luxury: a brick hearth wide enough to roast a whole rib over tamarind wood.',
       p2: 'There was no menu, only what the fire was cooking that day, served with a pot of green tea and Khin Mya’s pickled mango on the side. Within a year, regulars had stopped calling it Le Foyer Royal and simply said they were going “to Royal.” The name stuck, and so did the rule Khin Mya wrote above the pass:',
       rule: 'nothing leaves this kitchen in a hurry.',
       p3: 'Today ROYAL is one of Yangon’s international tables. It is French in technique and Burmese in hospitality, and its dining room hears Myanmar, English, Japanese and French on the same night.',
@@ -545,8 +545,8 @@ export const en = {
   contact: {
     hero: {
       eyebrow: 'Contact & location',
-      lines: ['Find us on', '~Royal Arcade.'],
-      lede: 'In downtown Yangon, between the river and Lantern Square, behind seven stone arches. ROYAL and its address are fictional.',
+      lines: ['Find us by', '~the Hlaing River.'],
+      lede: 'On Kannar Road in Kyimyindaing, Yangon, behind seven stone arches facing the Hlaing River. ROYAL is fictional; the map pin marks the street.',
     },
     visit: { eyebrow: 'Visit', lines: ['The door is', '~always open at six.'] },
     dress:
@@ -594,14 +594,9 @@ export const en = {
       another: 'Send another inquiry',
     },
     map: {
-      title: 'Map of downtown Yangon around Royal Arcade',
-      desc: 'A stylised, fictional map. ROYAL sits on Royal Arcade between the Yangon River and Lantern Square, with a pagoda to the north.',
-      caption: 'Illustrative map · fictional location',
-      square: 'LANTERN SQUARE',
-      arcade: 'ROYAL ARCADE',
-      road: 'MERCHANT ROAD',
-      river: 'YANGON RIVER',
-      pagoda: 'PAGODA',
+      title: 'Google map of Kannar Road, Kyimyindaing, Yangon',
+      caption: 'Kannar Road, Kyimyindaing · ROYAL is fictional',
+      open: 'Open in Google Maps',
     },
   },
 
@@ -626,7 +621,7 @@ export const en = {
     },
     '/story': {
       title: 'Our Story — ROYAL',
-      description: 'Three generations of the Varenne family and the tamarind-wood hearth that has burned in downtown Yangon since 1928.',
+      description: 'Three generations of the Varenne family and the tamarind-wood hearth that has burned beside the Hlaing River since 1928.',
     },
     '/menu': {
       title: 'The Menu — ROYAL',

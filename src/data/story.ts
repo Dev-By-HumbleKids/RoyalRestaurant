@@ -11,7 +11,7 @@ export const timeline: Milestone[] = [
   {
     year: 1928,
     title: 'Le Foyer Royal',
-    body: 'Henri Varenne, a cook from Lyon, and Daw Khin Mya, who ran the room and the books, open a fourteen-seat grill house in a narrow downtown shophouse near the river. Its one luxury is a brick hearth fed with tamarind wood. Within a year, regulars simply say they are going “to Royal.”',
+    body: 'Henri Varenne, a cook from Lyon, and Daw Khin Mya, who ran the room and the books, open a fourteen-seat grill house in a narrow Kyimyindaing shophouse by the Hlaing River. Its one luxury is a brick hearth fed with tamarind wood. Within a year, regulars simply say they are going “to Royal.”',
     image: 'f-hearth',
   },
   {
@@ -159,6 +159,6 @@ export const testimonials = [
 export const accolades = [
   'Three Golden Laurels — Guide Lumière Asia (fictional)',
   'Yangon Table of the Year — La Clé d’Or (fictional)',
-  '“The most romantic room in downtown Yangon” — Maison & Table (fictional)',
+  '“The most romantic room on the Hlaing River” — Maison & Table (fictional)',
   'Cellar of Distinction — Wine Spectacle (fictional)',
 ];
