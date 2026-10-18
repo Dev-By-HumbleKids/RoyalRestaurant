@@ -3,6 +3,8 @@
 **A cinematic, interactive website for a fictional fine-dining restaurant and steakhouse.**
 Frontend portfolio project: React, TypeScript, Framer Motion and a lazy-loaded React Three Fiber floor plan.
 
+Designed & developed by **KoonSett (Win Thant Aung)** · [github.com/KoonKira](https://github.com/KoonKira)
+
 > ROYAL is not a real restaurant. Its history, people, menu, prices, awards, reviews and availability are invented.
 > No real reservation, payment or email ever happens. Reservations are stored only in your browser.
 

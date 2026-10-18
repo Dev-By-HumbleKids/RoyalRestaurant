@@ -9,6 +9,7 @@ export const site = {
   address: { line1: '1 Kannar Road', line2: 'Kyimyindaing Riverside', city: 'Yangon' },
   // Map pin: Kannar Road by Bagayar Pier, Kyimyindaing — a real street; the restaurant is fictional.
   geo: { lat: 16.8046, lng: 96.1223 },
+  developer: { name: 'KoonSett (Win Thant Aung)', url: 'https://github.com/KoonKira' },
   phone: '+95 0 000 1928',
   phoneHref: 'tel:+9500001928',
   email: 'reservations@royal.example',

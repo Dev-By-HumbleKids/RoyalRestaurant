@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "description": "ROYAL — a fictional luxury fine-dining restaurant website. Frontend portfolio project.",
+  "author": "KoonSett (Win Thant Aung) (https://github.com/KoonKira)",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

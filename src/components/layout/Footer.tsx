@@ -101,6 +101,12 @@ export function Footer() {
             <Link to="/credits" className="link-underline text-fg/70">
               {t.footer.credits}
             </Link>
+            <span className="mt-3 block">
+              {t.footer.builtBy}{' '}
+              <a href={site.developer.url} target="_blank" rel="noopener noreferrer" className="link-underline text-accent">
+                {site.developer.name}
+              </a>
+            </span>
           </p>
           <button
             type="button"

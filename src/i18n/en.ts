@@ -53,6 +53,7 @@ export const en = {
     copyright: (year: number) =>
       `© ${year} ROYAL. A fictional restaurant created as a frontend portfolio project. Menus, prices, people, awards, reviews and availability are invented demo content — no real reservations are made.`,
     credits: 'Photo credits',
+    builtBy: 'Designed & developed by',
     backToTop: 'Back to top',
   },
 
