@@ -1,0 +1,215 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Dark cinematic foundation (default). Values are RGB channels for Tailwind alpha support. */
+    --bg: 17 17 15;
+    --fg: 244 239 230;
+    --muted: 184 173 160;
+    --accent: 197 164 109;
+    --line: 197 164 109;
+    --surface: 33 25 20;
+    --header-h: 76px;
+    color-scheme: dark;
+  }
+
+  .theme-ivory {
+    /* Light editorial sections. Accent is deepened for AA contrast on ivory. */
+    --bg: 244 239 230;
+    --fg: 17 17 15;
+    --muted: 88 80 71;
+    --accent: 133 101 46;
+    --line: 133 101 46;
+    --surface: 234 225 210;
+    color-scheme: light;
+  }
+
+  .theme-burgundy {
+    --bg: 74 24 37;
+    --surface: 58 18 29;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: #11110f;
+  }
+
+  body {
+    @apply bg-bg font-sans text-fg;
+    font-size: 16px;
+    line-height: 1.65;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display font-light;
+    line-height: 1.02;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: rgb(var(--accent) / 0.35);
+    color: rgb(var(--fg));
+  }
+
+  :focus-visible {
+    outline: 2px solid rgb(var(--accent));
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  img {
+    max-width: 100%;
+    display: block;
+  }
+
+  button {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .container-x {
+    width: 100%;
+    max-width: 1440px;
+    margin-inline: auto;
+    padding-inline: clamp(16px, 4.2vw, 64px);
+  }
+
+  .eyebrow {
+    @apply font-sans text-[11px] font-semibold uppercase tracking-eyebrow text-accent;
+  }
+
+  .display-hero {
+    @apply font-display font-light;
+    font-size: clamp(3.4rem, 9.2vw, 9.5rem);
+    line-height: 0.9;
+    letter-spacing: -0.025em;
+  }
+
+  .display-xl {
+    @apply font-display font-light;
+    font-size: clamp(2.8rem, 6.4vw, 6.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+  }
+
+  .display-lg {
+    @apply font-display font-light;
+    font-size: clamp(2.3rem, 4.4vw, 4.4rem);
+    line-height: 1;
+  }
+
+  .display-md {
+    @apply font-display font-light;
+    font-size: clamp(1.7rem, 2.6vw, 2.6rem);
+    line-height: 1.08;
+  }
+
+  .lede {
+    @apply text-muted;
+    font-size: clamp(1.02rem, 1.2vw, 1.15rem);
+    line-height: 1.75;
+  }
+
+  .hairline {
+    @apply border-line/20;
+  }
+
+  .tabular {
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+
+  .arch {
+    border-radius: 9999px 9999px 0 0;
+  }
+
+  .section-y {
+    padding-block: clamp(5rem, 11vw, 10rem);
+  }
+
+  .link-underline {
+    position: relative;
+    display: inline-block;
+  }
+  .link-underline::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -3px;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .link-underline:hover::after,
+  .link-underline:focus-visible::after,
+  .link-underline[aria-current='page']::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  .field-input {
+    @apply w-full rounded-none border-0 border-b border-line/30 bg-transparent px-0 py-3 text-base text-fg placeholder:text-muted/60 transition-colors duration-300;
+  }
+  .field-input:hover {
+    @apply border-line/60;
+  }
+  .field-input:focus {
+    @apply border-accent outline-none;
+  }
+  .field-input[aria-invalid='true'] {
+    @apply border-status-full;
+  }
+
+  .scrollbar-none {
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Film grain overlay — a static SVG noise tile, no animation cost. */
+.grain {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  opacity: 0.055;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Art Deco fan ornament used behind arches. */
+.deco-fan {
+  background: repeating-conic-gradient(from 270deg at 50% 100%, rgb(var(--accent) / 0.16) 0deg 0.35deg, transparent 0.35deg 6deg);
+  mask-image: radial-gradient(circle at 50% 100%, black 0%, black 55%, transparent 72%);
+  -webkit-mask-image: radial-gradient(circle at 50% 100%, black 0%, black 55%, transparent 72%);
+}
