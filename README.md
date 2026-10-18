@@ -10,7 +10,7 @@ Designed & developed by **KoonSett (Win Thant Aung)** · [github.com/KoonKira](h
 
 ![ROYAL — home hero](docs/screenshots/hero.jpg)
 
-**Live demo:** _deploy with the steps below and add your URL here._
+**Live demo:** https://dev-by-humblekids.github.io/RoyalRestaurant/
 
 ---
 
@@ -156,8 +156,9 @@ npm run dev
 Other scripts: `npm run build` (type-check + production build), `npm run preview`, `npm run lint`,
 `npm run build:pages` (GitHub Pages build under `/RoyalRestaurant/` with an SPA 404 fallback).
 
-**Deploy:** Vercel works out of the box (`vercel.json` rewrites all routes to the SPA). For GitHub Pages, run
-`npm run build:pages` and publish `dist/`. Change the `--base` in `package.json` if your repository name differs.
+**Deploy:** every push to `main` is built and published to GitHub Pages by `.github/workflows/deploy.yml`.
+Vercel also works out of the box (`vercel.json` rewrites all routes to the SPA). Change the `--base` in
+`package.json` if the repository name differs.
 
 **Try the edge cases** (in the browser console, then reload):
 
