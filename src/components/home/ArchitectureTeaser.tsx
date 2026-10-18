@@ -37,7 +37,7 @@ export function ArchitectureTeaser() {
         <div className="lg:col-span-5">
           <Reveal>
             <p className="lede">
-              A 1926 bank hall with a barrel-vaulted ceiling, travertine arches and a strongroom turned wine cellar. We kept the bones,
+              A 1926 downtown Yangon bank hall with a barrel-vaulted ceiling, stone arches and a strongroom turned wine cellar. We kept the bones,
               warmed the light and built the whole house around a fire.
             </p>
           </Reveal>

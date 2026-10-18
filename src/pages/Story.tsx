@@ -5,6 +5,7 @@ import { Img } from '@/components/ui/Img';
 import { PageHero } from '@/components/ui/PageHero';
 import { ParallaxImage } from '@/components/ui/ParallaxImage';
 import { SectionHeading } from '@/components/ui/SectionHeading';
+import { site } from '@/data/site';
 import { accolades, chef, pillars, sourcing, team, techniques, timeline } from '@/data/story';
 import { pad2 } from '@/lib/utils';
 import { Reveal, RevealLines } from '@/motion/Reveal';
@@ -54,26 +55,38 @@ export default function Story() {
         image="f-hearth"
         eyebrow="Our story · since 1928"
         lines={['Three generations,', <em key="e">one fire.</em>]}
-        lede="ROYAL began as fourteen seats around an oak hearth in the Old Quarter of Valmont. The fire has not gone out since."
+        lede="ROYAL began as fourteen seats around a brick hearth in downtown Yangon. Three generations later, the fire has never gone out."
       />
 
       {/* Founding */}
       <section className="section-y bg-obsidian" aria-labelledby="founding-title">
         <div className="container-x grid gap-14 lg:grid-cols-12">
           <div className="lg:col-span-5">
-            <SectionHeading id="founding-title" eyebrow="The founding" lines={['Marcel, Élise', <em key="e">and a pile of oak.</em>]} />
+            <SectionHeading id="founding-title" eyebrow="The founding" lines={['Henri, Khin Mya', <em key="e">and a pile of tamarind wood.</em>]} />
+            <Reveal delay={0.2}>
+              <p lang="my" className="mt-8 font-display text-2xl text-champagne/80">
+                {site.taglineMy}
+              </p>
+            </Reveal>
           </div>
           <div className="space-y-6 text-lg leading-relaxed text-fg/80 lg:col-span-6 lg:col-start-7">
             <Reveal>
               <p className="first-letter:float-left first-letter:mr-3 first-letter:font-display first-letter:text-[5.2rem] first-letter:leading-[0.8] first-letter:text-champagne">
-                In the winter of 1928, Marcel Varenne — a butcher’s son with a cook’s temper — and Élise, who kept the books and the guests in equal order, rented a narrow room
-                beside the Arcade Royale. They could afford one luxury: a hearth wide enough to roast a whole rib over oak.
+                In the cool season of 1928, Henri Varenne, a young cook from Lyon with more talent than money, and Daw Khin Mya, who kept the books and the guests in equal order,
+                rented a narrow shophouse a few streets from the Yangon River. They could afford one luxury: a brick hearth wide enough to roast a whole rib over tamarind wood.
               </p>
             </Reveal>
             <Reveal delay={0.1}>
               <p>
-                There was no menu, only what the fire was cooking that day. Within a year, the regulars had stopped calling it Le Foyer Royal and simply said they were going “to
-                Royal.” The name stuck; so did the rule Élise wrote above the pass: <em className="text-champagne">nothing leaves this kitchen in a hurry.</em>
+                There was no menu, only what the fire was cooking that day, served with a pot of green tea and Khin Mya’s pickled mango on the side. Within a year, regulars had
+                stopped calling it Le Foyer Royal and simply said they were going “to Royal.” The name stuck, and so did the rule Khin Mya wrote above the pass:{' '}
+                <em className="text-champagne">nothing leaves this kitchen in a hurry.</em>
+              </p>
+            </Reveal>
+            <Reveal delay={0.15}>
+              <p>
+                Today ROYAL is one of Yangon’s international tables. It is French in technique and Burmese in hospitality, and its dining room hears Myanmar, English, Japanese and
+                French on the same night.
               </p>
             </Reveal>
           </div>
@@ -146,7 +159,7 @@ export default function Story() {
           />
           <Reveal delay={0.2}>
             <p className="mx-auto mt-10 max-w-2xl leading-relaxed text-ivory/80">
-              Every member of the team learns the names of our regulars, their tables and their allergies. We pour the second glass before it is asked for — and never
+              Every member of the team learns our regulars’ names, their tables and their allergies, in Myanmar or in English. We pour the second glass before it is asked for, and never
               mention that we remembered.
             </p>
           </Reveal>

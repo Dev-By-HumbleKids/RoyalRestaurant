@@ -1,10 +1,10 @@
-/** Stylised map of the fictional Old Quarter of Valmont. Decorative — not a real place. */
+/** Stylised map of downtown Yangon around the fictional Royal Arcade. Decorative — not a real address. */
 export function QuarterMap() {
   return (
     <figure className="relative overflow-hidden border border-line/20 bg-[#15120F]">
       <svg viewBox="0 0 600 440" className="h-auto w-full" role="img" aria-labelledby="map-title map-desc">
-        <title id="map-title">Map of the Old Quarter, Valmont</title>
-        <desc id="map-desc">A stylised, fictional map. ROYAL sits on the Arcade Royale between the river and Place des Lanternes.</desc>
+        <title id="map-title">Map of downtown Yangon around Royal Arcade</title>
+        <desc id="map-desc">A stylised, fictional map. ROYAL sits on Royal Arcade between the Yangon River and Lantern Square, with a pagoda to the north.</desc>
         <defs>
           <pattern id="blocks" width="12" height="12" patternUnits="userSpaceOnUse">
             <path d="M0 12L12 0" stroke="rgba(197,164,109,0.07)" strokeWidth="1" />
@@ -27,16 +27,25 @@ export function QuarterMap() {
           <path d="M120 100 L 140 300" />
           <path d="M500 80 L 480 300" />
         </g>
-        {/* Arcade Royale — highlighted */}
+        {/* Royal Arcade — highlighted */}
         <path d="M80 260 L 540 220" stroke="rgba(197,164,109,0.55)" strokeWidth="2" strokeDasharray="2 6" fill="none" />
-        {/* Place des Lanternes */}
+        {/* Lantern Square */}
         <circle cx="300" cy="165" r="34" fill="none" stroke="rgba(197,164,109,0.35)" />
         <circle cx="300" cy="165" r="3" fill="rgba(197,164,109,0.6)" />
         <g fontFamily="Manrope, sans-serif" fontSize="10" letterSpacing="3" fill="rgba(184,173,160,0.65)">
-          <text x="300" y="120" textAnchor="middle">PLACE DES LANTERNES</text>
-          <text x="470" y="210" textAnchor="middle" transform="rotate(-5 470 210)">ARCADE ROYALE</text>
-          <text x="90" y="80" transform="rotate(7 90 80)">RUE DU MARCHÉ</text>
-          <text x="470" y="395" textAnchor="middle" fill="rgba(244,239,230,0.35)">THE VALE RIVER</text>
+          <text x="300" y="120" textAnchor="middle">LANTERN SQUARE</text>
+          <text x="470" y="210" textAnchor="middle" transform="rotate(-5 470 210)">ROYAL ARCADE</text>
+          <text x="90" y="80" transform="rotate(7 90 80)">MERCHANT ROAD</text>
+          <text x="470" y="395" textAnchor="middle" fill="rgba(244,239,230,0.35)">YANGON RIVER</text>
+        </g>
+        {/* Pagoda silhouette to the north */}
+        <g transform="translate(470 58)" aria-hidden>
+          <path d="M0 -34 L3 -22 L6 -10 Q14 2 18 10 L-18 10 Q-14 2 -6 -10 L-3 -22 Z" fill="rgba(197,164,109,0.35)" stroke="rgba(197,164,109,0.7)" strokeWidth="1" />
+          <rect x="-24" y="10" width="48" height="5" fill="rgba(197,164,109,0.35)" />
+          <circle cy="-36" r="2" fill="#C5A46D" />
+          <text y="30" textAnchor="middle" fontFamily="Manrope, sans-serif" fontSize="9" letterSpacing="3" fill="rgba(184,173,160,0.65)">
+            PAGODA
+          </text>
         </g>
         {/* ROYAL marker */}
         <g transform="translate(330 238)">

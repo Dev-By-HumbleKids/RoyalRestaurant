@@ -249,7 +249,7 @@ export function TableStep() {
 
       {area === 'chefs-counter' && (
         <p className="mt-4 border-l-2 border-[#E58A55] pl-4 text-sm text-fg/80">
-          The Chef’s Counter serves the seven-course tasting only — €245 per guest, about three hours.
+          The Chef’s Counter serves the seven-course tasting only — Ks 735,000 per guest, about three hours.
         </p>
       )}
 

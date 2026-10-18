@@ -98,8 +98,8 @@ export default function Menu() {
       <PageHero
         image="f-flames"
         eyebrow="The menu"
-        lines={['Cooked over oak,', <em key="e">served with patience.</em>]}
-        lede="Eight chapters, from the hearth to the Vault. Prices in euros, service included. Menus change with the season — this one is for autumn."
+        lines={['Cooked over fire,', <em key="e">served with patience.</em>]}
+        lede="Eight chapters, from the hearth to the Vault. Prices are in Myanmar kyat (Ks); 5% commercial tax and 10% service are added. The menu follows the seasons, and this one is for the cool season."
       />
 
       {/* Category bar */}

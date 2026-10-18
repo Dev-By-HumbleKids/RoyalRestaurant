@@ -4,7 +4,7 @@ import { ButtonLink } from '@/components/ui/Button';
 import { Img } from '@/components/ui/Img';
 import { Modal } from '@/components/ui/Modal';
 import { categoryLabel, menuById } from '@/data/menu';
-import { euro } from '@/lib/utils';
+import { kyat } from '@/lib/utils';
 import { useWishlist } from '@/store/wishlistStore';
 
 /** "My Evening" — saved dishes and wines, stored in this browser and attachable to a reservation. */
@@ -43,7 +43,7 @@ export function WishlistDrawer() {
                     {item.name}
                   </Link>
                   <p className="text-xs text-muted">
-                    {categoryLabel(item.category)} · <span className="tabular">{euro(item.price)}</span>
+                    {categoryLabel(item.category)} · <span className="tabular">{kyat(item.price)}</span>
                   </p>
                 </div>
                 <button

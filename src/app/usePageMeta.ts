@@ -5,11 +5,11 @@ import { menuBySlug } from '@/data/menu';
 const META: Record<string, { title: string; description: string }> = {
   '/': {
     title: 'ROYAL — Fire, Time & Grace · Fine Dining since 1928',
-    description: 'A fictional fine-dining house and steakhouse: live-fire dry-aged beef, a 3,000-bottle vault and a seven-course Chef’s Counter.',
+    description: 'A fictional international fine-dining house in Yangon: live-fire dry-aged beef, a 3,000-bottle vault and a seven-course Chef’s Counter.',
   },
   '/story': {
     title: 'Our Story — ROYAL',
-    description: 'Three generations of the Varenne family and the oak-fired hearth that has burned since 1928.',
+    description: 'Three generations of the Varenne family and the tamarind-wood hearth that has burned in downtown Yangon since 1928.',
   },
   '/menu': {
     title: 'The Menu — ROYAL',

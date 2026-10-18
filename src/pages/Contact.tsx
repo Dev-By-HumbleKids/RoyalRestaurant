@@ -18,7 +18,7 @@ import { generateReference } from '@/services/reference';
 
 const EVENT_TYPES = ['Private dinner', 'Celebration', 'Corporate dinner', 'Wedding reception', 'Full buy-out'] as const;
 const ROOMS = ['Salon Noir (up to 12)', 'Cellar Room (up to 10)', 'Full buy-out (up to 90)', 'Not sure yet'] as const;
-const BUDGETS = ['€2,400 – €5,000', '€5,000 – €10,000', '€10,000 – €25,000', '€25,000+'] as const;
+const BUDGETS = ['Ks 7.2M – 15M', 'Ks 15M – 30M', 'Ks 30M – 75M', 'Ks 75M+'] as const;
 
 const today = format(new Date(), 'yyyy-MM-dd');
 
@@ -47,7 +47,7 @@ function InquiryForm() {
     formState: { errors, isSubmitting },
   } = useForm<Inquiry>({
     resolver: zodResolver(inquirySchema),
-    defaultValues: { room: 'Not sure yet', budget: '€5,000 – €10,000', message: '', guests: 12 } as Partial<Inquiry>,
+    defaultValues: { room: 'Not sure yet', budget: 'Ks 15M – 30M', message: '', guests: 12 } as Partial<Inquiry>,
     mode: 'onTouched',
   });
 
@@ -148,8 +148,8 @@ export default function Contact() {
       <PageHero
         image="i-bar-warm"
         eyebrow="Contact & location"
-        lines={['Find us on', <em key="e">the Arcade Royale.</em>]}
-        lede="Between the river and Place des Lanternes, behind seven travertine arches. ROYAL and its address are fictional."
+        lines={['Find us on', <em key="e">Royal Arcade.</em>]}
+        lede="In downtown Yangon, between the river and Lantern Square, behind seven stone arches. ROYAL and its address are fictional."
       />
 
       <section className="section-y bg-obsidian" aria-labelledby="visit-title">
@@ -183,7 +183,7 @@ export default function Contact() {
                 Reserve a Table
               </ButtonLink>
               <p className="mt-8 text-xs leading-relaxed text-muted">
-                Smart dress — jackets optional, trainers welcome if they are clean. Step-free access through the courtyard entrance. Phone and email are placeholders for this
+                Smart dress: jackets optional, longyi always welcome. Step-free access through the courtyard entrance. Phone and email are placeholders for this
                 fictional restaurant.
               </p>
             </Reveal>

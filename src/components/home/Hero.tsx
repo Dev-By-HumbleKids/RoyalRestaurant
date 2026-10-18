@@ -55,7 +55,7 @@ export function Hero() {
             transition={{ duration: 0.9, ease, delay }}
           >
             <span aria-hidden className="h-px w-10 bg-accent/60" />
-            Est. {site.established} · Old Quarter, Valmont
+            Est. {site.established} · Downtown Yangon
           </motion.p>
           <RevealLines
             as="h1"
@@ -73,12 +73,21 @@ export function Hero() {
             ]}
           />
           <motion.p
-            className="lede mt-8 max-w-md"
+            lang="my"
+            className="mt-5 text-lg tracking-wide text-champagne/75"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: delay + 0.45 }}
+          >
+            {site.taglineMy}
+          </motion.p>
+          <motion.p
+            className="lede mt-6 max-w-md"
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease, delay: delay + 0.55 }}
           >
-            {site.statement} Beef aged for up to ninety days, a vault of three thousand bottles, and a table kept for you.
+            {site.statement} French technique, Burmese hospitality, beef aged up to ninety days, a vault of three thousand bottles, and a table kept for you.
           </motion.p>
           <motion.div
             className="mt-10 flex flex-wrap items-center gap-4"
@@ -151,7 +160,7 @@ export function Hero() {
           Scroll
         </span>
         <span>Tue – Sun · Dinner from 18:00</span>
-        <span>No. 1 Arcade Royale</span>
+        <span>No. 1 Royal Arcade · Yangon</span>
       </motion.div>
     </section>
   );

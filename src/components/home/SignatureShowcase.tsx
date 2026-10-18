@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { Img } from '@/components/ui/Img';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { categoryLabel, dietaryLabels, menuById, signatureIds } from '@/data/menu';
-import { cn, euro, pad2 } from '@/lib/utils';
+import { cn, kyat, pad2 } from '@/lib/utils';
 import { ease } from '@/motion/tokens';
 import type { MenuItem } from '@/types';
 
@@ -59,7 +59,7 @@ export function SignatureShowcase() {
                       {item.name}
                     </span>
                     <span className={cn('hidden text-sm tabular transition-colors sm:block', isActive ? 'text-accent' : 'text-muted')}>
-                      {euro(item.price)}
+                      {kyat(item.price)}
                     </span>
                   </button>
                   <AnimatePresence initial={false}>
@@ -76,7 +76,7 @@ export function SignatureShowcase() {
                           <div className="space-y-3">
                             <p className="eyebrow !text-[10px]">
                               {categoryLabel(item.category)}
-                              {item.priceNote ? ` · ${item.priceNote}` : ''} · <span className="sm:hidden">{euro(item.price)}</span>
+                              {item.priceNote ? ` · ${item.priceNote}` : ''} · <span className="sm:hidden">{kyat(item.price)}</span>
                             </p>
                             <p className="max-w-md text-fg/85">{item.description}</p>
                             <Meta item={item} />
@@ -122,7 +122,7 @@ export function SignatureShowcase() {
               <div aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-t from-obsidian/70 via-transparent to-transparent" />
               <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between p-8">
                 <p className="font-display text-3xl italic text-ivory">{current.name}</p>
-                <p className="text-sm text-champagne tabular">{euro(current.price)}</p>
+                <p className="text-sm text-champagne tabular">{kyat(current.price)}</p>
               </div>
             </div>
             <AnimatePresence mode="wait" initial={false}>

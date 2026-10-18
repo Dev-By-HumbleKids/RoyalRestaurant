@@ -22,7 +22,7 @@ export default function Experience() {
         image="i-arch-facade"
         eyebrow="The experience"
         lines={['The Arch', <em key="e">& the Hearth.</em>]}
-        lede="A 1926 bank hall in the Old Quarter, rebuilt around a fire that has burned since 1928. Eight rooms, one standard of hospitality."
+        lede="A 1926 bank hall in downtown Yangon, rebuilt around a fire that has burned since 1928. Eight rooms, one standard of hospitality."
       >
         <div className="flex flex-wrap gap-4">
           <ButtonLink to="/experience#explore" icon>

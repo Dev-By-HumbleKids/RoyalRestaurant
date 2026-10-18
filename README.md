@@ -14,10 +14,13 @@ Frontend portfolio project: React, TypeScript, Framer Motion and a lazy-loaded R
 
 ## The concept
 
-ROYAL is a three-generation house in the fictional Old Quarter of Valmont. A 1926 bank hall with a barrel-vaulted
-ceiling was rebuilt around an oak-fired hearth that has burned since 1928. The site tells that story through
-**architecture** (arches, travertine, the vault), **fire** (live-fire steaks, dry ageing) and **hospitality**
-(the reservation experience).
+ROYAL is a three-generation **international restaurant in downtown Yangon, Myanmar**. It was founded in 1928 by
+Henri Varenne, a cook from Lyon, and Daw Khin Mya. Today it sits in a 1926 bank hall with a barrel-vaulted ceiling,
+built around a tamarind-wood hearth that has never gone out. The kitchen is French in technique and Burmese in
+hospitality. The menu brings in Myeik Archipelago seafood, Shan highland produce, tea leaf, tamarind and jaggery,
+and every price is in **Myanmar kyat (Ks)**. The site tells this story through **architecture** (arches, Burmese
+teak, the vault), **fire** (live-fire steaks, dry ageing) and **hospitality** (the reservation experience).
+The restaurant, its address and its phone number are fictional.
 
 The design brief: contemporary European luxury, a modern steakhouse, editorial storytelling, architectural
 minimalism and a touch of Art Deco. It should not read as a template.

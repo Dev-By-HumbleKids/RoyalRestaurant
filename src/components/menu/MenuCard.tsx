@@ -6,7 +6,7 @@ import { Img } from '@/components/ui/Img';
 import { useToast } from '@/store/toastStore';
 import { dietaryLabels } from '@/data/menu';
 import { useFinePointer, usePrefersReducedMotion } from '@/hooks/useMedia';
-import { cn, euro } from '@/lib/utils';
+import { cn, kyat } from '@/lib/utils';
 import { useWishlist } from '@/store/wishlistStore';
 import type { MenuItem } from '@/types';
 
@@ -69,7 +69,7 @@ export function MenuCard({ item }: { item: MenuItem }) {
           to={{ pathname: `/menu/${item.slug}`, search }}
           className="flex h-full flex-col border border-line/15 bg-espresso/60 transition-colors duration-500 hover:border-line/40"
           data-cursor="View"
-          aria-label={`${item.name}, ${euro(item.price)}${item.priceNote ? ` ${item.priceNote}` : ''}. View details`}
+          aria-label={`${item.name}, ${kyat(item.price)}${item.priceNote ? ` ${item.priceNote}` : ''}. View details`}
         >
           <div className="relative aspect-[4/3] overflow-hidden bg-charcoal">
             <Img
@@ -89,7 +89,7 @@ export function MenuCard({ item }: { item: MenuItem }) {
             <div className="flex items-baseline justify-between gap-4">
               <h3 className="font-display text-[1.65rem] font-normal leading-tight text-ivory transition-colors group-hover:text-champagne">{item.name}</h3>
               <p className="shrink-0 text-right">
-                <span className="text-base text-champagne tabular">{euro(item.price)}</span>
+                <span className="text-base text-champagne tabular">{kyat(item.price)}</span>
                 {item.priceNote && <span className="block text-[10px] uppercase tracking-[0.14em] text-muted">{item.priceNote}</span>}
               </p>
             </div>
@@ -114,7 +114,7 @@ export function WineRow({ item }: { item: MenuItem }) {
       <Link
         to={{ pathname: `/menu/${item.slug}`, search }}
         className="grid gap-3 py-6 pr-14 transition-colors sm:grid-cols-[80px_1fr_auto] sm:items-center sm:gap-6"
-        aria-label={`${item.name} ${w.vintage ?? 'NV'}, ${euro(item.price)} per bottle. View details`}
+        aria-label={`${item.name} ${w.vintage ?? 'NV'}, ${kyat(item.price)} per bottle. View details`}
       >
         <span className="hidden aspect-[3/4] w-20 overflow-hidden bg-charcoal sm:block">
           <Img k={item.image} alt="" sizes="80px" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
@@ -133,12 +133,12 @@ export function WineRow({ item }: { item: MenuItem }) {
         <span className="flex gap-8 text-sm tabular sm:flex-col sm:gap-1 sm:text-right">
           <span>
             <span className="text-muted">Bottle </span>
-            <span className="text-champagne">{euro(item.price)}</span>
+            <span className="text-champagne">{kyat(item.price)}</span>
           </span>
           {w.glassPrice && (
             <span>
               <span className="text-muted">Glass </span>
-              <span className="text-fg">{euro(w.glassPrice)}</span>
+              <span className="text-fg">{kyat(w.glassPrice)}</span>
             </span>
           )}
         </span>

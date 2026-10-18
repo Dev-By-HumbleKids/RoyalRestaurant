@@ -20,8 +20,8 @@ export function imageSources(key: ImageKey) {
   };
 }
 
-export const euro = (value: number) =>
-  new Intl.NumberFormat('en-IE', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(value);
+/** Myanmar kyat, written the way Yangon menus print it: "Ks 445,000". */
+export const kyat = (value: number) => `Ks ${new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(value)}`;
 
 export const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 

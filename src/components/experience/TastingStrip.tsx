@@ -28,7 +28,7 @@ export function TastingStrip() {
             </Reveal>
             <RevealLines id="tasting-title" lines={['Seven courses', <em key="e">facing the fire.</em>]} className="display-lg text-ivory" />
             <Reveal delay={0.1}>
-              <p className="lede mt-6">Classic €245 · Vegetarian €205 · Wine pairing +€165 · Prestige pairing +€390</p>
+              <p className="lede mt-6">Classic Ks 735,000 · Vegetarian Ks 615,000 · Wine pairing +Ks 495,000 · Prestige pairing +Ks 1,170,000</p>
             </Reveal>
           </div>
           <div className="flex gap-2">

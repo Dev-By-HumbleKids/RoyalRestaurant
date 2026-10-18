@@ -5,7 +5,7 @@ import { ButtonLink } from '@/components/ui/Button';
 import { Img } from '@/components/ui/Img';
 import { Modal } from '@/components/ui/Modal';
 import { categoryLabel, dietaryLabels, menuById } from '@/data/menu';
-import { euro } from '@/lib/utils';
+import { kyat } from '@/lib/utils';
 import type { MenuItem } from '@/types';
 import { DonenessGuide } from './DonenessGuide';
 import { FlavorProfile } from './FlavorProfile';
@@ -47,9 +47,9 @@ function Details({ item }: { item: MenuItem }) {
             {w && <span className="text-stone"> {w.vintage ?? 'NV'}</span>}
           </h2>
           <p className="mt-4 flex flex-wrap items-baseline gap-x-4 gap-y-1">
-            <span className="font-display text-3xl text-champagne tabular">{euro(item.price)}</span>
+            <span className="font-display text-3xl text-champagne tabular">{kyat(item.price)}</span>
             {item.priceNote && <span className="text-xs uppercase tracking-[0.16em] text-muted">{item.priceNote}</span>}
-            {w?.glassPrice && <span className="text-sm text-muted tabular">· {euro(w.glassPrice)} by the glass</span>}
+            {w?.glassPrice && <span className="text-sm text-muted tabular">· {kyat(w.glassPrice)} by the glass</span>}
           </p>
           <p className="mt-5 leading-relaxed text-fg/85">{item.description}</p>
           {item.story && <p className="mt-4 font-display text-xl italic leading-snug text-stone">{item.story}</p>}

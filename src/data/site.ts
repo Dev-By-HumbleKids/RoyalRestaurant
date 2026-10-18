@@ -4,12 +4,15 @@ export const site = {
   tagline: 'Fire, Time & Grace.',
   established: 1928,
   statement:
-    'A fine-dining house in the Old Quarter of Valmont, built around an oak-fired hearth that has burned since 1928.',
-  address: { line1: '1 Arcade Royale', line2: 'Old Quarter', city: 'Valmont' },
-  phone: '+00 000 000 1928',
-  phoneHref: 'tel:+000000001928',
+    'An international fine-dining house in downtown Yangon, built around a tamarind-wood hearth that has burned since 1928.',
+  // A fictional address in a real city. The "0" after +95 makes the number deliberately invalid.
+  address: { line1: '1 Royal Arcade', line2: 'Downtown Heritage Quarter', city: 'Yangon' },
+  phone: '+95 0 000 1928',
+  phoneHref: 'tel:+9500001928',
   email: 'reservations@royal.example',
-  timezoneLabel: 'Valmont time (CET)',
+  timezoneLabel: 'Yangon time (MMT)',
+  /** Line in Myanmar script, used as a quiet bilingual accent. "Fire, time and grace." */
+  taglineMy: 'မီး၊ အချိန်နှင့် ကျက်သရေ',
   hours: [
     { days: 'Tuesday – Thursday', times: 'Dinner 18:00 – 23:00' },
     { days: 'Friday – Sunday', times: 'Lunch 12:00 – 14:30 · Dinner 18:00 – 23:00' },

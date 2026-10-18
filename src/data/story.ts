@@ -11,31 +11,31 @@ export const timeline: Milestone[] = [
   {
     year: 1928,
     title: 'Le Foyer Royal',
-    body: 'Marcel and Élise Varenne open a fourteen-seat grill room in the Old Quarter, built around a single oak-fired hearth. Regulars shorten the name to “Royal” within a year.',
+    body: 'Henri Varenne, a cook from Lyon, and Daw Khin Mya, who ran the room and the books, open a fourteen-seat grill house in a narrow downtown shophouse near the river. Its one luxury is a brick hearth fed with tamarind wood. Within a year, regulars simply say they are going “to Royal.”',
     image: 'f-hearth',
   },
   {
     year: 1956,
     title: 'The bank hall',
-    body: 'The family moves into a former 1920s bank hall beneath a barrel-vaulted ceiling. The hearth is dismantled stone by stone and rebuilt; the old strongroom becomes the wine cellar.',
+    body: 'The family moves into a 1926 bank hall with a barrel-vaulted ceiling. The hearth is taken apart brick by brick and rebuilt beneath the vault, and the old strongroom becomes the wine cellar.',
     image: 'i-arcade',
   },
   {
     year: 1989,
     title: 'Hélène’s cellar',
-    body: 'Their daughter Hélène builds the Vault to three thousand bottles, introduces the house champagne and writes ROYAL’s first tasting menu by hand.',
+    body: 'Their daughter, Hélène Khin Varenne, builds the Vault to three thousand bottles and writes ROYAL’s first tasting menu. It pairs French technique with a Burmese pantry: tamarind, Shan tea leaf, river prawns and jaggery.',
     image: 'i-vault-wall',
   },
   {
     year: 2014,
     title: 'The third generation',
-    body: 'Adrien Varenne returns after a decade in Kyoto and San Sebastián. He builds a dry-ageing chamber, rethinks the menu around live fire and brings Japanese precision to a French grill room.',
+    body: 'Adrien Thant Varenne comes home after ten years in Kyoto and San Sebastián. He builds a dry-ageing chamber, puts live fire at the centre of the menu, and brings seafood from the Myeik Archipelago and produce from the Shan highlands to the table.',
     image: 'p-adrien',
   },
   {
     year: 2026,
     title: 'The Chef’s Counter',
-    body: 'Eight seats open in front of the restored 1928 hearth — the room’s oldest object and its newest table.',
+    body: 'Eight teak stools open in front of the restored 1928 hearth: the oldest object in the room becomes its newest table.',
     image: 'f-flames',
   },
 ];
@@ -43,7 +43,7 @@ export const timeline: Milestone[] = [
 export const pillars = [
   {
     title: 'Fire',
-    body: 'Everything that can meet the flame does. Oak for beef, vine cuttings for fish, embers for vegetables. Gas is reserved for the pastry kitchen.',
+    body: 'Everything that can meet the flame does. Tamarind wood for beef, charcoal for seafood, embers for vegetables. Gas is kept for the pastry kitchen.',
   },
   {
     title: 'Time',
@@ -51,22 +51,22 @@ export const pillars = [
   },
   {
     title: 'Grace',
-    body: 'Service should be felt, not seen. Our team learns every regular’s name, every allergy and every anniversary — and never makes a show of it.',
+    body: 'Burmese hospitality, French service. A quiet “Mingalaba” at the door, your name remembered, every allergy and anniversary noted, and never any fuss about it.',
   },
 ];
 
 export const sourcing = [
-  { title: 'Three farms, one standard', body: 'Our beef comes from three heritage-breed farms in Aubrac, Normandy and Galicia, visited by Chef Adrien every spring.' },
-  { title: 'Whole animals', body: 'We buy whole carcasses and butcher in-house. Prime cuts reach the hearth; everything else becomes ragù, tartare, stock and charcuterie.' },
-  { title: 'Day-boat fish', body: 'Fish arrives from small Atlantic boats each morning. If the sea is rough, the menu changes — not the standard.' },
-  { title: 'Fifty kilometres', body: 'Vegetables, herbs and dairy come from within fifty kilometres of Valmont wherever the season allows.' },
+  { title: 'Myeik Archipelago', body: 'Lobster, crab, scallops and line-caught fish arrive from small Andaman day boats. If the sea is rough, the menu changes, not the standard.' },
+  { title: 'The Shan highlands', body: 'Tea leaf, heirloom tomatoes, avocados and cool-climate vegetables come from family farms around Inle and the Shan hills.' },
+  { title: 'Three farms, one standard', body: 'Beef comes from heritage-breed farms in Kagoshima, Normandy and Galicia, chosen in person by Chef Adrien and aged in our own chamber.' },
+  { title: 'Whole animals', body: 'We butcher in-house. Prime cuts go to the hearth; everything else becomes ragù, tartare, stock and charcuterie.' },
 ];
 
 export const techniques = [
-  { title: 'Dry ageing', detail: '45–90 days at 2°C and 80% humidity in a Himalayan-salt chamber.' },
-  { title: 'Oak hearth', detail: 'Cooked over seasoned oak at 400°C, then rested on warm stone.' },
-  { title: 'Binchotan', detail: 'Japanese white charcoal for wagyu — intense, clean, smokeless heat.' },
-  { title: 'The Vault', detail: 'Wines kept at 12°C in the 1956 strongroom, decanted to order.' },
+  { title: 'Dry ageing', detail: '45–90 days at 2°C and 80% humidity in a Himalayan-salt chamber, even in Yangon’s heat.' },
+  { title: 'Tamarind-wood hearth', detail: 'Cooked over seasoned tamarind wood at 400°C, then rested on warm brick.' },
+  { title: 'Binchotan', detail: 'Japanese white charcoal for wagyu: intense, clean, smokeless heat.' },
+  { title: 'The Vault', detail: 'Wines kept at 12°C inside the 1926 strongroom while the city outside sits at 35°C.' },
 ];
 
 export interface TeamMember {
@@ -78,14 +78,14 @@ export interface TeamMember {
 }
 
 export const chef: TeamMember & { philosophy: string; quote: string } = {
-  name: 'Adrien Varenne',
+  name: 'Adrien Thant Varenne',
   role: 'Executive Chef & third-generation owner',
   image: 'p-adrien',
-  bio: 'Born above the dining room in 1984, Adrien left Valmont at nineteen to cook in Lyon, Kyoto and San Sebastián. He returned in 2014 with two convictions: that fire is the most honest way to cook, and that a great restaurant is measured by how its guests feel on the walk home.',
+  bio: 'Born above the dining room in 1984 to a French father and a Yangon mother, Adrien left at nineteen to cook in Kyoto and San Sebastián. He came home in 2014 with two convictions: fire is the most honest way to cook, and a great restaurant is measured by how its guests feel on the walk home along the river.',
   philosophy:
-    'Adrien’s cooking is spare and confident — three or four elements on a plate, each one cooked over the right fuel. He spends more time on resting meat than on garnishes.',
-  quote: 'My grandfather gave me a fire. My job is to keep it burning without letting it become a museum.',
-  specialties: ['Live-fire cooking', 'Dry-aged beef', 'Seasonal game'],
+    'Adrien cooks with restraint and confidence: three or four elements on a plate, each over the right fuel, often with one Burmese note such as tamarind, tea leaf or palm sugar. He spends more time resting meat than garnishing it.',
+  quote: 'My great-grandparents gave me a fire. My job is to keep it burning without turning it into a museum.',
+  specialties: ['Live-fire cooking', 'Dry-aged beef', 'Burmese–French pantry'],
 };
 
 export const team: TeamMember[] = [
@@ -93,21 +93,21 @@ export const team: TeamMember[] = [
     name: 'Kenji Arakawa',
     role: 'Chef de Cuisine',
     image: 'p-kenji',
-    bio: 'Trained in Kyoto alongside Adrien. Runs the line, the binchotan grill and the fresh-pasta room.',
+    bio: 'Trained in Kyoto alongside Adrien and moved to Yangon in 2015. He runs the line, the binchotan grill and the fresh-pasta room.',
     specialties: ['Binchotan', 'Fresh pasta'],
   },
   {
     name: 'Inès Moreau',
     role: 'Pastry Chef',
     image: 'p-ines',
-    bio: 'Formerly of three Parisian patisseries. Believes a dessert should surprise the palate once — and only once.',
-    specialties: ['Chocolate', 'Plated desserts'],
+    bio: 'Formerly of three Parisian patisseries. She is now in love with jaggery, pandan and Shan coffee, and believes a dessert should surprise the palate once, and only once.',
+    specialties: ['Chocolate', 'Burmese sweets, reimagined'],
   },
   {
     name: 'Camille Duret',
     role: 'Head Sommelier',
     image: 'p-camille',
-    bio: 'Keeper of the Vault. Tastes every bottle before it reaches a guest and pairs by mood as much as by menu.',
+    bio: 'Keeper of the Vault. She tastes every bottle before it reaches a guest, and pairs as much by mood and monsoon as by menu.',
     specialties: ['Burgundy', 'Old vintages'],
   },
   {
@@ -121,8 +121,8 @@ export const team: TeamMember[] = [
 
 export const testimonials = [
   {
-    quote: 'They remembered that my father takes his ribeye blue — three years after our last visit.',
-    name: 'Élodie R.',
+    quote: 'They remembered that my father takes his ribeye blue, three years after our last visit.',
+    name: 'Thiri M.',
     context: 'Birthday dinner',
   },
   {
@@ -131,20 +131,20 @@ export const testimonials = [
     context: 'Chef’s Counter',
   },
   {
-    quote: 'Camille poured a 1985 port I didn’t know I needed. The quietest, most generous service I have ever had.',
+    quote: 'Camille poured a 1985 port I didn’t know I needed while the rain came down outside. The quietest, most generous service I have ever had.',
     name: 'Marco T.',
     context: 'Wine pairing',
   },
   {
-    quote: 'Salon Noir for twelve, a menu card with my wife’s name on it, and not one detail we had to ask for twice.',
-    name: 'Henrik L.',
+    quote: 'Salon Noir for twelve, a menu card with my mother’s name in Myanmar and English, and not one detail we had to ask for twice.',
+    name: 'Ko Zaw H.',
     context: 'Private dining',
   },
 ];
 
 export const accolades = [
-  'Three Golden Laurels — Guide Lumière (fictional)',
-  'Valmont Table of the Year — La Clé d’Or (fictional)',
-  '“The most romantic room in the Old Quarter” — Maison & Table (fictional)',
+  'Three Golden Laurels — Guide Lumière Asia (fictional)',
+  'Yangon Table of the Year — La Clé d’Or (fictional)',
+  '“The most romantic room in downtown Yangon” — Maison & Table (fictional)',
   'Cellar of Distinction — Wine Spectacle (fictional)',
 ];
