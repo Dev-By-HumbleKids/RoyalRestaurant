@@ -1,6 +1,7 @@
 import { Box, Map as MapIcon } from 'lucide-react';
 import { lazy, Suspense, useState } from 'react';
 import { useFinePointer, usePrefersReducedMotion } from '@/hooks/useMedia';
+import { useI18n } from '@/i18n';
 import { cn } from '@/lib/utils';
 import { FloorPlan2D } from './FloorPlan2D';
 import type { FloorPlanProps } from './planTypes';
@@ -21,6 +22,7 @@ function webglAvailable() {
  * Visitors can switch at any time; the 2D plan is always the keyboard/screen-reader path.
  */
 export function FloorPlan(props: FloorPlanProps) {
+  const { t } = useI18n();
   const fine = useFinePointer();
   const reduced = usePrefersReducedMotion();
   const [can3D] = useState(webglAvailable);
@@ -31,11 +33,11 @@ export function FloorPlan(props: FloorPlanProps) {
     <div className="relative">
       {can3D && (
         // Sits above the plan rather than over it, so it never hides a table or hotspot.
-        <div className="mb-3 ml-auto flex w-max border border-line/30 bg-obsidian/80 text-[11px] font-semibold uppercase tracking-[0.14em]" role="group" aria-label="Floor plan view">
+        <div className="mb-3 ml-auto flex w-max border border-line/30 bg-obsidian/80 text-[11px] font-semibold uppercase tracking-[0.14em]" role="group" aria-label={t.plan.viewAria}>
           {(
             [
-              ['3d', '3D', Box],
-              ['2d', 'Plan', MapIcon],
+              ['3d', t.plan.view3d, Box],
+              ['2d', t.plan.view2d, MapIcon],
             ] as const
           ).map(([v, label, Icon]) => (
             <button
@@ -52,7 +54,7 @@ export function FloorPlan(props: FloorPlanProps) {
         </div>
       )}
       {view === '3d' ? (
-        <Suspense fallback={<div className="aspect-[4/3] w-full animate-pulse bg-espresso lg:aspect-[16/10]" aria-label="Loading 3D floor plan" />}>
+        <Suspense fallback={<div className="aspect-[4/3] w-full animate-pulse bg-espresso lg:aspect-[16/10]" aria-label={t.plan.loading} />}>
           <FloorPlanScene {...props} />
         </Suspense>
       ) : (

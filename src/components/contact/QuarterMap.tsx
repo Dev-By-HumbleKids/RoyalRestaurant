@@ -1,10 +1,14 @@
+import { useI18n } from '@/i18n';
+
 /** Stylised map of downtown Yangon around the fictional Royal Arcade. Decorative — not a real address. */
 export function QuarterMap() {
+  const { t } = useI18n();
+  const m = t.contact.map;
   return (
     <figure className="relative overflow-hidden border border-line/20 bg-[#15120F]">
       <svg viewBox="0 0 600 440" className="h-auto w-full" role="img" aria-labelledby="map-title map-desc">
-        <title id="map-title">Map of downtown Yangon around Royal Arcade</title>
-        <desc id="map-desc">A stylised, fictional map. ROYAL sits on Royal Arcade between the Yangon River and Lantern Square, with a pagoda to the north.</desc>
+        <title id="map-title">{m.title}</title>
+        <desc id="map-desc">{m.desc}</desc>
         <defs>
           <pattern id="blocks" width="12" height="12" patternUnits="userSpaceOnUse">
             <path d="M0 12L12 0" stroke="rgba(197,164,109,0.07)" strokeWidth="1" />
@@ -33,10 +37,10 @@ export function QuarterMap() {
         <circle cx="300" cy="165" r="34" fill="none" stroke="rgba(197,164,109,0.35)" />
         <circle cx="300" cy="165" r="3" fill="rgba(197,164,109,0.6)" />
         <g fontFamily="Manrope, sans-serif" fontSize="10" letterSpacing="3" fill="rgba(184,173,160,0.65)">
-          <text x="300" y="120" textAnchor="middle">LANTERN SQUARE</text>
-          <text x="470" y="210" textAnchor="middle" transform="rotate(-5 470 210)">ROYAL ARCADE</text>
-          <text x="90" y="80" transform="rotate(7 90 80)">MERCHANT ROAD</text>
-          <text x="470" y="395" textAnchor="middle" fill="rgba(244,239,230,0.35)">YANGON RIVER</text>
+          <text x="300" y="120" textAnchor="middle">{m.square}</text>
+          <text x="470" y="210" textAnchor="middle" transform="rotate(-5 470 210)">{m.arcade}</text>
+          <text x="90" y="80" transform="rotate(7 90 80)">{m.road}</text>
+          <text x="470" y="395" textAnchor="middle" fill="rgba(244,239,230,0.35)">{m.river}</text>
         </g>
         {/* Pagoda silhouette to the north */}
         <g transform="translate(470 58)" aria-hidden>
@@ -44,7 +48,7 @@ export function QuarterMap() {
           <rect x="-24" y="10" width="48" height="5" fill="rgba(197,164,109,0.35)" />
           <circle cy="-36" r="2" fill="#C5A46D" />
           <text y="30" textAnchor="middle" fontFamily="Manrope, sans-serif" fontSize="9" letterSpacing="3" fill="rgba(184,173,160,0.65)">
-            PAGODA
+            {m.pagoda}
           </text>
         </g>
         {/* ROYAL marker */}
@@ -60,7 +64,7 @@ export function QuarterMap() {
           </text>
         </g>
       </svg>
-      <figcaption className="absolute bottom-3 left-4 text-[10px] uppercase tracking-[0.2em] text-muted">Illustrative map · fictional location</figcaption>
+      <figcaption className="absolute bottom-3 left-4 text-[10px] uppercase tracking-[0.2em] text-muted">{m.caption}</figcaption>
     </figure>
   );
 }

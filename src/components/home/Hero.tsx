@@ -4,6 +4,7 @@ import { INTRO_PLAYING_ON_LOAD } from '@/components/layout/Intro';
 import { ButtonLink } from '@/components/ui/Button';
 import { Img } from '@/components/ui/Img';
 import { site } from '@/data/site';
+import { useI18n } from '@/i18n';
 import { useFinePointer, usePrefersReducedMotion } from '@/hooks/useMedia';
 import { RevealLines } from '@/motion/Reveal';
 import { ease } from '@/motion/tokens';
@@ -16,6 +17,7 @@ export function Hero() {
   const ref = useRef<HTMLElement>(null);
   const fine = useFinePointer();
   const reduced = usePrefersReducedMotion();
+  const { t } = useI18n();
   const delay = INTRO_PLAYING_ON_LOAD && !reduced ? 1.25 : 0.1;
 
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
@@ -55,7 +57,7 @@ export function Hero() {
             transition={{ duration: 0.9, ease, delay }}
           >
             <span aria-hidden className="h-px w-10 bg-accent/60" />
-            Est. {site.established} · Downtown Yangon
+            {t.home.hero.eyebrow(site.established)}
           </motion.p>
           <RevealLines
             as="h1"
@@ -65,29 +67,20 @@ export function Hero() {
             stagger={0.12}
             className="display-hero text-ivory"
             lines={[
-              'Fire,',
+              t.home.hero.lines[0],
               <span key="t" className="pl-[0.6em] italic text-champagne">
-                Time
+                {t.home.hero.lines[1]}
               </span>,
-              '& Grace.',
+              t.home.hero.lines[2],
             ]}
           />
-          <motion.p
-            lang="my"
-            className="mt-5 text-lg tracking-wide text-champagne/75"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: delay + 0.45 }}
-          >
-            {site.taglineMy}
-          </motion.p>
           <motion.p
             className="lede mt-6 max-w-md"
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease, delay: delay + 0.55 }}
           >
-            {site.statement} French technique, Burmese hospitality, beef aged up to ninety days, a vault of three thousand bottles, and a table kept for you.
+            {t.home.hero.lede}
           </motion.p>
           <motion.div
             className="mt-10 flex flex-wrap items-center gap-4"
@@ -96,10 +89,10 @@ export function Hero() {
             transition={{ duration: 1, ease, delay: delay + 0.7 }}
           >
             <ButtonLink to="/reservations" icon magnetic>
-              Reserve a Table
+              {t.common.reserveTable}
             </ButtonLink>
             <ButtonLink to="/menu" variant="outline" magnetic>
-              Explore the Menu
+              {t.common.exploreMenu}
             </ButtonLink>
           </motion.div>
         </motion.div>
@@ -138,7 +131,7 @@ export function Hero() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: delay + 1, duration: 0.8 }}
               >
-                <span>The Main Dining Room</span>
+                <span>{t.home.hero.caption}</span>
                 <span className="tabular">21:40</span>
               </motion.p>
             </motion.div>
@@ -157,10 +150,10 @@ export function Hero() {
           <span className="relative block h-12 w-px overflow-hidden bg-line/20" aria-hidden>
             <span className="absolute inset-0 animate-scroll-cue bg-champagne" />
           </span>
-          Scroll
+          {t.home.hero.scroll}
         </span>
-        <span>Tue – Sun · Dinner from 18:00</span>
-        <span>No. 1 Royal Arcade · Yangon</span>
+        <span>{t.home.hero.hours}</span>
+        <span>{t.home.hero.address}</span>
       </motion.div>
     </section>
   );

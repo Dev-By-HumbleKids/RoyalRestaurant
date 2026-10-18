@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { NavLink } from 'react-router-dom';
 import { ButtonLink } from '@/components/ui/Button';
 import { site } from '@/data/site';
+import { useI18n } from '@/i18n';
 import { cn } from '@/lib/utils';
 import { ease, easeInOut } from '@/motion/tokens';
 import { useWishlist } from '@/store/wishlistStore';
@@ -13,6 +14,7 @@ export function MobileMenu({ open, onClose }: { open: boolean; onClose: () => vo
 /** Focus trap, Escape and scroll lock are handled by Header, which wraps both the bar and this panel. */
 function Panel({ onClose }: { onClose: () => void }) {
   const wishCount = useWishlist((s) => s.ids.length);
+  const { t, c } = useI18n();
   const openWishlist = useWishlist((s) => s.setOpen);
 
   return (
@@ -23,12 +25,12 @@ function Panel({ onClose }: { onClose: () => void }) {
       animate={{ clipPath: 'inset(0 0 0% 0)' }}
       exit={{ clipPath: 'inset(0 0 100% 0)' }}
       transition={{ duration: 0.75, ease: easeInOut }}
-      aria-label="Site menu"
+      aria-label={t.mobileMenu.aria}
       role="dialog"
       aria-modal="true"
     >
       <div aria-hidden className="deco-fan pointer-events-none absolute inset-x-0 bottom-0 h-[60vh] opacity-60" />
-      <nav aria-label="Mobile" className="container-x relative flex-1 py-10">
+      <nav aria-label={t.mobileMenu.nav} className="container-x relative flex-1 py-10">
         <ul className="space-y-1">
           {site.nav.map((item, i) => (
             <li key={item.to} className="overflow-hidden">
@@ -50,7 +52,7 @@ function Panel({ onClose }: { onClose: () => void }) {
                   }
                 >
                   <span className="w-8 font-sans text-xs tracking-[0.2em] text-muted tabular">0{i + 1}</span>
-                  {item.label}
+                  {t.nav[item.to]}
                 </NavLink>
               </motion.div>
             </li>
@@ -64,11 +66,11 @@ function Panel({ onClose }: { onClose: () => void }) {
         transition={{ delay: 0.6, duration: 0.6 }}
       >
         <div className="text-sm text-muted">
-          <p className="eyebrow mb-3">Visit</p>
+          <p className="eyebrow mb-3">{t.mobileMenu.visit}</p>
           <p>
-            {site.address.line1}, {site.address.line2}
+            {c.site.address.line1}, {c.site.address.line2}
             <br />
-            {site.address.city} · Tue – Sun
+            {c.site.address.city} · {t.mobileMenu.days}
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-3 sm:justify-end">
@@ -81,11 +83,11 @@ function Panel({ onClose }: { onClose: () => void }) {
                 openWishlist(true);
               }}
             >
-              My Evening ({wishCount})
+              {t.mobileMenu.myEvening(wishCount)}
             </button>
           )}
           <ButtonLink to="/reservations" onClick={onClose} icon>
-            Reserve a Table
+            {t.common.reserveTable}
           </ButtonLink>
         </div>
       </motion.div>

@@ -1,4 +1,4 @@
-import type { DayAvailability, DiningArea, GuestDetails, Reservation, TableAvailability, TimeSlot } from '@/types';
+import type { DayAvailability, DiningArea, GuestDetails, ReasonCode, Reservation, TableAvailability, TimeSlot } from '@/types';
 
 /**
  * The integration point for a real backend. The site ships with `localReservationService`
@@ -30,26 +30,36 @@ export interface NewReservation {
 
 export type ReservationPatch = Pick<Reservation, 'date' | 'time' | 'partySize'>;
 
-export class SlotUnavailableError extends Error {
+/** Error codes are language-neutral; the UI turns them into words with `t.errors` / `t.reasons`. */
+export type ErrorCode = 'raced' | 'noTable' | 'noChange' | 'cancelled' | 'notFound' | 'network' | ReasonCode;
+
+export class ReservationError extends Error {
+  constructor(public code: ErrorCode) {
+    super(code);
+    this.name = 'ReservationError';
+  }
+}
+
+export class SlotUnavailableError extends ReservationError {
   constructor(
-    message: string,
+    code: ErrorCode,
     public alternatives: string[] = [],
   ) {
-    super(message);
+    super(code);
     this.name = 'SlotUnavailableError';
   }
 }
 
-export class ReservationNotFoundError extends Error {
+export class ReservationNotFoundError extends ReservationError {
   constructor() {
-    super('We could not find a demo reservation with that reference and email in this browser.');
+    super('notFound');
     this.name = 'ReservationNotFoundError';
   }
 }
 
-export class NetworkError extends Error {
+export class NetworkError extends ReservationError {
   constructor() {
-    super('The demo service did not respond. Please try again.');
+    super('network');
     this.name = 'NetworkError';
   }
 }

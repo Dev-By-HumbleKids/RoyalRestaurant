@@ -1,24 +1,26 @@
 import { ParallaxImage } from '@/components/ui/ParallaxImage';
-import { spaces } from '@/data/spaces';
+import { renderLines, useI18n } from '@/i18n';
 import { cn, pad2 } from '@/lib/utils';
 import { Reveal, RevealLines } from '@/motion/Reveal';
 
 /** The walk-through: facade to cellar, alternating editorial spreads with material callouts. */
 export function SpacesJourney() {
+  const { t, c } = useI18n();
   return (
     <section className="section-y bg-obsidian" aria-labelledby="journey-title">
       <div className="container-x">
         <div className="mb-20 max-w-3xl">
           <Reveal>
             <p className="eyebrow mb-6 flex items-center gap-4">
-              <span aria-hidden className="h-px w-10 bg-accent/60" />A walk through the house
+              <span aria-hidden className="h-px w-10 bg-accent/60" />
+              {t.experience.journey.eyebrow}
             </p>
           </Reveal>
-          <RevealLines id="journey-title" lines={['From the street', <em key="e">to the strongroom.</em>]} className="display-lg text-ivory" />
+          <RevealLines id="journey-title" lines={renderLines(t.experience.journey.lines)} className="display-lg text-ivory" />
         </div>
 
         <ol className="space-y-28 md:space-y-40">
-          {spaces.map((s, i) => {
+          {c.spaces.map((s, i) => {
             const flip = i % 2 === 1;
             return (
               <li key={s.id} id={`space-${s.id}`} className="grid items-center gap-10 md:grid-cols-12 md:gap-8">

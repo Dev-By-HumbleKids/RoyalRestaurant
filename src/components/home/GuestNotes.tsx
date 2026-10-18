@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { testimonials } from '@/data/story';
+import { useI18n } from '@/i18n';
 import { usePrefersReducedMotion } from '@/hooks/useMedia';
 import { cn, pad2 } from '@/lib/utils';
 import { Reveal } from '@/motion/Reveal';
@@ -10,17 +10,20 @@ import { ease } from '@/motion/tokens';
 /** Cross-fading sample guest notes — clearly labelled as fictional, with pause and manual controls. */
 export function GuestNotes() {
   const reduced = usePrefersReducedMotion();
+  const { t, c } = useI18n();
+  const testimonials = c.testimonials;
   const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(!reduced);
   const [hovered, setHovered] = useState(false);
   const note = testimonials[index];
   const go = (d: number) => setIndex((i) => (i + d + testimonials.length) % testimonials.length);
 
+  const count = testimonials.length;
   useEffect(() => {
     if (!playing || hovered) return;
-    const t = setTimeout(() => go(1), 6500);
-    return () => clearTimeout(t);
-  }, [index, playing, hovered]);
+    const timer = setTimeout(() => setIndex((i) => (i + 1) % count), 6500);
+    return () => clearTimeout(timer);
+  }, [index, playing, hovered, count]);
 
   return (
     <section
@@ -39,12 +42,12 @@ export function GuestNotes() {
           <Reveal>
             <p className="eyebrow mb-6 flex items-center gap-4 !text-champagne-soft">
               <span aria-hidden className="h-px w-10 bg-champagne/60" />
-              Guest notes
+              {t.home.notes.eyebrow}
             </p>
             <h2 id="notes-title" className="display-md text-ivory">
-              What stays with people.
+              {t.home.notes.title}
             </h2>
-            <p className="mt-6 max-w-xs text-sm text-ivory/70">Sample guest notes — fictional demonstration content, not verified reviews.</p>
+            <p className="mt-6 max-w-xs text-sm text-ivory/70">{t.home.notes.disclaimer}</p>
           </Reveal>
         </div>
 
@@ -68,28 +71,28 @@ export function GuestNotes() {
 
           <div className="mt-10 flex items-center gap-6">
             <div className="flex gap-2">
-              <button type="button" onClick={() => go(-1)} className="grid h-11 w-11 place-items-center rounded-full border border-ivory/25 text-ivory transition-colors hover:border-champagne hover:text-champagne" aria-label="Previous note">
+              <button type="button" onClick={() => go(-1)} className="grid h-11 w-11 place-items-center rounded-full border border-ivory/25 text-ivory transition-colors hover:border-champagne hover:text-champagne" aria-label={t.home.notes.prev}>
                 <ChevronLeft className="h-4 w-4" aria-hidden />
               </button>
-              <button type="button" onClick={() => go(1)} className="grid h-11 w-11 place-items-center rounded-full border border-ivory/25 text-ivory transition-colors hover:border-champagne hover:text-champagne" aria-label="Next note">
+              <button type="button" onClick={() => go(1)} className="grid h-11 w-11 place-items-center rounded-full border border-ivory/25 text-ivory transition-colors hover:border-champagne hover:text-champagne" aria-label={t.home.notes.next}>
                 <ChevronRight className="h-4 w-4" aria-hidden />
               </button>
               <button
                 type="button"
                 onClick={() => setPlaying((p) => !p)}
                 className="grid h-11 w-11 place-items-center rounded-full text-ivory/70 transition-colors hover:text-champagne"
-                aria-label={playing ? 'Pause rotation' : 'Play rotation'}
+                aria-label={playing ? t.home.notes.pause : t.home.notes.play}
               >
                 {playing ? <Pause className="h-4 w-4" aria-hidden /> : <Play className="h-4 w-4" aria-hidden />}
               </button>
             </div>
-            <ol className="flex flex-1 gap-2" aria-label="Choose a note">
-              {testimonials.map((t, i) => (
-                <li key={t.name} className="flex-1">
+            <ol className="flex flex-1 gap-2" aria-label={t.home.notes.choose}>
+              {testimonials.map((n, i) => (
+                <li key={n.name} className="flex-1">
                   <button
                     type="button"
                     onClick={() => setIndex(i)}
-                    aria-label={`Note ${i + 1} of ${testimonials.length}`}
+                    aria-label={t.home.notes.noteN(i + 1, testimonials.length)}
                     aria-current={i === index}
                     className="block w-full py-4"
                   >

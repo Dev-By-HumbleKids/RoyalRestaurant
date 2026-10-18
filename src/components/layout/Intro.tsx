@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { usePrefersReducedMotion } from '@/hooks/useMedia';
+import { useI18n } from '@/i18n';
 import { ease, easeInOut } from '@/motion/tokens';
 
 const KEY = 'royal.intro-seen';
@@ -22,6 +23,7 @@ export const INTRO_PLAYING_ON_LOAD = !seenAlready();
  */
 export function Intro() {
   const reduced = usePrefersReducedMotion();
+  const { t } = useI18n();
   const [show, setShow] = useState(() => !seenAlready());
 
   useEffect(() => {
@@ -94,7 +96,7 @@ export function Intro() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6, duration: 0.6 }}
             >
-              Est. 1928
+              {t.intro.since}
             </motion.p>
           </div>
         </motion.div>

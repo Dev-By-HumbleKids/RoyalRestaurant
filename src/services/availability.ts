@@ -1,6 +1,6 @@
 import { addDays, differenceInCalendarDays, format, parseISO, startOfDay } from 'date-fns';
 import { tables } from '@/data/tables';
-import type { DayAvailability, DiningArea, RestaurantTable, SlotStatus, TableAvailability, TimeSlot } from '@/types';
+import type { DayAvailability, DiningArea, ReasonCode, RestaurantTable, SlotStatus, TableAvailability, TimeSlot } from '@/types';
 import { RULES } from './rules';
 
 /**
@@ -40,12 +40,12 @@ export function isPrivateEventDay(date: string): boolean {
   return seeded(`buyout|${date}`) < 0.035;
 }
 
-export function dayClosedReason(date: string, now = new Date()): string | undefined {
+export function dayClosedReason(date: string, now = new Date()): ReasonCode | undefined {
   const day = parseISO(date);
   const diff = differenceInCalendarDays(day, startOfDay(now));
-  if (diff < 0) return 'This date has passed';
-  if (diff > RULES.maxDaysAhead) return `Reservations open ${RULES.maxDaysAhead} days ahead`;
-  if ((RULES.closedWeekdays as readonly number[]).includes(day.getDay())) return 'Closed on Mondays';
+  if (diff < 0) return 'past';
+  if (diff > RULES.maxDaysAhead) return 'tooFar';
+  if ((RULES.closedWeekdays as readonly number[]).includes(day.getDay())) return 'monday';
   return undefined;
 }
 
@@ -105,10 +105,10 @@ export function getDaySlots(date: string, partySize: number, occupied: Occupancy
   return slotsForDate(date).map(({ time, service }) => {
     const pool = tables.filter((t) => tableFits(t, partySize, service) && (!area || t.area === area));
     if (closed) return { time, service, status: 'closed', freeTables: 0, fittingTables: pool.length, reason: closed };
-    if (buyout) return { time, service, status: 'full', freeTables: 0, fittingTables: pool.length, reason: 'Private event' };
+    if (buyout) return { time, service, status: 'full', freeTables: 0, fittingTables: pool.length, reason: 'buyout' };
     const cutoff = slotDate(date, time).getTime() - RULES.sameDayCutoffHours * 3600_000;
     if (now.getTime() > cutoff) {
-      return { time, service, status: 'closed', freeTables: 0, fittingTables: pool.length, reason: 'Online booking closed' };
+      return { time, service, status: 'closed', freeTables: 0, fittingTables: pool.length, reason: 'cutoff' };
     }
     const free = pool.filter((t) => !isTableTaken(date, time, t, occupied, now)).length;
     return {
@@ -117,7 +117,7 @@ export function getDaySlots(date: string, partySize: number, occupied: Occupancy
       status: statusFromRatio(free, pool.length),
       freeTables: free,
       fittingTables: pool.length,
-      reason: pool.length === 0 ? 'No table for this party size' : undefined,
+      reason: pool.length === 0 ? 'noFit' : undefined,
     };
   });
 }
@@ -125,13 +125,13 @@ export function getDaySlots(date: string, partySize: number, occupied: Occupancy
 export function getDayAvailability(date: string, partySize: number, occupied: Occupancy[], now = new Date()): DayAvailability {
   const closed = dayClosedReason(date, now);
   if (closed) return { date, status: 'closed', reason: closed };
-  if (isPrivateEventDay(date)) return { date, status: 'full', reason: 'Private event — the house is reserved' };
+  if (isPrivateEventDay(date)) return { date, status: 'full', reason: 'buyoutDay' };
   const slots = getDaySlots(date, partySize, occupied, now).filter((s) => s.status !== 'closed');
-  if (slots.length === 0) return { date, status: 'closed', reason: 'Online booking closed for today' };
+  if (slots.length === 0) return { date, status: 'closed', reason: 'closedToday' };
   const open = slots.filter((s) => s.status === 'available').length;
   if (open / slots.length >= 0.4) return { date, status: 'available' };
   if (slots.some((s) => s.status !== 'full')) return { date, status: 'limited' };
-  return { date, status: 'full', reason: 'Fully booked for this party size' };
+  return { date, status: 'full', reason: 'fullParty' };
 }
 
 export function getMonthAvailability(month: Date, partySize: number, occupied: Occupancy[], now = new Date()): DayAvailability[] {

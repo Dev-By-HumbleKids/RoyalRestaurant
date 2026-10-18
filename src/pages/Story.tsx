@@ -5,42 +5,42 @@ import { Img } from '@/components/ui/Img';
 import { PageHero } from '@/components/ui/PageHero';
 import { ParallaxImage } from '@/components/ui/ParallaxImage';
 import { SectionHeading } from '@/components/ui/SectionHeading';
-import { site } from '@/data/site';
-import { accolades, chef, pillars, sourcing, team, techniques, timeline } from '@/data/story';
-import { pad2 } from '@/lib/utils';
+import { renderLines, useI18n } from '@/i18n';
+import { cn, pad2 } from '@/lib/utils';
 import { Reveal, RevealLines } from '@/motion/Reveal';
 
 function Timeline() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.7', 'end 0.6'] });
+  const { t, c } = useI18n();
 
   return (
     <section className="theme-ivory section-y bg-bg text-fg" aria-labelledby="timeline-title">
       <div className="container-x">
-        <SectionHeading id="timeline-title" eyebrow="A brief history" lines={['Ninety-eight years', <em key="e">around one fire.</em>]} />
+        <SectionHeading id="timeline-title" eyebrow={t.story.timeline.eyebrow} lines={renderLines(t.story.timeline.lines)} />
         <div ref={ref} className="relative mt-20">
           {/* The thread of the story draws itself as you read. */}
           <span aria-hidden className="absolute bottom-0 left-[11px] top-0 w-px bg-line/20 md:left-1/2" />
           <motion.span aria-hidden className="absolute bottom-0 left-[11px] top-0 w-px origin-top bg-accent md:left-1/2" style={{ scaleY: scrollYProgress }} />
           <ol className="relative space-y-24 md:space-y-32">
-          {timeline.map((m, i) => {
-            const flip = i % 2 === 1;
-            return (
-              <li key={m.year} className="relative grid gap-8 pl-12 md:grid-cols-2 md:gap-20 md:pl-0">
-                <span aria-hidden className="absolute left-[5px] top-3 h-[13px] w-[13px] rotate-45 border border-accent bg-bg md:left-1/2 md:-translate-x-1/2" />
-                <div className={flip ? 'md:order-2' : 'md:text-right'}>
-                  <Reveal>
-                    <p className="font-display text-[clamp(4rem,9vw,8rem)] font-light leading-none text-accent tabular">{m.year}</p>
-                    <h3 className="mt-4 font-display text-3xl font-normal">{m.title}</h3>
-                    <p className={`mt-4 max-w-md leading-relaxed text-muted ${flip ? '' : 'md:ml-auto'}`}>{m.body}</p>
-                  </Reveal>
-                </div>
-                <div className={flip ? 'md:order-1' : ''}>
-                  <ParallaxImage k={m.image} className="aspect-[4/3] w-full max-w-lg" arch={i % 2 === 0} sizes="(min-width: 768px) 40vw, 85vw" />
-                </div>
-              </li>
-            );
-          })}
+            {c.timeline.map((m, i) => {
+              const flip = i % 2 === 1;
+              return (
+                <li key={m.year} className="relative grid gap-8 pl-12 md:grid-cols-2 md:gap-20 md:pl-0">
+                  <span aria-hidden className="absolute left-[5px] top-3 h-[13px] w-[13px] rotate-45 border border-accent bg-bg md:left-1/2 md:-translate-x-1/2" />
+                  <div className={flip ? 'md:order-2' : 'md:text-right'}>
+                    <Reveal>
+                      <p className="font-display text-[clamp(4rem,9vw,8rem)] font-light leading-none text-accent tabular">{m.year}</p>
+                      <h3 className="mt-4 font-display text-3xl font-normal">{m.title}</h3>
+                      <p className={`mt-4 max-w-md leading-relaxed text-muted ${flip ? '' : 'md:ml-auto'}`}>{m.body}</p>
+                    </Reveal>
+                  </div>
+                  <div className={flip ? 'md:order-1' : ''}>
+                    <ParallaxImage k={m.image} className="aspect-[4/3] w-full max-w-lg" arch={i % 2 === 0} sizes="(min-width: 768px) 40vw, 85vw" />
+                  </div>
+                </li>
+              );
+            })}
           </ol>
         </div>
       </div>
@@ -49,45 +49,39 @@ function Timeline() {
 }
 
 export default function Story() {
+  const { lang, t, c } = useI18n();
+  const s = t.story;
+  const chef = c.chef;
+
   return (
     <>
-      <PageHero
-        image="f-hearth"
-        eyebrow="Our story · since 1928"
-        lines={['Three generations,', <em key="e">one fire.</em>]}
-        lede="ROYAL began as fourteen seats around a brick hearth in downtown Yangon. Three generations later, the fire has never gone out."
-      />
+      <PageHero image="f-hearth" eyebrow={s.hero.eyebrow} lines={renderLines(s.hero.lines)} lede={s.hero.lede} />
 
       {/* Founding */}
       <section className="section-y bg-obsidian" aria-labelledby="founding-title">
         <div className="container-x grid gap-14 lg:grid-cols-12">
           <div className="lg:col-span-5">
-            <SectionHeading id="founding-title" eyebrow="The founding" lines={['Henri, Khin Mya', <em key="e">and a pile of tamarind wood.</em>]} />
-            <Reveal delay={0.2}>
-              <p lang="my" className="mt-8 font-display text-2xl text-champagne/80">
-                {site.taglineMy}
-              </p>
-            </Reveal>
+            <SectionHeading id="founding-title" eyebrow={s.founding.eyebrow} lines={renderLines(s.founding.lines)} />
           </div>
           <div className="space-y-6 text-lg leading-relaxed text-fg/80 lg:col-span-6 lg:col-start-7">
             <Reveal>
-              <p className="first-letter:float-left first-letter:mr-3 first-letter:font-display first-letter:text-[5.2rem] first-letter:leading-[0.8] first-letter:text-champagne">
-                In the cool season of 1928, Henri Varenne, a young cook from Lyon with more talent than money, and Daw Khin Mya, who kept the books and the guests in equal order,
-                rented a narrow shophouse a few streets from the Yangon River. They could afford one luxury: a brick hearth wide enough to roast a whole rib over tamarind wood.
+              {/* A drop cap suits Latin text; Myanmar syllable clusters should not be split. */}
+              <p
+                className={cn(
+                  lang === 'en' &&
+                    'first-letter:float-left first-letter:mr-3 first-letter:font-display first-letter:text-[5.2rem] first-letter:leading-[0.8] first-letter:text-champagne',
+                )}
+              >
+                {s.founding.p1}
               </p>
             </Reveal>
             <Reveal delay={0.1}>
               <p>
-                There was no menu, only what the fire was cooking that day, served with a pot of green tea and Khin Mya’s pickled mango on the side. Within a year, regulars had
-                stopped calling it Le Foyer Royal and simply said they were going “to Royal.” The name stuck, and so did the rule Khin Mya wrote above the pass:{' '}
-                <em className="text-champagne">nothing leaves this kitchen in a hurry.</em>
+                {s.founding.p2} <em className="text-champagne">{s.founding.rule}</em>
               </p>
             </Reveal>
             <Reveal delay={0.15}>
-              <p>
-                Today ROYAL is one of Yangon’s international tables. It is French in technique and Burmese in hospitality, and its dining room hears Myanmar, English, Japanese and
-                French on the same night.
-              </p>
+              <p>{s.founding.p3}</p>
             </Reveal>
           </div>
         </div>
@@ -98,9 +92,9 @@ export default function Story() {
       {/* Philosophy */}
       <section className="section-y bg-obsidian" aria-labelledby="philosophy-title">
         <div className="container-x">
-          <SectionHeading id="philosophy-title" eyebrow="Philosophy" lines={['Fire. Time.', <em key="e">Grace.</em>]} />
+          <SectionHeading id="philosophy-title" eyebrow={s.philosophy.eyebrow} lines={renderLines(s.philosophy.lines)} />
           <ol className="mt-16 grid gap-px bg-line/15 md:grid-cols-3">
-            {pillars.map((p, i) => (
+            {c.pillars.map((p, i) => (
               <li key={p.title} className="bg-obsidian p-8 md:p-10">
                 <Reveal delay={i * 0.1}>
                   <p className="text-xs text-accent tabular">{pad2(i + 1)}</p>
@@ -117,28 +111,28 @@ export default function Story() {
       <section className="section-y relative overflow-hidden bg-espresso" aria-labelledby="sourcing-title">
         <div className="container-x grid gap-16 lg:grid-cols-12">
           <div className="lg:col-span-5">
-            <SectionHeading id="sourcing-title" eyebrow="Sourcing" lines={['We know', <em key="e">every farm by name.</em>]} />
+            <SectionHeading id="sourcing-title" eyebrow={s.sourcing.eyebrow} lines={renderLines(s.sourcing.lines)} />
             <ParallaxImage k="s-a5" className="mt-12 aspect-[4/5] w-full max-w-sm" sizes="(min-width: 1024px) 28vw, 80vw" />
           </div>
           <div className="lg:col-span-6 lg:col-start-7">
             <ul className="divide-y divide-line/15 border-y border-line/15">
-              {sourcing.map((s, i) => (
-                <li key={s.title} className="py-7">
+              {c.sourcing.map((item, i) => (
+                <li key={item.title} className="py-7">
                   <Reveal delay={i * 0.05}>
-                    <h3 className="font-display text-2xl text-ivory">{s.title}</h3>
-                    <p className="mt-2 leading-relaxed text-fg/75">{s.body}</p>
+                    <h3 className="font-display text-2xl text-ivory">{item.title}</h3>
+                    <p className="mt-2 leading-relaxed text-fg/75">{item.body}</p>
                   </Reveal>
                 </li>
               ))}
             </ul>
             <Reveal>
-              <p className="eyebrow mb-6 mt-16">Signature techniques</p>
+              <p className="eyebrow mb-6 mt-16">{s.sourcing.techniques}</p>
             </Reveal>
             <dl className="grid gap-px bg-line/15 sm:grid-cols-2">
-              {techniques.map((t) => (
-                <div key={t.title} className="bg-espresso p-6">
-                  <dt className="font-display text-2xl text-champagne">{t.title}</dt>
-                  <dd className="mt-2 text-sm leading-relaxed text-fg/75">{t.detail}</dd>
+              {c.techniques.map((tech) => (
+                <div key={tech.title} className="bg-espresso p-6">
+                  <dt className="font-display text-2xl text-champagne">{tech.title}</dt>
+                  <dd className="mt-2 text-sm leading-relaxed text-fg/75">{tech.detail}</dd>
                 </div>
               ))}
             </dl>
@@ -150,18 +144,11 @@ export default function Story() {
       <section className="relative overflow-hidden bg-burgundy py-28 md:py-40" aria-labelledby="hospitality-title">
         <div className="container-x relative text-center">
           <Reveal>
-            <p className="eyebrow mb-8 !text-champagne-soft">Hospitality</p>
+            <p className="eyebrow mb-8 !text-champagne-soft">{s.hospitality.eyebrow}</p>
           </Reveal>
-          <RevealLines
-            id="hospitality-title"
-            lines={['“Service should be felt,', <em key="e">never seen.”</em>]}
-            className="display-xl mx-auto max-w-5xl text-ivory"
-          />
+          <RevealLines id="hospitality-title" lines={renderLines(s.hospitality.lines)} className="display-xl mx-auto max-w-5xl text-ivory" />
           <Reveal delay={0.2}>
-            <p className="mx-auto mt-10 max-w-2xl leading-relaxed text-ivory/80">
-              Every member of the team learns our regulars’ names, their tables and their allergies, in Myanmar or in English. We pour the second glass before it is asked for, and never
-              mention that we remembered.
-            </p>
+            <p className="mx-auto mt-10 max-w-2xl leading-relaxed text-ivory/80">{s.hospitality.body}</p>
           </Reveal>
         </div>
       </section>
@@ -175,7 +162,7 @@ export default function Story() {
             </div>
             <div className="lg:col-span-6 lg:col-start-7">
               <Reveal>
-                <p className="eyebrow mb-6">Executive chef</p>
+                <p className="eyebrow mb-6">{s.chef.eyebrow}</p>
                 <h2 id="team-title" className="display-lg">
                   {chef.name}
                 </h2>
@@ -183,9 +170,9 @@ export default function Story() {
                 <p className="mt-8 text-lg leading-relaxed">{chef.bio}</p>
                 <p className="mt-5 leading-relaxed text-muted">{chef.philosophy}</p>
                 <ul className="mt-8 flex flex-wrap gap-2">
-                  {chef.specialties?.map((s) => (
-                    <li key={s} className="border border-line/30 px-3 py-1.5 text-xs uppercase tracking-[0.14em]">
-                      {s}
+                  {chef.specialties?.map((sp) => (
+                    <li key={sp} className="border border-line/30 px-3 py-1.5 text-xs uppercase tracking-[0.14em]">
+                      {sp}
                     </li>
                   ))}
                 </ul>
@@ -195,14 +182,18 @@ export default function Story() {
 
           <div className="mt-28">
             <Reveal>
-              <p className="eyebrow mb-10">The brigade</p>
+              <p className="eyebrow mb-10">{s.chef.brigade}</p>
             </Reveal>
             <ul className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
-              {team.map((m, i) => (
+              {c.team.map((m, i) => (
                 <li key={m.name} className={i % 3 === 1 ? 'lg:mt-16' : ''}>
                   <Reveal delay={i * 0.08}>
                     <div className="group aspect-[3/4] overflow-hidden bg-surface">
-                      <Img k={m.image} sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 92vw" className="h-full w-full object-cover grayscale-[35%] transition duration-[1.2s] ease-luxe group-hover:scale-105 group-hover:grayscale-0" />
+                      <Img
+                        k={m.image}
+                        sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 92vw"
+                        className="h-full w-full object-cover grayscale-[35%] transition duration-[1.2s] ease-luxe group-hover:scale-105 group-hover:grayscale-0"
+                      />
                     </div>
                     <h3 className="mt-5 font-display text-2xl">{m.name}</h3>
                     <p className="text-[11px] uppercase tracking-[0.18em] text-accent">{m.role}</p>
@@ -219,11 +210,11 @@ export default function Story() {
       <section className="section-y bg-obsidian" aria-labelledby="accolades-title">
         <div className="container-x grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-4">
-            <SectionHeading id="accolades-title" eyebrow="Recognition" lines={['Kind words,', <em key="e">quietly kept.</em>]} size="md" />
-            <p className="mt-6 text-xs text-muted">All awards and publications are fictional, invented for this portfolio project.</p>
+            <SectionHeading id="accolades-title" eyebrow={s.recognition.eyebrow} lines={renderLines(s.recognition.lines)} size="md" />
+            <p className="mt-6 text-xs text-muted">{s.recognition.disclaimer}</p>
           </div>
           <ul className="divide-y divide-line/15 border-y border-line/15 lg:col-span-7 lg:col-start-6">
-            {accolades.map((a, i) => (
+            {c.accolades.map((a, i) => (
               <li key={a} className="flex items-baseline gap-6 py-6">
                 <span className="text-xs text-accent tabular">{pad2(i + 1)}</span>
                 <span className="font-display text-2xl font-light text-ivory">{a}</span>

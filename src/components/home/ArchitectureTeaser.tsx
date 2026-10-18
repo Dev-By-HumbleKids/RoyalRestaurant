@@ -3,12 +3,13 @@ import { useRef } from 'react';
 import { ButtonLink } from '@/components/ui/Button';
 import { Img } from '@/components/ui/Img';
 import { ParallaxImage } from '@/components/ui/ParallaxImage';
+import { renderLines, useI18n } from '@/i18n';
 import { Reveal, RevealLines } from '@/motion/Reveal';
 
-const ROOMS = ['The Facade', 'Reception', 'Main Dining Room', 'Window Arcade', 'The Hearth', 'The Vault', 'Salon Noir', 'Cellar Room'];
 
 /** Full-bleed vault image that opens up as it scrolls in, followed by a layered material story. */
 export function ArchitectureTeaser() {
+  const { t } = useI18n();
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
   const inset = useTransform(scrollYProgress, [0, 0.45], ['12%', '0%']);
@@ -26,10 +27,10 @@ export function ArchitectureTeaser() {
           <Reveal>
             <p className="eyebrow mb-6 flex items-center gap-4">
               <span aria-hidden className="h-px w-10 bg-accent/60" />
-              The architecture
+              {t.home.arch.eyebrow}
             </p>
           </Reveal>
-          <RevealLines id="arch-title" lines={['The Arch', <em key="e">& the Hearth.</em>]} className="display-xl text-ivory" />
+          <RevealLines id="arch-title" lines={renderLines(t.home.arch.lines)} className="display-xl text-ivory" />
         </div>
       </motion.div>
 
@@ -37,13 +38,12 @@ export function ArchitectureTeaser() {
         <div className="lg:col-span-5">
           <Reveal>
             <p className="lede">
-              A 1926 downtown Yangon bank hall with a barrel-vaulted ceiling, stone arches and a strongroom turned wine cellar. We kept the bones,
-              warmed the light and built the whole house around a fire.
+              {t.home.arch.lede}
             </p>
           </Reveal>
           <Reveal delay={0.1}>
             <ol className="mt-10 grid grid-cols-2 gap-x-6 border-t border-line/15 pt-6 text-sm text-fg/80">
-              {ROOMS.map((room, i) => (
+              {t.home.arch.rooms.map((room, i) => (
                 <li key={room} className="flex gap-3 border-b border-line/10 py-3">
                   <span className="text-xs text-accent tabular">{String(i + 1).padStart(2, '0')}</span>
                   {room}
@@ -53,7 +53,7 @@ export function ArchitectureTeaser() {
           </Reveal>
           <Reveal delay={0.2} className="mt-10">
             <ButtonLink to="/experience" variant="outline" icon>
-              Explore the space
+              {t.home.arch.cta}
             </ButtonLink>
           </Reveal>
         </div>
@@ -61,7 +61,7 @@ export function ArchitectureTeaser() {
           <ParallaxImage k="i-chandelier" className="col-span-3 aspect-[3/4]" sizes="(min-width: 1024px) 30vw, 60vw" arch />
           <div className="col-span-2 flex flex-col justify-end gap-4">
             <ParallaxImage k="i-vault-wall" className="aspect-[3/4]" sizes="(min-width: 1024px) 20vw, 40vw" strength={6} />
-            <p className="text-[11px] uppercase tracking-[0.2em] text-muted">The Vault · 12°C</p>
+            <p className="text-[11px] uppercase tracking-[0.2em] text-muted">{t.home.arch.vault}</p>
           </div>
         </div>
       </div>

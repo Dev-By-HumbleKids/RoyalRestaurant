@@ -1,14 +1,14 @@
 import { Check } from 'lucide-react';
+import { useI18n } from '@/i18n';
 import { cn } from '@/lib/utils';
 import type { Step } from '@/store/reservationStore';
 
-export const STEP_LABELS = ['Date & guests', 'Time', 'Table', 'Your details', 'Review'] as const;
-
 export function Stepper({ step, maxReached, onStep }: { step: Step; maxReached: number; onStep: (s: Step) => void }) {
+  const { t } = useI18n();
   return (
-    <nav aria-label="Reservation progress">
+    <nav aria-label={t.reservations.progress}>
       <ol className="grid grid-cols-5 gap-2">
-        {STEP_LABELS.map((label, i) => {
+        {t.reservations.steps.map((label, i) => {
           const done = i < step;
           const current = i === step;
           const reachable = i <= maxReached && !current;
@@ -44,7 +44,7 @@ export function Stepper({ step, maxReached, onStep }: { step: Step; maxReached: 
                     {label}
                   </span>
                   <span className="sr-only md:hidden">{label}</span>
-                  {done && <span className="sr-only"> (completed)</span>}
+                  {done && <span className="sr-only">{t.reservations.completed}</span>}
                 </span>
               </button>
             </li>

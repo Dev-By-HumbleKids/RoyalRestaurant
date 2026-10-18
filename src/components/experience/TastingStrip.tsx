@@ -1,13 +1,14 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useRef } from 'react';
 import { Img } from '@/components/ui/Img';
-import { tastingCourses } from '@/data/experiences';
+import { renderLines, useI18n } from '@/i18n';
 import { pad2 } from '@/lib/utils';
 import { Reveal, RevealLines } from '@/motion/Reveal';
 
 /** Native horizontal scroll with snap points — swipe, trackpad, or the arrow buttons. No scroll-jacking. */
 export function TastingStrip() {
   const track = useRef<HTMLOListElement>(null);
+  const { t, c } = useI18n();
   const move = (dir: 1 | -1) => {
     const el = track.current;
     if (!el) return;
@@ -23,19 +24,19 @@ export function TastingStrip() {
             <Reveal>
               <p className="eyebrow mb-6 flex items-center gap-4 !text-[#E58A55]">
                 <span aria-hidden className="h-px w-10 bg-[#E58A55]/60" />
-                The Chef’s Tasting · seven courses
+                {t.experience.tasting.eyebrow}
               </p>
             </Reveal>
-            <RevealLines id="tasting-title" lines={['Seven courses', <em key="e">facing the fire.</em>]} className="display-lg text-ivory" />
+            <RevealLines id="tasting-title" lines={renderLines(t.experience.tasting.lines)} className="display-lg text-ivory" />
             <Reveal delay={0.1}>
-              <p className="lede mt-6">Classic Ks 735,000 · Vegetarian Ks 615,000 · Wine pairing +Ks 495,000 · Prestige pairing +Ks 1,170,000</p>
+              <p className="lede mt-6">{t.experience.tasting.prices}</p>
             </Reveal>
           </div>
           <div className="flex gap-2">
-            <button type="button" onClick={() => move(-1)} className="grid h-12 w-12 place-items-center rounded-full border border-line/30 text-ivory transition-colors hover:border-accent hover:text-accent" aria-label="Previous courses">
+            <button type="button" onClick={() => move(-1)} className="grid h-12 w-12 place-items-center rounded-full border border-line/30 text-ivory transition-colors hover:border-accent hover:text-accent" aria-label={t.experience.tasting.prev}>
               <ChevronLeft className="h-5 w-5" aria-hidden />
             </button>
-            <button type="button" onClick={() => move(1)} className="grid h-12 w-12 place-items-center rounded-full border border-line/30 text-ivory transition-colors hover:border-accent hover:text-accent" aria-label="Next courses">
+            <button type="button" onClick={() => move(1)} className="grid h-12 w-12 place-items-center rounded-full border border-line/30 text-ivory transition-colors hover:border-accent hover:text-accent" aria-label={t.experience.tasting.next}>
               <ChevronRight className="h-5 w-5" aria-hidden />
             </button>
           </div>
@@ -45,19 +46,19 @@ export function TastingStrip() {
       <ol
         ref={track}
         tabIndex={0}
-        aria-label="Tasting menu courses"
+        aria-label={t.experience.tasting.aria}
         className="flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth px-[max(16px,calc((100vw-1440px)/2+4.2vw))] pb-6 scrollbar-none focus-visible:outline-offset-[-4px]"
       >
-        {tastingCourses.map((c) => (
-          <li key={c.n} className="w-[78vw] shrink-0 snap-start sm:w-[44vw] lg:w-[26vw]">
+        {c.tastingCourses.map((course) => (
+          <li key={course.n} className="w-[78vw] shrink-0 snap-start sm:w-[44vw] lg:w-[26vw]">
             <div className="arch aspect-[3/4] overflow-hidden bg-charcoal">
-              <Img k={c.image} sizes="(min-width: 1024px) 26vw, 78vw" className="h-full w-full object-cover" />
+              <Img k={course.image} sizes="(min-width: 1024px) 26vw, 78vw" className="h-full w-full object-cover" />
             </div>
             <p className="mt-5 flex items-baseline gap-4">
-              <span className="font-display text-4xl font-light text-[#E58A55] tabular">{pad2(c.n)}</span>
-              <span className="font-display text-3xl font-light text-ivory">{c.name}</span>
+              <span className="font-display text-4xl font-light text-[#E58A55] tabular">{pad2(course.n)}</span>
+              <span className="font-display text-3xl font-light text-ivory">{course.name}</span>
             </p>
-            <p className="mt-2 text-sm text-muted">{c.detail}</p>
+            <p className="mt-2 text-sm text-muted">{course.detail}</p>
           </li>
         ))}
       </ol>

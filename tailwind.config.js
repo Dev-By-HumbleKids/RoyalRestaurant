@@ -21,8 +21,9 @@ export default {
         status: { available: '#93B58C', limited: '#DDB04F', full: '#D06A58' },
       },
       fontFamily: {
-        display: ['"Cormorant Garamond"', 'Georgia', 'serif'],
-        sans: ['Manrope', 'system-ui', 'sans-serif'],
+        // Myanmar glyphs fall through to Noto (Google serves them as a separate unicode-range subset).
+        display: ['"Cormorant Garamond"', '"Noto Serif Myanmar"', 'Georgia', 'serif'],
+        sans: ['Manrope', '"Noto Sans Myanmar"', 'system-ui', 'sans-serif'],
       },
       letterSpacing: { eyebrow: '0.28em' },
       transitionTimingFunction: { luxe: 'cubic-bezier(0.22, 1, 0.36, 1)' },

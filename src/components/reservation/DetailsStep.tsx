@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { forwardRef, useId, type InputHTMLAttributes, type ReactNode, type SelectHTMLAttributes, type TextareaHTMLAttributes } from 'react';
 import { useForm } from 'react-hook-form';
-import { menuById } from '@/data/menu';
+import { useI18n } from '@/i18n';
 import { cn } from '@/lib/utils';
 import { OCCASIONS } from '@/services/rules';
 import { useReservation, type DetailsDraft } from '@/store/reservationStore';
@@ -20,8 +20,11 @@ interface FieldProps {
   className?: string;
 }
 
-export function Field({ label, error, hint, required, children, className }: FieldProps) {
+export function Field({ label, error: errorKey, hint, required, children, className }: FieldProps) {
   const id = useId();
+  const { t } = useI18n();
+  // Schemas use validation keys; unknown strings are shown as-is.
+  const error = errorKey ? (t.validation[errorKey] ?? errorKey) : undefined;
   const describedBy = [hint && `${id}-hint`, error && `${id}-err`].filter(Boolean).join(' ') || undefined;
   return (
     <div className={className}>
@@ -33,7 +36,7 @@ export function Field({ label, error, hint, required, children, className }: Fie
             *
           </span>
         )}
-        {!required && <span className="normal-case tracking-normal text-muted/70"> (optional)</span>}
+        {!required && <span className="normal-case tracking-normal text-muted/70"> {t.common.optional}</span>}
       </label>
       {children({ id, describedBy })}
       {hint && !error && (
@@ -66,7 +69,9 @@ export const Select = forwardRef<HTMLSelectElement, SelectHTMLAttributes<HTMLSel
 export function DetailsStep({ formId, onValid }: { formId: string; onValid: () => void }) {
   const { details, setDetails } = useReservation();
   const wishIds = useWishlist((s) => s.ids);
-  const wishNames = wishIds.map((id) => menuById.get(id)?.name).filter(Boolean);
+  const { t, c } = useI18n();
+  const d = t.reservations.details;
+  const wishNames = wishIds.map((id) => c.menuById.get(id)?.name).filter(Boolean);
 
   const {
     register,
@@ -91,48 +96,48 @@ export function DetailsStep({ formId, onValid }: { formId: string; onValid: () =
 
   return (
     <div>
-      <StepTitle n={4} title="Who are we expecting?" hint="We use these details only to hold your demo request in this browser. Nothing is sent anywhere." />
+      <StepTitle n={4} title={d.title} hint={d.hint} />
       <form id={formId} onSubmit={submit} noValidate className="grid gap-8 sm:grid-cols-2">
-        <Field label="Full name" required error={errors.name?.message} className="sm:col-span-2">
+        <Field label={d.name} required error={errors.name?.message} className="sm:col-span-2">
           {({ id, describedBy }) => (
             <Input id={id} autoComplete="name" aria-invalid={!!errors.name} aria-describedby={describedBy} {...register('name')} />
           )}
         </Field>
-        <Field label="Email" required error={errors.email?.message}>
+        <Field label={d.email} required error={errors.email?.message}>
           {({ id, describedBy }) => (
             <Input id={id} type="email" autoComplete="email" inputMode="email" aria-invalid={!!errors.email} aria-describedby={describedBy} {...register('email')} />
           )}
         </Field>
-        <Field label="Phone" required error={errors.phone?.message} hint="Include your country code.">
+        <Field label={d.phone} required error={errors.phone?.message} hint={d.phoneHint}>
           {({ id, describedBy }) => (
             <Input id={id} type="tel" autoComplete="tel" inputMode="tel" aria-invalid={!!errors.phone} aria-describedby={describedBy} {...register('phone')} />
           )}
         </Field>
-        <Field label="Occasion" error={errors.occasion?.message}>
+        <Field label={d.occasion} error={errors.occasion?.message}>
           {({ id, describedBy }) => (
             <Select id={id} aria-describedby={describedBy} {...register('occasion')}>
-              <option value="">None in particular</option>
+              <option value="">{d.occasionNone}</option>
               {OCCASIONS.map((o) => (
                 <option key={o} value={o}>
-                  {o}
+                  {t.reservations.occasions[o]}
                 </option>
               ))}
             </Select>
           )}
         </Field>
-        <Field label="Allergies & dietary needs" error={errors.dietary?.message}>
+        <Field label={d.dietary} error={errors.dietary?.message}>
           {({ id, describedBy }) => (
-            <Input id={id} placeholder="e.g. no shellfish, one vegetarian" aria-invalid={!!errors.dietary} aria-describedby={describedBy} {...register('dietary')} />
+            <Input id={id} placeholder={d.dietaryPlaceholder} aria-invalid={!!errors.dietary} aria-describedby={describedBy} {...register('dietary')} />
           )}
         </Field>
-        <Field label="Special requests" error={errors.requests?.message} className="sm:col-span-2" hint="Anniversaries, accessibility, a quiet table — tell us anything.">
+        <Field label={d.requests} error={errors.requests?.message} className="sm:col-span-2" hint={d.requestsHint}>
           {({ id, describedBy }) => <Textarea id={id} aria-invalid={!!errors.requests} aria-describedby={describedBy} {...register('requests')} />}
         </Field>
         {wishNames.length > 0 && (
           <label className="flex items-start gap-4 border border-line/20 p-5 sm:col-span-2">
             <input type="checkbox" className="mt-1 h-5 w-5 accent-[#C5A46D]" {...register('attachWishlist')} />
             <span>
-              <span className="block text-sm text-ivory">Attach “My Evening” for the kitchen</span>
+              <span className="block text-sm text-ivory">{d.attach}</span>
               <span className="mt-1 block text-xs text-muted">{wishNames.join(' · ')}</span>
             </span>
           </label>

@@ -11,8 +11,6 @@ export const site = {
   phoneHref: 'tel:+9500001928',
   email: 'reservations@royal.example',
   timezoneLabel: 'Yangon time (MMT)',
-  /** Line in Myanmar script, used as a quiet bilingual accent. "Fire, time and grace." */
-  taglineMy: 'မီး၊ အချိန်နှင့် ကျက်သရေ',
   hours: [
     { days: 'Tuesday – Thursday', times: 'Dinner 18:00 – 23:00' },
     { days: 'Friday – Sunday', times: 'Lunch 12:00 – 14:30 · Dinner 18:00 – 23:00' },

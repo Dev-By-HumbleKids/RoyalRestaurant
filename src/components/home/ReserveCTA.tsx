@@ -1,8 +1,10 @@
 import { ButtonLink } from '@/components/ui/Button';
 import { ParallaxImage } from '@/components/ui/ParallaxImage';
+import { renderLines, useI18n } from '@/i18n';
 import { Reveal, RevealLines } from '@/motion/Reveal';
 
 export function ReserveCTA() {
+  const { t } = useI18n();
   return (
     <section className="relative overflow-hidden bg-obsidian" aria-labelledby="cta-title">
       <div className="absolute inset-0">
@@ -11,20 +13,20 @@ export function ReserveCTA() {
       <div aria-hidden className="absolute inset-0 bg-gradient-to-b from-obsidian via-obsidian/40 to-obsidian" />
       <div className="container-x relative flex min-h-[80svh] flex-col items-center justify-center py-28 text-center">
         <Reveal>
-          <p className="eyebrow mb-8">Tuesday to Sunday · from 18:00</p>
+          <p className="eyebrow mb-8">{t.home.cta.eyebrow}</p>
         </Reveal>
-        <RevealLines id="cta-title" lines={['Your table', <em key="e">is waiting.</em>]} className="display-xl text-ivory" />
+        <RevealLines id="cta-title" lines={renderLines(t.home.cta.lines)} className="display-xl text-ivory" />
         <Reveal delay={0.2}>
           <p className="lede mx-auto mt-8 max-w-md">
-            Reserve up to sixty days ahead. For nine guests or more, Salon Noir and the Cellar Room can be arranged by inquiry.
+            {t.home.cta.lede}
           </p>
         </Reveal>
         <Reveal delay={0.3} className="mt-12 flex flex-wrap justify-center gap-4">
           <ButtonLink to="/reservations" icon magnetic>
-            Reserve a Table
+            {t.common.reserveTable}
           </ButtonLink>
           <ButtonLink to="/contact#private-dining" variant="outline" magnetic>
-            Private dining inquiry
+            {t.home.cta.inquiry}
           </ButtonLink>
         </Reveal>
       </div>

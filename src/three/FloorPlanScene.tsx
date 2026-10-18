@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import { tableById } from '@/data/tables';
+import { useI18n } from '@/i18n';
 import type { RestaurantTable } from '@/types';
 import type { FloorPlanProps, TableState } from './planTypes';
 
@@ -73,6 +74,7 @@ function Table3D({
   onSelect?: (id: string) => void;
 }) {
   const [hovered, setHovered] = useState(false);
+  const { t: dict } = useI18n();
   const canPick = interactive && state === 'free';
   const color = tableColor(state, selected, hovered && canPick);
   const top = useRef<THREE.Mesh>(null);
@@ -139,7 +141,8 @@ function Table3D({
           <div className="border border-champagne/40 bg-obsidian/90 px-3 py-2 text-center text-[11px] text-ivory" style={{ whiteSpace: 'nowrap', width: 'max-content' }}>
             <p className="font-semibold uppercase tracking-[0.16em]">{t.label}</p>
             <p className="text-stone">
-              {t.minSeats}–{t.maxSeats} seats · {selected ? 'Selected' : state === 'free' ? 'Available' : state === 'booked' ? 'Reserved' : 'Not for your party'}
+              {dict.plan.seats(t.minSeats, t.maxSeats)} ·{' '}
+              {selected ? dict.plan.selected : state === 'free' ? dict.plan.available : state === 'booked' ? dict.plan.reserved : dict.plan.notForParty}
             </p>
           </div>
         </Html>
@@ -255,6 +258,7 @@ function CameraRig({ focus }: { focus: [number, number] | null }) {
 
 export default function FloorPlanScene({ mode, tables, selectedId, onSelectTable, spaces = [], activeSpaceId, onSelectSpace }: FloorPlanProps) {
   const wrap = useRef<HTMLDivElement>(null);
+  const { t } = useI18n();
   const [visible, setVisible] = useState(true);
 
   // Stop rendering when the canvas is off-screen.
@@ -280,7 +284,7 @@ export default function FloorPlanScene({ mode, tables, selectedId, onSelectTable
         camera={{ position: [0, 20, 19], fov: 34 }}
         gl={{ antialias: true, powerPreference: 'high-performance' }}
         onPointerMissed={() => (document.body.style.cursor = '')}
-        aria-label="Interactive 3D floor plan"
+        aria-label={t.plan.canvas}
       >
         <color attach="background" args={['#120F0D']} />
         <fog attach="fog" args={['#120F0D', 30, 52]} />
@@ -351,7 +355,7 @@ export default function FloorPlanScene({ mode, tables, selectedId, onSelectTable
 
         <CameraRig focus={focus} />
       </Canvas>
-      <p className="pointer-events-none absolute bottom-3 left-4 text-[10px] uppercase tracking-[0.2em] text-muted">Drag to rotate</p>
+      <p className="pointer-events-none absolute bottom-3 left-4 text-[10px] uppercase tracking-[0.2em] text-muted">{t.plan.drag}</p>
     </div>
   );
 }

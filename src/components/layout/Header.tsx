@@ -5,13 +5,16 @@ import { ButtonLink } from '@/components/ui/Button';
 import { site } from '@/data/site';
 import { cn } from '@/lib/utils';
 import { useFocusTrap } from '@/hooks/useFocusTrap';
+import { useI18n } from '@/i18n';
 import { ease } from '@/motion/tokens';
 import { useWishlist } from '@/store/wishlistStore';
+import { LanguageSwitch } from './LanguageSwitch';
 import { MobileMenu } from './MobileMenu';
 import { Wordmark } from './Wordmark';
 
 export function Header() {
   const { pathname } = useLocation();
+  const { t } = useI18n();
   const { scrollY } = useScroll();
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
@@ -39,7 +42,7 @@ export function Header() {
         href="#main"
         className="fixed left-4 top-3 z-[100] -translate-y-24 bg-champagne px-4 py-3 text-sm font-semibold text-obsidian transition-transform focus:translate-y-0"
       >
-        Skip to content
+        {t.header.skip}
       </a>
       <motion.header
         className="fixed inset-x-0 top-0 z-50"
@@ -54,11 +57,11 @@ export function Header() {
           )}
         />
         <div className="container-x relative flex h-[76px] items-center justify-between gap-6">
-          <Link to="/" aria-label="ROYAL — home" className="shrink-0">
+          <Link to="/" aria-label={t.header.home} className="shrink-0">
             <Wordmark />
           </Link>
 
-          <nav aria-label="Primary" className="hidden xl:block">
+          <nav aria-label={t.header.primary} className="hidden xl:block">
             <ul className="flex items-center gap-9">
               {site.nav.map((item) => (
                 <li key={item.to}>
@@ -72,7 +75,7 @@ export function Header() {
                       )
                     }
                   >
-                    {item.label}
+                    {t.nav[item.to]}
                   </NavLink>
                 </li>
               ))}
@@ -80,27 +83,28 @@ export function Header() {
           </nav>
 
           <div className="flex items-center gap-2 sm:gap-3">
+            <LanguageSwitch />
             {wishCount > 0 && (
               <button
                 type="button"
                 onClick={() => openWishlist(true)}
                 className="hidden h-11 items-center gap-2 px-3 text-[12px] font-medium uppercase tracking-[0.18em] text-fg/80 transition-colors hover:text-accent md:inline-flex"
               >
-                My Evening
+                {t.header.myEvening}
                 <span className="grid h-6 min-w-6 place-items-center rounded-full bg-champagne px-1.5 text-[11px] font-semibold text-obsidian tabular">
                   {wishCount}
                 </span>
               </button>
             )}
             <ButtonLink to="/reservations" className="hidden !min-h-[44px] !px-5 sm:inline-flex">
-              Reserve a Table
+              {t.common.reserveTable}
             </ButtonLink>
             <button
               type="button"
               className="group grid h-11 w-11 place-items-center xl:hidden"
               aria-expanded={menuOpen}
               aria-controls="mobile-menu"
-              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+              aria-label={menuOpen ? t.header.closeMenu : t.header.openMenu}
               onClick={() => setMenuOpen((v) => !v)}
             >
               <span className="relative block h-3 w-7" aria-hidden>

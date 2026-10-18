@@ -3,6 +3,7 @@ import { X } from 'lucide-react';
 import { useRef, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { useFocusTrap } from '@/hooks/useFocusTrap';
+import { useI18n } from '@/i18n';
 import { cn } from '@/lib/utils';
 import { ease } from '@/motion/tokens';
 
@@ -17,7 +18,9 @@ interface ModalProps {
 }
 
 /** Accessible dialog: focus trap, Escape to close, scroll lock, focus restore, animated in/out. */
-export function Modal({ open, onClose, labelledBy, children, variant = 'center', className, closeLabel = 'Close' }: ModalProps) {
+export function Modal({ open, onClose, labelledBy, children, variant = 'center', className, closeLabel }: ModalProps) {
+  const { t } = useI18n();
+  closeLabel ??= t.common.close;
   return createPortal(
     <AnimatePresence>{open && <Dialog {...{ onClose, labelledBy, variant, className, closeLabel }}>{children}</Dialog>}</AnimatePresence>,
     document.body,

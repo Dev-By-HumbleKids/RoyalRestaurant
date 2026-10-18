@@ -6,7 +6,8 @@ import { MenuCard, WineRow } from '@/components/menu/MenuCard';
 import { MenuItemModal } from '@/components/menu/MenuItemModal';
 import { PageHero } from '@/components/ui/PageHero';
 import { useToast } from '@/store/toastStore';
-import { categories, dietaryLabels, menu, menuBySlug } from '@/data/menu';
+import { categories } from '@/data/menu';
+import { renderLines, useI18n } from '@/i18n';
 import { cn } from '@/lib/utils';
 import { ease } from '@/motion/tokens';
 import type { DietaryTag, MenuCategory, MenuItem } from '@/types';
@@ -46,7 +47,8 @@ export default function Menu() {
   const { search } = useLocation();
   const [params, setParams] = useSearchParams();
   const toast = useToast((s) => s.show);
-  const openItem = slug ? menuBySlug.get(slug) : undefined;
+  const { t, c } = useI18n();
+  const openItem = slug ? c.menuBySlug.get(slug) : undefined;
 
   // Category lives in the URL (?c=) so filters are shareable and the back button works.
   const category: MenuCategory = isCategory(params.get('c')) ? (params.get('c') as MenuCategory) : (openItem?.category ?? 'steaks');
@@ -58,22 +60,22 @@ export default function Menu() {
 
   useEffect(() => {
     if (slug && !openItem) {
-      toast('That dish is not on the menu tonight.');
+      toast(t.menu.notOnMenu);
       navigate({ pathname: '/menu', search }, { replace: true });
     }
-  }, [slug, openItem, navigate, search, toast]);
+  }, [slug, openItem, navigate, search, toast, t]);
 
   const q = query.trim();
   const results = useMemo(() => {
-    let list = q ? menu.filter((i) => matches(i, q)) : menu.filter((i) => i.category === category);
+    let list = q ? c.menu.filter((i) => matches(i, q)) : c.menu.filter((i) => i.category === category);
     if (diet.length) list = list.filter((i) => diet.every((d) => i.dietary.includes(d)));
     if (chefOnly) list = list.filter((i) => i.chefRecommended || i.signature);
     if (sort === 'price-asc') list = [...list].sort((a, b) => a.price - b.price);
     if (sort === 'price-desc') list = [...list].sort((a, b) => b.price - a.price);
     return list;
-  }, [q, category, diet, chefOnly, sort]);
+  }, [q, category, diet, chefOnly, sort, c]);
 
-  const activeCategory = categories.find((c) => c.id === category)!;
+  const activeCategory = c.categories.find((cat) => cat.id === category)!;
   const filtersActive = diet.length > 0 || chefOnly || sort !== 'featured' || q.length > 0;
   const wineView = !q && category === 'wine';
 
@@ -97,30 +99,30 @@ export default function Menu() {
     <>
       <PageHero
         image="f-flames"
-        eyebrow="The menu"
-        lines={['Cooked over fire,', <em key="e">served with patience.</em>]}
-        lede="Eight chapters, from the hearth to the Vault. Prices are in Myanmar kyat (Ks); 5% commercial tax and 10% service are added. The menu follows the seasons, and this one is for the cool season."
+        eyebrow={t.menu.hero.eyebrow}
+        lines={renderLines(t.menu.hero.lines)}
+        lede={t.menu.hero.lede}
       />
 
       {/* Category bar */}
       <div className="sticky top-0 z-30 border-y border-line/15 bg-obsidian/95 backdrop-blur-md">
-        <nav aria-label="Menu categories" className="container-x">
+        <nav aria-label={t.menu.categoriesAria} className="container-x">
           <LayoutGroup id="cats">
             <ul className="-mx-2 flex gap-1 overflow-x-auto scrollbar-none">
-              {categories.map((c) => {
-                const active = !q && c.id === category;
+              {c.categories.map((cat) => {
+                const active = !q && cat.id === category;
                 return (
-                  <li key={c.id} className="shrink-0">
+                  <li key={cat.id} className="shrink-0">
                     <button
                       type="button"
-                      onClick={() => selectCategory(c.id)}
+                      onClick={() => selectCategory(cat.id)}
                       aria-pressed={active}
                       className={cn(
                         'relative h-14 px-3 text-[12px] font-medium uppercase tracking-[0.16em] transition-colors sm:px-4',
                         active ? 'text-champagne' : 'text-fg/65 hover:text-fg',
                       )}
                     >
-                      {c.label}
+                      {cat.label}
                       {active && (
                         <motion.span layoutId="cat-underline" className="absolute inset-x-3 bottom-0 h-px bg-champagne sm:inset-x-4" transition={{ duration: 0.5, ease }} />
                       )}
@@ -141,10 +143,10 @@ export default function Menu() {
               <AnimatePresence mode="wait">
                 <motion.div key={q ? 'search' : category} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.4, ease }}>
                   <h2 id="menu-section-title" className="display-lg text-ivory">
-                    {q ? 'Search' : activeCategory.label}
+                    {q ? t.menu.searchTitle : activeCategory.label}
                   </h2>
                   <p className="mt-4 max-w-md text-sm leading-relaxed text-muted">
-                    {q ? `Searching every chapter for “${q}”.` : activeCategory.intro}
+                    {q ? t.menu.searching(q) : activeCategory.intro}
                   </p>
                 </motion.div>
               </AnimatePresence>
@@ -153,26 +155,26 @@ export default function Menu() {
             <div className="space-y-5 lg:col-span-7">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-end">
                 <label className="relative flex-1">
-                  <span className="sr-only">Search the menu</span>
+                  <span className="sr-only">{t.menu.search}</span>
                   <Search className="pointer-events-none absolute left-0 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" aria-hidden />
                   <input
                     type="search"
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
-                    placeholder="Search dishes, wines, ingredients…"
+                    placeholder={t.menu.searchPlaceholder}
                     className="field-input pl-7"
                   />
                 </label>
                 <label className="flex items-center gap-3 text-sm">
-                  <span className="text-[11px] uppercase tracking-[0.16em] text-muted">Sort</span>
+                  <span className="text-[11px] uppercase tracking-[0.16em] text-muted">{t.menu.sort}</span>
                   <select value={sort} onChange={(e) => setSort(e.target.value as Sort)} className="field-input w-auto bg-obsidian pr-2">
-                    <option value="featured">Featured</option>
-                    <option value="price-asc">Price: low to high</option>
-                    <option value="price-desc">Price: high to low</option>
+                    <option value="featured">{t.menu.sortFeatured}</option>
+                    <option value="price-asc">{t.menu.sortAsc}</option>
+                    <option value="price-desc">{t.menu.sortDesc}</option>
                   </select>
                 </label>
               </div>
-              <div className="flex flex-wrap gap-2" role="group" aria-label="Dietary filters">
+              <div className="flex flex-wrap gap-2" role="group" aria-label={t.menu.dietaryAria}>
                 {DIETARY.map((d) => {
                   const on = diet.includes(d);
                   return (
@@ -186,7 +188,7 @@ export default function Menu() {
                         on ? 'border-champagne bg-champagne text-obsidian' : 'border-line/25 text-fg/75 hover:border-line/60',
                       )}
                     >
-                      {dietaryLabels[d]}
+                      {c.dietaryLabel(d)}
                     </button>
                   );
                 })}
@@ -199,11 +201,11 @@ export default function Menu() {
                     chefOnly ? 'border-champagne bg-champagne text-obsidian' : 'border-line/25 text-fg/75 hover:border-line/60',
                   )}
                 >
-                  Chef’s picks
+                  {t.menu.chefPicks}
                 </button>
                 {filtersActive && (
                   <button type="button" onClick={clearFilters} className="inline-flex min-h-[40px] items-center gap-1 px-2 text-[11px] uppercase tracking-[0.14em] text-muted hover:text-fg">
-                    <X className="h-3.5 w-3.5" aria-hidden /> Clear
+                    <X className="h-3.5 w-3.5" aria-hidden /> {t.menu.clear}
                   </button>
                 )}
               </div>
@@ -211,16 +213,16 @@ export default function Menu() {
           </div>
 
           <p className="mt-6 text-xs uppercase tracking-[0.18em] text-muted" aria-live="polite">
-            {results.length} {results.length === 1 ? 'item' : 'items'}
+            {t.menu.items(results.length)}
           </p>
 
           {/* Results */}
           {results.length === 0 ? (
             <div className="py-24 text-center">
-              <p className="display-md text-ivory">Nothing quite matches.</p>
-              <p className="mx-auto mt-4 max-w-sm text-sm text-muted">Try fewer filters — or ask us. The kitchen can adapt most dishes for dietary needs.</p>
+              <p className="display-md text-ivory">{t.menu.emptyTitle}</p>
+              <p className="mx-auto mt-4 max-w-sm text-sm text-muted">{t.menu.emptyBody}</p>
               <button type="button" onClick={clearFilters} className="link-underline mt-8 text-[12px] font-semibold uppercase tracking-[0.2em] text-accent">
-                Clear filters
+                {t.menu.clearFilters}
               </button>
             </div>
           ) : wineView ? (
@@ -244,7 +246,7 @@ export default function Menu() {
                       <div className="h-full">
                         <MenuCard item={item} />
                         <p className="mt-2 text-xs text-muted">
-                          in {categories.find((c) => c.id === item.category)?.label} · <Highlight text={item.name} q={q} />
+                          {t.menu.inCategory(c.categoryLabel(item.category))} · <Highlight text={item.name} q={q} />
                         </p>
                       </div>
                     ) : (

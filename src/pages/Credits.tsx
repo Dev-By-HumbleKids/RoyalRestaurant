@@ -1,6 +1,7 @@
 import tsv from '../../scripts/images.tsv?raw';
 import { Img } from '@/components/ui/Img';
 import type { ImageKey } from '@/data/images';
+import { useI18n } from '@/i18n';
 
 const rows = tsv
   .split(/\r?\n/)
@@ -11,16 +12,16 @@ const rows = tsv
   });
 
 export default function Credits() {
+  const { t } = useI18n();
   return (
     <section className="bg-obsidian pb-28 pt-36 md:pt-44" aria-labelledby="credits-title">
       <div className="container-x">
-        <p className="eyebrow mb-6">Colophon</p>
+        <p className="eyebrow mb-6">{t.credits.eyebrow}</p>
         <h1 id="credits-title" className="display-lg text-ivory">
-          Photo credits
+          {t.credits.title}
         </h1>
         <p className="lede mt-6 max-w-2xl">
-          ROYAL is a fictional restaurant. All photography comes from Unsplash under the Unsplash License and is used illustratively — none of the places, dishes or people
-          pictured are connected to this project. Typography: Cormorant Garamond and Manrope (Google Fonts).
+          {t.credits.lede}
         </p>
         <ul className="mt-14 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
           {rows.map((r) => (
@@ -30,7 +31,7 @@ export default function Credits() {
                   <Img k={r.key} alt="" sizes="200px" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
                 </span>
                 <span className="link-underline mt-2 block truncate text-xs text-muted group-hover:text-fg">
-                  {r.key} <span className="sr-only">(opens Unsplash)</span>
+                  {r.key} <span className="sr-only">{t.credits.opens}</span>
                 </span>
               </a>
             </li>

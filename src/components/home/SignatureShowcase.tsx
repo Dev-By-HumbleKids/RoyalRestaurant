@@ -4,15 +4,18 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Img } from '@/components/ui/Img';
 import { SectionHeading } from '@/components/ui/SectionHeading';
-import { categoryLabel, dietaryLabels, menuById, signatureIds } from '@/data/menu';
-import { cn, kyat, pad2 } from '@/lib/utils';
+import { signatureIds } from '@/data/menu';
+import { renderLines, useI18n } from '@/i18n';
+import { cn, pad2 } from '@/lib/utils';
 import { ease } from '@/motion/tokens';
 import type { MenuItem } from '@/types';
 
-const signatures = signatureIds.map((id) => menuById.get(id)).filter((x): x is MenuItem => !!x);
-
 function Meta({ item }: { item: MenuItem }) {
-  const notes = [...item.dietary.map((d) => dietaryLabels[d]), ...(item.allergens.length ? [`Contains: ${item.allergens.join(', ')}`] : [])];
+  const { t, c } = useI18n();
+  const notes = [
+    ...item.dietary.map((d) => c.dietaryLabel(d)),
+    ...(item.allergens.length ? [t.home.signatures.contains(item.allergens.map((a) => c.allergenLabel(a)).join(', '))] : []),
+  ];
   return <p className="text-xs leading-relaxed text-muted">{notes.join(' · ')}</p>;
 }
 
@@ -22,6 +25,8 @@ function Meta({ item }: { item: MenuItem }) {
  */
 export function SignatureShowcase() {
   const [active, setActive] = useState(0);
+  const { t, c, fmt } = useI18n();
+  const signatures = signatureIds.map((id) => c.menuById.get(id)).filter((x): x is MenuItem => !!x);
   const current = signatures[active];
 
   return (
@@ -30,9 +35,9 @@ export function SignatureShowcase() {
         <div className="lg:col-span-6">
           <SectionHeading
             id="signatures-title"
-            eyebrow="The signatures"
-            lines={['Five plates', <em key="e">that made our name.</em>]}
-            lede="Each one cooked over a different fuel, each one rested as long as it took to cook."
+            eyebrow={t.home.signatures.eyebrow}
+            lines={renderLines(t.home.signatures.lines)}
+            lede={t.home.signatures.lede}
           />
 
           <ol className="mt-14 border-t border-line/15">
@@ -59,7 +64,7 @@ export function SignatureShowcase() {
                       {item.name}
                     </span>
                     <span className={cn('hidden text-sm tabular transition-colors sm:block', isActive ? 'text-accent' : 'text-muted')}>
-                      {kyat(item.price)}
+                      {fmt.price(item.price)}
                     </span>
                   </button>
                   <AnimatePresence initial={false}>
@@ -75,13 +80,13 @@ export function SignatureShowcase() {
                         <div className="grid gap-5 pb-8 pl-[3.25rem] sm:grid-cols-[1fr_auto]">
                           <div className="space-y-3">
                             <p className="eyebrow !text-[10px]">
-                              {categoryLabel(item.category)}
-                              {item.priceNote ? ` · ${item.priceNote}` : ''} · <span className="sm:hidden">{kyat(item.price)}</span>
+                              {c.categoryLabel(item.category)}
+                              {item.priceNote ? ` · ${item.priceNote}` : ''} · <span className="sm:hidden">{fmt.price(item.price)}</span>
                             </p>
                             <p className="max-w-md text-fg/85">{item.description}</p>
                             <Meta item={item} />
                             <Link to={`/menu/${item.slug}`} className="group/link inline-flex min-h-[44px] items-center gap-2 text-[12px] font-semibold uppercase tracking-[0.2em] text-accent">
-                              <span className="link-underline">View on the menu</span>
+                              <span className="link-underline">{t.home.signatures.viewOnMenu}</span>
                               <ArrowUpRight className="h-4 w-4" aria-hidden />
                             </Link>
                           </div>
@@ -97,14 +102,14 @@ export function SignatureShowcase() {
             })}
           </ol>
           <Link to="/menu?c=steaks" className="group mt-10 inline-flex min-h-[44px] items-center gap-3 text-[12px] font-semibold uppercase tracking-[0.2em] text-fg">
-            <span className="link-underline">The complete menu</span>
+            <span className="link-underline">{t.home.signatures.complete}</span>
             <ArrowUpRight className="h-4 w-4 text-accent transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden />
           </Link>
         </div>
 
         <div className="hidden lg:col-span-6 lg:block">
           <div className="sticky top-28">
-            <div className="relative aspect-[4/5] overflow-hidden bg-charcoal" data-cursor="View">
+            <div className="relative aspect-[4/5] overflow-hidden bg-charcoal" data-cursor={t.common.viewCursor}>
               <AnimatePresence initial={false}>
                 <motion.div
                   key={current.id}
@@ -114,7 +119,7 @@ export function SignatureShowcase() {
                   exit={{ opacity: 0.4 }}
                   transition={{ duration: 1, ease }}
                 >
-                  <Link to={`/menu/${current.slug}`} aria-label={`View ${current.name}`} tabIndex={-1}>
+                  <Link to={`/menu/${current.slug}`} aria-label={t.home.signatures.viewNamed(current.name)} tabIndex={-1}>
                     <Img k={current.image} sizes="45vw" className="h-full w-full object-cover" />
                   </Link>
                 </motion.div>
@@ -122,7 +127,7 @@ export function SignatureShowcase() {
               <div aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-t from-obsidian/70 via-transparent to-transparent" />
               <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between p-8">
                 <p className="font-display text-3xl italic text-ivory">{current.name}</p>
-                <p className="text-sm text-champagne tabular">{kyat(current.price)}</p>
+                <p className="text-sm text-champagne tabular">{fmt.price(current.price)}</p>
               </div>
             </div>
             <AnimatePresence mode="wait" initial={false}>
@@ -137,7 +142,7 @@ export function SignatureShowcase() {
               >
                 <div className="space-y-2">
                   <p className="eyebrow !text-[10px]">
-                    {categoryLabel(current.category)}
+                    {c.categoryLabel(current.category)}
                     {current.priceNote ? ` · ${current.priceNote}` : ''}
                   </p>
                   <p className="max-w-md text-fg/85">{current.description}</p>
@@ -147,7 +152,7 @@ export function SignatureShowcase() {
                   to={`/menu/${current.slug}`}
                   className="group/link inline-flex min-h-[44px] items-start gap-2 pt-1 text-[12px] font-semibold uppercase tracking-[0.2em] text-accent"
                 >
-                  <span className="link-underline">View dish</span>
+                  <span className="link-underline">{t.home.signatures.viewDish}</span>
                   <ArrowUpRight className="h-4 w-4" aria-hidden />
                 </Link>
               </motion.div>

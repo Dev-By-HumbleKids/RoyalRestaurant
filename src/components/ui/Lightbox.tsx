@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, type PointerEvent } from 'react';
 import { createPortal } from 'react-dom';
 import type { ImageKey } from '@/data/images';
 import { useFocusTrap } from '@/hooks/useFocusTrap';
+import { useI18n } from '@/i18n';
 import { imageSources, pad2 } from '@/lib/utils';
 import { ease } from '@/motion/tokens';
 
@@ -32,6 +33,7 @@ function Viewer({ items, index, onChange }: { items: LightboxItem[]; index: numb
   const close = useCallback(() => onChange(null), [onChange]);
   const go = useCallback((delta: number) => onChange((index + delta + items.length) % items.length), [index, items.length, onChange]);
   useFocusTrap(ref, true, close);
+  const { t } = useI18n();
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -60,7 +62,7 @@ function Viewer({ items, index, onChange }: { items: LightboxItem[]; index: numb
       ref={ref}
       role="dialog"
       aria-modal="true"
-      aria-label="Gallery"
+      aria-label={t.lightbox.aria}
       className="fixed inset-0 z-[85] flex flex-col bg-obsidian/96"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -75,7 +77,7 @@ function Viewer({ items, index, onChange }: { items: LightboxItem[]; index: numb
           type="button"
           onClick={close}
           className="grid h-11 w-11 place-items-center rounded-full border border-line/30 text-ivory transition-colors hover:border-accent hover:text-accent"
-          aria-label="Close gallery"
+          aria-label={t.lightbox.close}
         >
           <X className="h-5 w-5" aria-hidden />
         </button>
@@ -99,7 +101,7 @@ function Viewer({ items, index, onChange }: { items: LightboxItem[]; index: numb
           type="button"
           onClick={() => go(-1)}
           className="absolute left-2 top-1/2 hidden h-12 w-12 -translate-y-1/2 place-items-center rounded-full border border-line/30 text-ivory transition-colors hover:border-accent hover:text-accent md:grid md:left-6"
-          aria-label="Previous image"
+          aria-label={t.lightbox.prev}
         >
           <ChevronLeft className="h-5 w-5" aria-hidden />
         </button>
@@ -107,17 +109,17 @@ function Viewer({ items, index, onChange }: { items: LightboxItem[]; index: numb
           type="button"
           onClick={() => go(1)}
           className="absolute right-2 top-1/2 hidden h-12 w-12 -translate-y-1/2 place-items-center rounded-full border border-line/30 text-ivory transition-colors hover:border-accent hover:text-accent md:grid md:right-6"
-          aria-label="Next image"
+          aria-label={t.lightbox.next}
         >
           <ChevronRight className="h-5 w-5" aria-hidden />
         </button>
       </div>
 
       <div className="flex justify-center gap-3 pb-6 pt-3 md:hidden">
-        <button type="button" onClick={() => go(-1)} className="grid h-12 w-12 place-items-center rounded-full border border-line/30" aria-label="Previous image">
+        <button type="button" onClick={() => go(-1)} className="grid h-12 w-12 place-items-center rounded-full border border-line/30" aria-label={t.lightbox.prev}>
           <ChevronLeft className="h-5 w-5" aria-hidden />
         </button>
-        <button type="button" onClick={() => go(1)} className="grid h-12 w-12 place-items-center rounded-full border border-line/30" aria-label="Next image">
+        <button type="button" onClick={() => go(1)} className="grid h-12 w-12 place-items-center rounded-full border border-line/30" aria-label={t.lightbox.next}>
           <ChevronRight className="h-5 w-5" aria-hidden />
         </button>
       </div>

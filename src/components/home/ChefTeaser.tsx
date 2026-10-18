@@ -1,12 +1,14 @@
 import { motion } from 'framer-motion';
 import { ButtonLink } from '@/components/ui/Button';
 import { ParallaxImage } from '@/components/ui/ParallaxImage';
-import { chef } from '@/data/story';
+import { useI18n } from '@/i18n';
 import { Reveal } from '@/motion/Reveal';
 import { ease, viewportOnce } from '@/motion/tokens';
 
 /** Ivory editorial spread — the first light section, a deliberate change of key. */
 export function ChefTeaser() {
+  const { t, c } = useI18n();
+  const chef = c.chef;
   return (
     <section className="theme-ivory section-y relative bg-bg text-fg" aria-labelledby="chef-title">
       <div className="container-x grid items-center gap-14 lg:grid-cols-12">
@@ -17,7 +19,7 @@ export function ChefTeaser() {
           <Reveal>
             <p className="eyebrow mb-8 flex items-center gap-4">
               <span aria-hidden className="h-px w-10 bg-accent/60" />
-              The chef
+              {t.home.chef.eyebrow}
             </p>
           </Reveal>
           <Reveal delay={0.05}>
@@ -53,7 +55,7 @@ export function ChefTeaser() {
           </Reveal>
           <Reveal delay={0.25} className="mt-10">
             <ButtonLink to="/story#chef" variant="outline" icon className="!text-fg hover:!text-obsidian">
-              Meet the team
+              {t.home.chef.cta}
             </ButtonLink>
           </Reveal>
         </div>

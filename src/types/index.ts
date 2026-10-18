@@ -112,6 +112,9 @@ export interface Reservation {
   updatedAt: string;
 }
 
+/** Why a day or slot cannot be booked. Translated in the UI via `t.reasons`. */
+export type ReasonCode = 'past' | 'tooFar' | 'monday' | 'buyout' | 'buyoutDay' | 'cutoff' | 'closedToday' | 'noFit' | 'fullParty';
+
 export interface TimeSlot {
   time: string;
   service: 'lunch' | 'dinner';
@@ -119,13 +122,13 @@ export interface TimeSlot {
   /** Tables that fit the party and are still free. */
   freeTables: number;
   fittingTables: number;
-  reason?: string;
+  reason?: ReasonCode;
 }
 
 export interface DayAvailability {
   date: string;
   status: SlotStatus;
-  reason?: string;
+  reason?: ReasonCode;
 }
 
 export interface TableAvailability {

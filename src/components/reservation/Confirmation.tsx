@@ -1,11 +1,10 @@
-import { format, parseISO } from 'date-fns';
 import { motion } from 'framer-motion';
 import { CalendarPlus, RotateCcw } from 'lucide-react';
 import QRCode from 'qrcode';
 import { useEffect, useState } from 'react';
 import { Button, ButtonLink } from '@/components/ui/Button';
-import { areaMeta, tableById } from '@/data/tables';
-import { site } from '@/data/site';
+import { tableById } from '@/data/tables';
+import { useI18n } from '@/i18n';
 import { downloadIcs } from '@/services/ics';
 import { maskEmail } from '@/lib/utils';
 import { ease } from '@/motion/tokens';
@@ -21,7 +20,10 @@ const PARTICLES = Array.from({ length: 22 }, (_, i) => {
 /** The cinematic close of the flow: champagne burst, reference, QR (reference only — no personal data). */
 export function Confirmation({ reservation, onNew }: { reservation: Reservation; onNew: () => void }) {
   const [qr, setQr] = useState<string | null>(null);
+  const { t, c, fmt } = useI18n();
+  const cf = t.reservations.confirm;
   const r = reservation;
+  const short = c.area(r.area).short;
   const table = tableById.get(r.tableId);
 
   useEffect(() => {
@@ -48,13 +50,14 @@ export function Confirmation({ reservation, onNew }: { reservation: Reservation;
           <motion.path d="M8 148V60a52 52 0 0 1 104 0v88" fill="none" stroke="currentColor" strokeWidth="1.2" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.2, ease }} />
           <motion.path d="M40 92l14 14 28-30" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 0.6, ease, delay: 0.9 }} />
         </svg>
-        <p className="eyebrow mt-6">Demo request received</p>
+        <p className="eyebrow mt-6">{cf.received}</p>
         <h2 className="display-lg mt-4 text-ivory" tabIndex={-1} data-step-heading>
-          We look forward to it, {r.guest.name.split(' ')[0]}.
+          {cf.title(r.guest.name.split(' ')[0])}
         </h2>
         <p className="mx-auto mt-5 max-w-lg text-sm leading-relaxed text-muted">
-          This is a portfolio demonstration — <strong className="font-semibold text-fg">no real reservation was made</strong> and no email was sent. Your request is saved
-          only in this browser so you can find, change or cancel it.
+          {cf.bodyBefore}
+          <strong className="font-semibold text-fg">{cf.bodyStrong}</strong>
+          {cf.bodyAfter}
         </p>
       </motion.div>
 
@@ -66,22 +69,22 @@ export function Confirmation({ reservation, onNew }: { reservation: Reservation;
       >
         <dl className="grid grid-cols-2 gap-px bg-line/15">
           {[
-            ['Reference', r.reference],
-            ['Status', 'Requested (demo)'],
-            ['Date', format(parseISO(r.date), 'EEE d MMM yyyy')],
-            ['Time', r.time],
-            ['Guests', String(r.partySize)],
-            ['Seating', table && table.label.startsWith(areaMeta[r.area].short) ? table.label : `${areaMeta[r.area].short}${table ? ` · ${table.label}` : ''}`],
+            [cf.reference, r.reference],
+            [cf.status, cf.statusValue],
+            [cf.date, fmt.shortDate(r.date)],
+            [cf.time, r.time],
+            [cf.guests, String(r.partySize)],
+            [cf.seating, table && table.label.startsWith(short) ? table.label : `${short}${table ? ` · ${table.label}` : ''}`],
           ].map(([k, v]) => (
             <div key={k} className="bg-espresso p-5">
               <dt className="text-[10px] uppercase tracking-[0.2em] text-muted">{k}</dt>
-              <dd className={k === 'Reference' ? 'mt-1 font-display text-2xl tracking-[0.08em] text-champagne' : 'mt-1 text-ivory'}>{v}</dd>
+              <dd className={k === cf.reference ? 'mt-1 font-display text-2xl tracking-[0.08em] text-champagne' : 'mt-1 text-ivory'}>{v}</dd>
             </div>
           ))}
         </dl>
         <div className="flex flex-col items-center justify-center gap-3 border-t border-line/15 p-6 sm:border-l sm:border-t-0">
-          {qr ? <img src={qr} alt={`QR code containing reservation reference ${r.reference}`} className="h-36 w-36" /> : <div className="h-36 w-36 animate-pulse bg-charcoal" />}
-          <p className="text-center text-[10px] uppercase tracking-[0.18em] text-muted">Reference only · no personal data</p>
+          {qr ? <img src={qr} alt={cf.qrAlt(r.reference)} className="h-36 w-36" /> : <div className="h-36 w-36 animate-pulse bg-charcoal" />}
+          <p className="text-center text-[10px] uppercase tracking-[0.18em] text-muted">{cf.qrNote}</p>
         </div>
       </motion.div>
 
@@ -93,18 +96,18 @@ export function Confirmation({ reservation, onNew }: { reservation: Reservation;
       >
         <Button onClick={() => downloadIcs(r)} icon={false}>
           <CalendarPlus className="relative h-4 w-4" aria-hidden />
-          Add to calendar
+          {cf.addToCalendar}
         </Button>
         <ButtonLink to={`/reservations/manage?ref=${r.reference}`} variant="outline">
-          Manage reservation
+          {cf.manage}
         </ButtonLink>
         <Button variant="ghost" onClick={onNew} className="!px-4">
           <RotateCcw className="relative h-4 w-4" aria-hidden />
-          New reservation
+          {cf.newRes}
         </Button>
       </motion.div>
       <p className="mt-8 text-center text-xs text-muted">
-        Confirmation shown for {maskEmail(r.guest.email)} · {site.address.line1}, {site.address.city} (fictional)
+        {cf.shownFor(maskEmail(r.guest.email), c.address())}
       </p>
     </div>
   );

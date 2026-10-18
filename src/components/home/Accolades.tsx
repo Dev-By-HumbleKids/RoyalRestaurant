@@ -1,10 +1,12 @@
-import { accolades } from '@/data/story';
+import { useI18n } from '@/i18n';
 
 /** Slow marquee of fictional accolades. Pauses on hover; static for reduced motion (via global CSS). */
 export function Accolades() {
+  const { t, c } = useI18n();
+  const accolades = c.accolades;
   const row = [...accolades, ...accolades];
   return (
-    <section aria-label="Accolades (fictional)" className="group overflow-hidden border-y border-line/15 bg-obsidian py-7">
+    <section aria-label={t.home.accolades} className="group overflow-hidden border-y border-line/15 bg-obsidian py-7">
       <ul className="sr-only">
         {accolades.map((a) => (
           <li key={a}>{a}</li>

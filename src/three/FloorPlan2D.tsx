@@ -1,4 +1,5 @@
 import { FLOOR } from '@/data/tables';
+import { useI18n } from '@/i18n';
 import { cn } from '@/lib/utils';
 import type { RestaurantTable } from '@/types';
 import type { FloorPlanProps, TableState } from './planTypes';
@@ -34,6 +35,8 @@ function TableShape({ t, state, selected }: { t: RestaurantTable; state: TableSt
  * and as the accessible companion to the 3D scene.
  */
 export function FloorPlan2D({ mode, tables, selectedId, onSelectTable, spaces = [], activeSpaceId, onSelectSpace }: FloorPlanProps) {
+  const { t } = useI18n();
+  const L = t.plan.labels;
   return (
     <div className="relative w-full" style={{ aspectRatio: `${W} / ${D}` }}>
       <svg viewBox={`0 0 ${W} ${D}`} className="absolute inset-0 h-full w-full" aria-hidden>
@@ -66,13 +69,13 @@ export function FloorPlan2D({ mode, tables, selectedId, onSelectTable, spaces = 
         <rect x={px(-1.2)} y={pz(6.4)} width={2.4 * S} height={0.5 * S} fill="#2B2018" stroke="rgba(197,164,109,0.4)" />
         {/* Area labels */}
         {[
-          { x: -8.75, z: -7.3, t: 'SALON NOIR' },
-          { x: 8.75, z: -7.3, t: 'THE VAULT' },
-          { x: 8.75, z: -2.0, t: 'CELLAR ROOM' },
-          { x: 0, z: -3.6, t: 'MAIN DINING ROOM' },
-          { x: -6.6, z: 4.8, t: 'WINDOW ARCADE' },
-          { x: 0, z: 7.4, t: 'ENTRANCE' },
-          { x: 0, z: -4.5, t: 'CHEF’S COUNTER' },
+          { x: -8.75, z: -7.3, t: L.salon },
+          { x: 8.75, z: -7.3, t: L.vault },
+          { x: 8.75, z: -2.0, t: L.cellar },
+          { x: 0, z: -3.6, t: L.main },
+          { x: -6.6, z: 4.8, t: L.window },
+          { x: 0, z: 7.4, t: L.entrance },
+          { x: 0, z: -4.5, t: L.counter },
         ].map((l) => (
           <text key={l.t} x={px(l.x)} y={pz(l.z)} textAnchor="middle" fill="rgba(184,173,160,0.6)" fontSize="11" letterSpacing="3" fontFamily="Manrope, sans-serif">
             {l.t}
@@ -87,7 +90,7 @@ export function FloorPlan2D({ mode, tables, selectedId, onSelectTable, spaces = 
         tables.map(({ table, state }) => {
           const selected = table.id === selectedId;
           const disabled = state !== 'free';
-          const statusText = state === 'free' ? 'available' : state === 'booked' ? 'already reserved' : 'not suitable for your party';
+          const statusText = state === 'free' ? t.plan.stateFree : state === 'booked' ? t.plan.stateBooked : t.plan.stateUnsuitable;
           return (
             <button
               key={table.id}
@@ -95,7 +98,7 @@ export function FloorPlan2D({ mode, tables, selectedId, onSelectTable, spaces = 
               disabled={disabled}
               onClick={() => onSelectTable?.(table.id)}
               aria-pressed={selected}
-              aria-label={`${table.label}, ${table.minSeats}–${table.maxSeats} seats, ${statusText}`}
+              aria-label={t.plan.tableAria(table.label, table.minSeats, table.maxSeats, statusText)}
               className={cn(
                 'absolute grid min-h-[30px] min-w-[30px] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full text-[9px] font-semibold tabular transition-transform sm:min-h-[36px] sm:min-w-[36px] sm:text-[10px]',
                 selected ? 'text-obsidian' : state === 'free' ? 'text-champagne hover:scale-110' : 'cursor-not-allowed text-muted/60',

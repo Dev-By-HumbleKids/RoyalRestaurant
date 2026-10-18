@@ -228,6 +228,49 @@
   }
 }
 
+/*
+ * Myanmar script: stacked vowels and medials need taller lines, wide letter-spacing breaks
+ * syllable clusters, and the oversized Latin display scale is too large for Burmese words.
+ */
+:lang(my) {
+  word-break: normal;
+  overflow-wrap: anywhere;
+}
+:lang(my) body {
+  line-height: 1.9;
+}
+:lang(my) h1,
+:lang(my) h2,
+:lang(my) h3,
+:lang(my) h4,
+:lang(my) blockquote {
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+:lang(my) .display-hero {
+  font-size: clamp(2.5rem, 6.4vw, 6.4rem);
+  line-height: 1.32;
+}
+:lang(my) .display-xl {
+  font-size: clamp(2.1rem, 4.6vw, 4.6rem);
+  line-height: 1.4;
+}
+:lang(my) .display-lg {
+  font-size: clamp(1.8rem, 3.3vw, 3.3rem);
+  line-height: 1.45;
+}
+:lang(my) .display-md {
+  font-size: clamp(1.4rem, 2.1vw, 2.1rem);
+  line-height: 1.5;
+}
+:lang(my) .eyebrow,
+:lang(my) [class*='tracking-'] {
+  letter-spacing: 0.04em;
+}
+:lang(my) .lede {
+  line-height: 1.95;
+}
+
 /* Film grain overlay — a static SVG noise tile, no animation cost. */
 .grain {
   pointer-events: none;

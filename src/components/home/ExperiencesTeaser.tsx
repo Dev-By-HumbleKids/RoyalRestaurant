@@ -2,21 +2,23 @@ import { ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Img } from '@/components/ui/Img';
 import { SectionHeading } from '@/components/ui/SectionHeading';
-import { experiences } from '@/data/experiences';
+import { renderLines, useI18n } from '@/i18n';
 import { cn } from '@/lib/utils';
 import { Reveal } from '@/motion/Reveal';
 
-const featured = ['signature-dining', 'chefs-tasting', 'private-dining'].map((id) => experiences.find((e) => e.id === id)!);
+const FEATURED = ['signature-dining', 'chefs-tasting', 'private-dining'];
 
 export function ExperiencesTeaser() {
+  const { t, c } = useI18n();
+  const featured = FEATURED.map((id) => c.experiences.find((e) => e.id === id)!);
   return (
     <section className="section-y relative overflow-hidden bg-espresso" aria-labelledby="ways-title">
       <div className="container-x">
         <div className="flex flex-col justify-between gap-10 md:flex-row md:items-end">
-          <SectionHeading id="ways-title" eyebrow="Ways to dine" lines={['An evening,', <em key="e">three ways.</em>]} />
+          <SectionHeading id="ways-title" eyebrow={t.home.ways.eyebrow} lines={renderLines(t.home.ways.lines)} />
           <Reveal>
             <Link to="/experience#experiences" className="group inline-flex min-h-[44px] items-center gap-3 text-[12px] font-semibold uppercase tracking-[0.2em]">
-              <span className="link-underline">All six experiences</span>
+              <span className="link-underline">{t.home.ways.all}</span>
               <ArrowUpRight className="h-4 w-4 text-accent transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden />
             </Link>
           </Reveal>
@@ -26,7 +28,7 @@ export function ExperiencesTeaser() {
           {featured.map((exp, i) => (
             <li key={exp.id} className={cn(i === 1 && 'md:mt-24', i === 2 && 'md:mt-10')}>
               <Reveal delay={i * 0.1}>
-                <Link to={`/experience#${exp.id}`} className="group block" data-cursor="View">
+                <Link to={`/experience#${exp.id}`} className="group block" data-cursor={t.common.viewCursor}>
                   <div className="arch relative aspect-[3/4] overflow-hidden bg-charcoal">
                     <Img
                       k={exp.image}

@@ -104,9 +104,7 @@ export const localReservationService: ReservationService = {
 
     if (!table) {
       throw new SlotUnavailableError(
-        raced
-          ? 'Another guest reserved this time a moment ago.'
-          : 'There is no longer a table for your party at this time.',
+        raced ? 'raced' : 'noTable',
         nearestAlternatives(input.date, input.time, input.partySize, occupied),
       );
     }
@@ -144,7 +142,7 @@ export const localReservationService: ReservationService = {
   async updateReservation(reference, email, patch) {
     await network();
     const current = find(reference, email);
-    if (current.status === 'cancelled') throw new SlotUnavailableError('This reservation was cancelled.');
+    if (current.status === 'cancelled') throw new SlotUnavailableError('cancelled');
     const closed = dayClosedReason(patch.date);
     if (closed) throw new SlotUnavailableError(closed);
 
@@ -154,7 +152,7 @@ export const localReservationService: ReservationService = {
     const table = sameTable?.table ?? pickTable(list, current.area) ?? pickTable(list);
     if (!table) {
       throw new SlotUnavailableError(
-        'No table is free for that change.',
+        'noChange',
         nearestAlternatives(patch.date, patch.time, patch.partySize, occupied),
       );
     }

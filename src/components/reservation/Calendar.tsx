@@ -1,6 +1,7 @@
-import { addDays, addMonths, endOfMonth, format, getDay, isSameMonth, parseISO, startOfMonth } from 'date-fns';
+import { addDays, addMonths, endOfMonth, getDay, isSameMonth, parseISO, startOfMonth } from 'date-fns';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
+import { useI18n } from '@/i18n';
 import { statusMeta } from '@/lib/status';
 import { cn } from '@/lib/utils';
 import { reservationService } from '@/services';
@@ -8,7 +9,6 @@ import { toKey } from '@/services/availability';
 import { RULES } from '@/services/rules';
 import type { DayAvailability } from '@/types';
 
-const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
 interface Props {
   partySize: number;
@@ -21,6 +21,8 @@ interface Props {
  * Roving focus: arrow keys move by day/week, Home/End jump to week edges, PageUp/PageDown change month.
  */
 export function Calendar({ partySize, value, onChange }: Props) {
+  const { t, fmt } = useI18n();
+  const cal = t.reservations.calendar;
   const today = new Date();
   const minMonth = startOfMonth(today);
   const maxMonth = startOfMonth(addDays(today, RULES.maxDaysAhead));
@@ -81,7 +83,7 @@ export function Calendar({ partySize, value, onChange }: Props) {
     <div className="w-full">
       <div className="mb-5 flex items-center justify-between">
         <h3 className="font-display text-3xl font-light text-ivory" aria-live="polite">
-          {format(month, 'MMMM yyyy')}
+          {fmt.monthYear(month)}
         </h3>
         <div className="flex gap-2">
           <button
@@ -89,7 +91,7 @@ export function Calendar({ partySize, value, onChange }: Props) {
             onClick={() => setMonth((m) => addMonths(m, -1))}
             disabled={!canPrev}
             className="grid h-11 w-11 place-items-center rounded-full border border-line/30 transition-colors hover:border-accent disabled:opacity-30"
-            aria-label="Previous month"
+            aria-label={cal.prev}
           >
             <ChevronLeft className="h-4 w-4" aria-hidden />
           </button>
@@ -98,7 +100,7 @@ export function Calendar({ partySize, value, onChange }: Props) {
             onClick={() => setMonth((m) => addMonths(m, 1))}
             disabled={!canNext}
             className="grid h-11 w-11 place-items-center rounded-full border border-line/30 transition-colors hover:border-accent disabled:opacity-30"
-            aria-label="Next month"
+            aria-label={cal.next}
           >
             <ChevronRight className="h-4 w-4" aria-hidden />
           </button>
@@ -106,14 +108,14 @@ export function Calendar({ partySize, value, onChange }: Props) {
       </div>
 
       <div className="grid grid-cols-7 gap-1 text-center text-[10px] font-semibold uppercase tracking-[0.16em] text-muted" aria-hidden>
-        {WEEKDAYS.map((d) => (
+        {cal.weekdays.map((d) => (
           <span key={d} className="py-2">
             {d}
           </span>
         ))}
       </div>
 
-      <div ref={grid} role="group" aria-label={`Dates in ${format(month, 'MMMM yyyy')}`} onKeyDown={onKeyDown} className="grid grid-cols-7 gap-1" aria-busy={!days}>
+      <div ref={grid} role="group" aria-label={cal.datesIn(fmt.monthYear(month))} onKeyDown={onKeyDown} className="grid grid-cols-7 gap-1" aria-busy={!days}>
         {Array.from({ length: lead }, (_, i) => (
           <span key={`lead-${i}`} aria-hidden />
         ))}
@@ -133,7 +135,7 @@ export function Calendar({ partySize, value, onChange }: Props) {
               tabIndex={date === (value && isSameMonth(parseISO(value), month) ? value : visibleFocus) ? 0 : -1}
               aria-disabled={!selectable}
               aria-pressed={selected}
-              aria-label={`${format(parseISO(date), 'EEEE d MMMM')}${info ? `, ${meta.label}${info.reason ? ` — ${info.reason}` : ''}` : ', loading'}`}
+              aria-label={`${fmt.weekdayDayMonth(date)}${info ? `, ${t.status[status]}${info.reason ? ` — ${t.reasons[info.reason]}` : ''}` : cal.loading}`}
               onFocus={() => setFocusDate(date)}
               onClick={() => selectable && onChange(date)}
               className={cn(

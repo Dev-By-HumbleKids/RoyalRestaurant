@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { Img } from '@/components/ui/Img';
 import { Lightbox, type LightboxItem } from '@/components/ui/Lightbox';
+import { useI18n } from '@/i18n';
 import { cn } from '@/lib/utils';
 import { ease } from '@/motion/tokens';
 
@@ -10,6 +11,7 @@ const SPANS = ['md:row-span-2', '', '', 'md:row-span-2', '', '', 'md:col-span-2'
 /** Editorial masonry: some tiles span two rows. Every tile opens the accessible lightbox. */
 export function GalleryGrid({ items, className }: { items: LightboxItem[]; className?: string }) {
   const [open, setOpen] = useState<number | null>(null);
+  const { t } = useI18n();
 
   return (
     <>
@@ -28,8 +30,8 @@ export function GalleryGrid({ items, className }: { items: LightboxItem[]; class
               type="button"
               onClick={() => setOpen(i)}
               className="group block h-full w-full"
-              aria-label={`Open image: ${item.caption}`}
-              data-cursor="View"
+              aria-label={t.lightbox.open(item.caption)}
+              data-cursor={t.common.viewCursor}
             >
               <Img k={item.image} alt="" sizes="(min-width: 768px) 25vw, 50vw" className="h-full w-full object-cover transition-transform duration-[1.4s] ease-luxe group-hover:scale-[1.06]" />
               <span
