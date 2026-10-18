@@ -1,4 +1,5 @@
 import { imageAlts, type ImageKey } from '@/data/images';
+import imageWidths from '@/data/imageWidths.json';
 
 export function cn(...classes: Array<string | false | null | undefined>): string {
   return classes.filter(Boolean).join(' ');
@@ -6,17 +7,20 @@ export function cn(...classes: Array<string | false | null | undefined>): string
 
 const BASE = import.meta.env.BASE_URL;
 
-/** Wide editorial assets are exported at 800/1600px, plated food at 640/1100px. */
-function widths(key: ImageKey): [number, number] {
-  return /^(i|f|p|c|w)-/.test(key) ? [800, 1600] : [640, 1100];
-}
+const VARIANTS = ['sm', 'lg', 'xl'] as const;
 
+/**
+ * Responsive sources from the real pixel widths recorded by scripts/fetch-images.mjs, so the browser never
+ * picks a file that is narrower than it was promised. Landscape photos also have an `xl` (up to 2560px).
+ */
 export function imageSources(key: ImageKey) {
-  const [sm, lg] = widths(key);
+  const { w, r } = (imageWidths as Record<string, { w: number[]; r: number }>)[key] ?? { w: [800, 1600], r: 1.5 };
   return {
     src: `${BASE}images/${key}-lg.webp`,
-    srcSet: `${BASE}images/${key}-sm.webp ${sm}w, ${BASE}images/${key}-lg.webp ${lg}w`,
+    srcSet: w.map((width, i) => `${BASE}images/${key}-${VARIANTS[i]}.webp ${width}w`).join(', '),
     alt: imageAlts[key],
+    /** Width ÷ height of the photo. */
+    ratio: r,
   };
 }
 
