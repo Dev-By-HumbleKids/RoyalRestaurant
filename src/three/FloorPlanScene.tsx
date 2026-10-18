@@ -1,5 +1,5 @@
-import { Html, OrbitControls } from '@react-three/drei';
-import { Canvas, useFrame, type ThreeEvent } from '@react-three/fiber';
+import { Environment, Html, Lightformer, OrbitControls, PerformanceMonitor } from '@react-three/drei';
+import { Canvas, useFrame, useThree, type ThreeEvent } from '@react-three/fiber';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
@@ -7,57 +7,54 @@ import { tableById } from '@/data/tables';
 import { useI18n } from '@/i18n';
 import type { RestaurantTable } from '@/types';
 import type { FloorPlanProps, TableState } from './planTypes';
+import { TOP } from './geometry';
+import { Barrels, Facade, Fans, Hearth, Palms, Pendants, SalonBar, TableDressing, VaultRibs, WineVault } from './props';
+import { glow, herringbone, marble, plaster } from './textures';
 
-const C = {
-  floor: '#221D18',
-  wall: '#2A231D',
-  champagne: '#C5A46D',
-  free: '#C5A46D',
-  booked: '#7A3B33',
-  unsuitable: '#3A342E',
-  selected: '#F0D9A8',
-  marble: '#0D0C0B',
-};
+/** Textures are drawn once per page load and shared by every mount of the scene. */
+let tex: { floor: THREE.Texture; noir: THREE.Texture; counter: THREE.Texture; wall: THREE.Texture; glow: THREE.Texture } | null = null;
+const textures = () => (tex ??= { floor: herringbone(), noir: marble('#0e0d0c', '#8a7a62', 21), counter: marble('#e6dfd3', '#9c9288', 8), wall: plaster(), glow: glow() });
 
-const tableColor = (state: TableState, selected: boolean, hovered: boolean) => {
-  if (selected) return C.selected;
-  if (state === 'booked') return C.booked;
-  if (state === 'unsuitable') return C.unsuitable;
-  return hovered ? C.selected : C.free;
-};
-
-function Seats({ t }: { t: RestaurantTable }) {
-  const positions = useMemo(() => {
-    const out: [number, number, number][] = [];
-    if (t.shape === 'counter') {
-      for (let i = 0; i < 8; i++) out.push([-2.6 + i * 0.75, 0.25, 0.75]);
-    } else if (t.shape === 'rect' || t.shape === 'room') {
-      const n = Math.ceil(t.maxSeats / 2);
-      const len = t.shape === 'room' ? (t.d ?? 4) * 0.55 : (t.w ?? 2);
-      for (let i = 0; i < n; i++) {
-        const o = -len / 2 + (len / Math.max(1, n - 1)) * i;
-        if (t.shape === 'room') out.push([-0.75, 0.25, o], [0.75, 0.25, o]);
-        else out.push([o, 0.25, -0.75], [o, 0.25, 0.75]);
-      }
-    } else {
-      const r = t.maxSeats > 2 ? 0.95 : 0.75;
-      for (let i = 0; i < t.maxSeats; i++) {
-        const a = (i / t.maxSeats) * Math.PI * 2;
-        out.push([Math.cos(a) * r, 0.25, Math.sin(a) * r]);
-      }
+/** The floor's UVs are laid out in metres, rotated 45°, so the herringbone runs diagonally. */
+function useFloorGeometry() {
+  return useMemo(() => {
+    const g = new THREE.PlaneGeometry(22, 16, 1, 1);
+    const pos = g.attributes.position;
+    const uv = g.attributes.uv;
+    const c = Math.SQRT1_2;
+    for (let i = 0; i < pos.count; i++) {
+      const x = pos.getX(i);
+      const y = pos.getY(i);
+      uv.setXY(i, (x * c - y * c) / 3, (x * c + y * c) / 3);
     }
-    return out;
-  }, [t]);
-  return (
-    <>
-      {positions.map((p, i) => (
-        <mesh key={i} position={p}>
-          <boxGeometry args={[0.32, 0.5, 0.32]} />
-          <meshStandardMaterial color="#3B2E25" roughness={0.8} />
-        </mesh>
-      ))}
-    </>
-  );
+    return g;
+  }, []);
+}
+
+/** Light-pool colour and strength under a table; the champagne/oxblood match the status legend. */
+function poolStyle(state: TableState, selected: boolean, hovered: boolean): [string, number] {
+  if (selected) return ['#f0d9a8', 1];
+  if (state === 'free') return [hovered ? '#f0d9a8' : '#d9b46e', hovered ? 1 : 0.8];
+  if (state === 'booked') return ['#a8382c', 0.5];
+  if (state === 'idle') return ['#ffb36b', 0.28];
+  return ['#000000', 0];
+}
+
+function clothStyle(state: TableState, selected: boolean, hovered: boolean) {
+  if (selected) return { color: '#f0d9a8', emissive: '#c5a46d', emissiveIntensity: 0.35 };
+  if (state === 'booked') return { color: '#6a332d', emissive: '#000000', emissiveIntensity: 0 };
+  return { color: hovered ? '#fbf4e4' : '#ece4d4', emissive: '#000000', emissiveIntensity: 0 };
+}
+
+function footprint(t: RestaurantTable): { round?: number; w: number; d: number } {
+  if (t.shape === 'round') {
+    const r = t.maxSeats > 2 ? 0.62 : 0.48;
+    return { round: r, w: r * 2, d: r * 2 };
+  }
+  if (t.shape === 'square') return { w: 0.85, d: 0.85 };
+  if (t.shape === 'counter') return { w: t.w ?? 6, d: t.d ?? 0.8 };
+  if (t.shape === 'room') return { w: 1, d: (t.d ?? 4) * 0.6 };
+  return { w: t.w ?? 2, d: t.d ?? 1 };
 }
 
 function Table3D({
@@ -76,13 +73,20 @@ function Table3D({
   const [hovered, setHovered] = useState(false);
   const { t: dict } = useI18n();
   const canPick = interactive && state === 'free';
-  const color = tableColor(state, selected, hovered && canPick);
-  const top = useRef<THREE.Mesh>(null);
+  const lit = hovered && canPick;
+  const pool = useRef<THREE.MeshBasicMaterial>(null);
+  const size = footprint(t);
+  const [poolColor, poolStrength] = poolStyle(state, selected, lit);
+  const cloth = clothStyle(state, selected, lit);
+  const faded = state === 'unsuitable';
+  const { glow: glowTex, counter } = textures();
 
-  useFrame((_, dt) => {
-    if (!top.current) return;
-    const target = selected ? 0.95 : hovered && canPick ? 0.88 : 0.78;
-    top.current.position.y += (target - top.current.position.y) * Math.min(1, dt * 8);
+  // Ease the light pool towards its target; the selected table breathes gently.
+  useFrame(({ clock }, dt) => {
+    const m = pool.current;
+    if (!m) return;
+    const target = selected ? poolStrength * (0.8 + Math.sin(clock.elapsedTime * 2.4) * 0.2) : poolStrength;
+    m.opacity += (target - m.opacity) * Math.min(1, dt * 6);
   });
 
   const over = (e: ThreeEvent<PointerEvent>) => {
@@ -96,48 +100,88 @@ function Table3D({
     document.body.style.cursor = '';
   };
 
-  let geometry: JSX.Element;
-  if (t.shape === 'round') geometry = <cylinderGeometry args={[t.maxSeats > 2 ? 0.62 : 0.48, t.maxSeats > 2 ? 0.62 : 0.48, 0.08, 40]} />;
-  else if (t.shape === 'square') geometry = <boxGeometry args={[0.85, 0.08, 0.85]} />;
-  else if (t.shape === 'counter') geometry = <boxGeometry args={[t.w ?? 6, 0.12, t.d ?? 0.8]} />;
-  else if (t.shape === 'room') geometry = <boxGeometry args={[1, 0.08, (t.d ?? 4) * 0.6]} />;
-  else geometry = <boxGeometry args={[t.w ?? 2, 0.08, t.d ?? 1]} />;
+  const clothMaterial = (
+    <meshStandardMaterial {...cloth} roughness={0.92} transparent={faded} opacity={faded ? 0.3 : 1} depthWrite={!faded} />
+  );
 
   return (
     <group position={[t.x, 0, t.z]}>
-      <mesh
-        ref={top}
-        position={[0, 0.78, 0]}
-        onPointerOver={interactive ? over : undefined}
-        onPointerOut={interactive ? out : undefined}
-        onClick={
-          interactive
-            ? (e) => {
-                e.stopPropagation();
-                if (canPick) onSelect?.(t.id);
-              }
-            : undefined
-        }
-        castShadow
-      >
-        {geometry}
-        <meshStandardMaterial
-          color={color}
-          emissive={selected ? '#C5A46D' : '#000000'}
-          emissiveIntensity={selected ? 0.35 : 0}
-          metalness={state === 'free' || selected ? 0.55 : 0.1}
-          roughness={0.35}
-          transparent={state === 'unsuitable'}
-          opacity={state === 'unsuitable' ? 0.45 : 1}
-        />
+      {/* Pool of light on the floor — lamplight in explore mode, status in booking mode */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.015, 0]} renderOrder={1}>
+        <planeGeometry args={[size.w + 2.4, size.d + 2.4]} />
+        <meshBasicMaterial ref={pool} map={glowTex} color={poolColor} transparent opacity={0} blending={THREE.AdditiveBlending} depthWrite={false} toneMapped={false} />
       </mesh>
-      <mesh position={[0, 0.38, 0]}>
-        <cylinderGeometry args={[0.05, 0.05, 0.76, 8]} />
-        <meshStandardMaterial color="#2A221B" />
-      </mesh>
-      <Seats t={t} />
+
+      {t.shape === 'counter' ? (
+        <>
+          <mesh position={[0, (TOP - 0.05) / 2, -0.05]} castShadow receiveShadow>
+            <boxGeometry args={[size.w, TOP - 0.05, size.d * 0.7]} />
+            <meshStandardMaterial color="#2a1810" roughness={0.5} transparent={faded} opacity={faded ? 0.3 : 1} />
+          </mesh>
+          <mesh position={[0, TOP - 0.025, 0]} castShadow receiveShadow>
+            <boxGeometry args={[size.w + 0.1, 0.05, size.d]} />
+            <meshStandardMaterial
+              map={counter}
+              color={selected ? '#f0d9a8' : state === 'booked' ? '#b0786e' : '#ffffff'}
+              emissive={cloth.emissive}
+              emissiveIntensity={cloth.emissiveIntensity}
+              roughness={0.12}
+              transparent={faded}
+              opacity={faded ? 0.3 : 1}
+            />
+          </mesh>
+        </>
+      ) : size.round ? (
+        <>
+          {/* Linen cloth falling over a round top */}
+          <mesh position={[0, TOP - 0.12, 0]} castShadow receiveShadow>
+            <cylinderGeometry args={[size.round * 1.04, size.round * 1.12, 0.24, 48]} />
+            {clothMaterial}
+          </mesh>
+          <mesh position={[0, 0.3, 0]} castShadow>
+            <cylinderGeometry args={[0.045, 0.06, 0.6, 10]} />
+            <meshStandardMaterial color="#1c120c" roughness={0.5} />
+          </mesh>
+          <mesh position={[0, 0.02, 0]} receiveShadow>
+            <cylinderGeometry args={[0.24, 0.28, 0.04, 24]} />
+            <meshStandardMaterial color="#c5a46d" metalness={0.85} roughness={0.32} />
+          </mesh>
+        </>
+      ) : (
+        <>
+          <mesh position={[0, TOP - 0.12, 0]} castShadow receiveShadow>
+            <boxGeometry args={[size.w + 0.1, 0.24, size.d + 0.1]} />
+            {clothMaterial}
+          </mesh>
+          {[-1, 1].flatMap((sx) =>
+            [-1, 1].map((sz) => (
+              <mesh key={`${sx}${sz}`} position={[sx * (size.w / 2 - 0.08), 0.3, sz * (size.d / 2 - 0.08)]} castShadow>
+                <boxGeometry args={[0.06, 0.6, 0.06]} />
+                <meshStandardMaterial color="#1c120c" roughness={0.5} />
+              </mesh>
+            )),
+          )}
+        </>
+      )}
+
+      {/* Generous invisible hit area covering the table and its chairs */}
+      {interactive && (
+        <mesh
+          position={[0, 0.6, 0]}
+          onPointerOver={over}
+          onPointerOut={out}
+          onClick={(e) => {
+            e.stopPropagation();
+            if (canPick) onSelect?.(t.id);
+          }}
+        >
+          <boxGeometry args={[size.w + 1.6, 1.2, size.d + 1.6]} />
+          <meshBasicMaterial transparent opacity={0} depthWrite={false} colorWrite={false} />
+        </mesh>
+      )}
+
       {interactive && (hovered || selected) && (
-        <Html position={[0, 2.4, 0]} center distanceFactor={14} zIndexRange={[20, 0]} style={{ pointerEvents: 'none' }}>
+        <Html position={[0, 2.2, 0]} center distanceFactor={14} zIndexRange={[20, 0]} style={{ pointerEvents: 'none' }}>
           <div className="border border-champagne/40 bg-obsidian/90 px-3 py-2 text-center text-[11px] text-ivory" style={{ whiteSpace: 'nowrap', width: 'max-content' }}>
             <p className="font-semibold uppercase tracking-[0.16em]">{t.label}</p>
             <p className="text-stone">
@@ -151,64 +195,19 @@ function Table3D({
   );
 }
 
-function Hearth() {
-  const light = useRef<THREE.PointLight>(null);
-  useFrame(({ clock }) => {
-    if (light.current) light.current.intensity = 14 + Math.sin(clock.elapsedTime * 7) * 2 + Math.sin(clock.elapsedTime * 13) * 1.2;
-  });
+/** Plaster partition with a brass cap rail. */
+function Wall({ x, z, w, d, h = 0.9 }: { x: number; z: number; w: number; d: number; h?: number }) {
+  const { wall } = textures();
   return (
-    <group position={[0, 0, -7.4]}>
-      <mesh position={[0, 1, 0]}>
-        <boxGeometry args={[4.4, 2, 0.9]} />
-        <meshStandardMaterial color="#2B1E16" roughness={0.9} />
+    <group position={[x, 0, z]}>
+      <mesh position={[0, h / 2, 0]} castShadow receiveShadow>
+        <boxGeometry args={[w, h, d]} />
+        <meshStandardMaterial map={wall} roughness={0.9} />
       </mesh>
-      <mesh position={[0, 0.55, 0.3]}>
-        <boxGeometry args={[3, 0.7, 0.4]} />
-        <meshStandardMaterial color="#E0702F" emissive="#E0602A" emissiveIntensity={2.2} />
+      <mesh position={[0, h + 0.015, 0]}>
+        <boxGeometry args={[w + 0.02, 0.03, d + 0.04]} />
+        <meshStandardMaterial color="#c5a46d" metalness={0.9} roughness={0.3} />
       </mesh>
-      <pointLight ref={light} position={[0, 1.2, 1.4]} color="#FF8A3D" distance={9} decay={1.6} />
-    </group>
-  );
-}
-
-function Wall({ x, z, w, d, h = 0.5 }: { x: number; z: number; w: number; d: number; h?: number }) {
-  return (
-    <mesh position={[x, h / 2, z]}>
-      <boxGeometry args={[w, h, d]} />
-      <meshStandardMaterial color={C.wall} roughness={0.9} />
-    </mesh>
-  );
-}
-
-/** The 1926 barrel vault, drawn as champagne ribs over the main room. */
-function VaultRibs() {
-  const geo = useMemo(() => new THREE.TorusGeometry(6, 0.035, 6, 64, Math.PI), []);
-  return (
-    <group>
-      {[-4.5, -2.5, -0.5, 1.5, 3.5].map((z) => (
-        <mesh key={z} geometry={geo} position={[0, 0.5, z]}>
-          <meshStandardMaterial color={C.champagne} emissive={C.champagne} emissiveIntensity={0.25} transparent opacity={0.35} />
-        </mesh>
-      ))}
-    </group>
-  );
-}
-
-function WineRacks() {
-  return (
-    <group position={[8.75, 0, -5.3]}>
-      {[-1.6, -0.55, 0.5, 1.55].map((x) => (
-        <mesh key={x} position={[x, 0.8, -1.6]}>
-          <boxGeometry args={[0.8, 1.6, 0.4]} />
-          <meshStandardMaterial color="#3A2A1F" emissive="#C5A46D" emissiveIntensity={0.08} />
-        </mesh>
-      ))}
-      {[-1.6, -0.55, 0.5, 1.55].map((x) => (
-        <mesh key={`b${x}`} position={[x, 0.8, 0.6]}>
-          <boxGeometry args={[0.8, 1.6, 0.4]} />
-          <meshStandardMaterial color="#3A2A1F" emissive="#C5A46D" emissiveIntensity={0.08} />
-        </mesh>
-      ))}
     </group>
   );
 }
@@ -256,10 +255,43 @@ function CameraRig({ focus }: { focus: [number, number] | null }) {
   );
 }
 
+/**
+ * Nothing that casts a shadow moves, so the shadow map is drawn once (plus a few frames while
+ * textures settle) instead of every frame — roughly halving the GPU work per frame.
+ */
+function StaticShadows({ version }: { version: string }) {
+  const gl = useThree((s) => s.gl);
+  const frames = useRef(0);
+  useEffect(() => {
+    gl.shadowMap.autoUpdate = false;
+    frames.current = 0;
+  }, [gl, version]);
+  useFrame(() => {
+    if (frames.current < 6) {
+      gl.shadowMap.needsUpdate = true;
+      frames.current++;
+    }
+  });
+  return null;
+}
+
+const PALMS: [number, number][] = [
+  [-1.9, 7.25],
+  [1.9, 7.25],
+  [-10.3, 7.3],
+  [10.3, 7.3],
+  [-4.3, -7.4],
+  [4.3, -7.4],
+];
+
 export default function FloorPlanScene({ mode, tables, selectedId, onSelectTable, spaces = [], activeSpaceId, onSelectSpace }: FloorPlanProps) {
   const wrap = useRef<HTMLDivElement>(null);
   const { t } = useI18n();
   const [visible, setVisible] = useState(true);
+  // Resolution steps down if the device struggles, and back up when it recovers.
+  const [dpr, setDpr] = useState(1.5);
+  const floorGeo = useFloorGeometry();
+  const tx = textures();
 
   // Stop rendering when the canvas is off-screen.
   useEffect(() => {
@@ -275,59 +307,96 @@ export default function FloorPlanScene({ mode, tables, selectedId, onSelectTable
   const selected = selectedId ? tableById.get(selectedId) : undefined;
   const activeSpace = spaces.find((s) => s.id === activeSpaceId);
   const focus: [number, number] | null = selected ? [selected.x, selected.z] : activeSpace ? [activeSpace.hotspot.x, activeSpace.hotspot.z] : null;
+  const pendantSpots = useMemo<[number, number][]>(() => tables.filter((x) => x.table.area === 'main').map((x) => [x.table.x, x.table.z]), [tables]);
 
   return (
     <div ref={wrap} className="relative aspect-[4/3] w-full overflow-hidden bg-[radial-gradient(ellipse_at_center,#211914,#11110F_70%)] lg:aspect-[16/10]">
       <Canvas
         frameloop={visible ? 'always' : 'never'}
-        dpr={[1, 1.75]}
+        dpr={dpr}
+        shadows
         camera={{ position: [0, 20, 19], fov: 34 }}
         gl={{ antialias: true, powerPreference: 'high-performance' }}
         onPointerMissed={() => (document.body.style.cursor = '')}
         aria-label={t.plan.canvas}
       >
-        <color attach="background" args={['#120F0D']} />
-        <fog attach="fog" args={['#120F0D', 30, 52]} />
-        <ambientLight intensity={0.75} />
-        <hemisphereLight args={['#F4EFE6', '#1A1410', 0.45]} />
-        <directionalLight position={[6, 14, 8]} intensity={1.1} color="#FFE7C2" />
-        <spotLight position={[0, 10, 2]} angle={0.7} penumbra={0.8} intensity={30} color="#FFD9A0" />
+        <PerformanceMonitor onDecline={() => setDpr(1)} onIncline={() => setDpr(1.5)} flipflops={3} onFallback={() => setDpr(1)} />
+        <color attach="background" args={['#120f0d']} />
+        <fog attach="fog" args={['#120f0d', 32, 56]} />
 
-        {/* Floor */}
-        <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-          <planeGeometry args={[22, 16]} />
-          <meshStandardMaterial color={C.floor} roughness={0.85} />
+        {/* Lighting: soft fill, a warm key that casts shadows, lamplight over the main room */}
+        <ambientLight intensity={0.28} />
+        <hemisphereLight args={['#f4e6d0', '#1a1410', 0.5]} />
+        <directionalLight
+          position={[7, 16, 9]}
+          intensity={1.35}
+          color="#ffe2b8"
+          castShadow
+          shadow-mapSize={[2048, 2048]}
+          shadow-camera-left={-13}
+          shadow-camera-right={13}
+          shadow-camera-top={11}
+          shadow-camera-bottom={-11}
+          shadow-camera-near={1}
+          shadow-camera-far={45}
+          shadow-bias={-0.0004}
+          shadow-normalBias={0.03}
+        />
+        <pointLight position={[-2.6, 3.2, 0.4]} color="#ffc98a" intensity={7} distance={9} decay={1.4} />
+        <pointLight position={[2.6, 3.2, 0.4]} color="#ffc98a" intensity={7} distance={9} decay={1.4} />
+
+        {/* Reflections for brass, glass and marble — built from light panels, no image download */}
+        <Environment resolution={256} frames={1} environmentIntensity={0.55}>
+          <Lightformer form="rect" intensity={2.2} color="#ffdcae" position={[0, 7, 0]} rotation-x={Math.PI / 2} scale={[14, 8, 1]} />
+          <Lightformer form="rect" intensity={1.2} color="#c5a46d" position={[-9, 3, 2]} rotation-y={Math.PI / 2} scale={[8, 2, 1]} />
+          <Lightformer form="rect" intensity={1.2} color="#c5a46d" position={[9, 3, 2]} rotation-y={-Math.PI / 2} scale={[8, 2, 1]} />
+          <Lightformer form="ring" intensity={4} color="#ff8a3d" position={[0, 1.5, -9]} scale={2.5} />
+        </Environment>
+
+        {/* Herringbone teak floor, black marble in Salon Noir */}
+        <mesh geometry={floorGeo} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+          <meshStandardMaterial map={tx.floor} roughness={0.5} metalness={0.05} />
         </mesh>
-        {/* Salon Noir marble floor */}
-        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[-8.75, 0.01, -4.25]}>
+        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[-8.75, 0.006, -4.25]} receiveShadow>
           <planeGeometry args={[4.5, 7.5]} />
-          <meshStandardMaterial color={C.marble} roughness={0.25} metalness={0.3} />
+          <meshStandardMaterial map={tx.noir} roughness={0.14} metalness={0.25} />
         </mesh>
 
         {/* Shell (cut-away walls) */}
-        <Wall x={0} z={-8} w={22} d={0.2} h={1.2} />
-        <Wall x={-11} z={0} w={0.2} d={16} />
-        <Wall x={11} z={0} w={0.2} d={16} />
-        <Wall x={-6.5} z={-4.25} w={0.15} d={7.5} h={0.9} />
-        <Wall x={6.5} z={-3} w={0.15} d={10} h={0.9} />
-        <Wall x={8.75} z={-2.6} w={4.5} d={0.15} h={0.9} />
-        <Wall x={-8.75} z={-0.5} w={4.5} d={0.15} h={0.9} />
-        {/* Facade arches */}
-        {[-8.5, -6, -3.5, 3.5, 6, 8.5].map((x) => (
-          <mesh key={x} position={[x, 0, 8]} rotation={[0, 0, 0]}>
-            <torusGeometry args={[0.9, 0.06, 6, 24, Math.PI]} />
-            <meshStandardMaterial color={C.champagne} emissive={C.champagne} emissiveIntensity={0.3} />
-          </mesh>
-        ))}
-        {/* Reception desk */}
-        <mesh position={[0, 0.5, 6.6]}>
-          <boxGeometry args={[2.4, 1, 0.5]} />
-          <meshStandardMaterial color="#4A3222" roughness={0.6} />
-        </mesh>
+        <Wall x={0} z={-8} w={22} d={0.2} h={2.4} />
+        <Wall x={-11} z={0} w={0.2} d={16} h={1.1} />
+        <Wall x={11} z={0} w={0.2} d={16} h={1.1} />
+        <Wall x={-6.5} z={-4.25} w={0.15} d={7.5} />
+        <Wall x={6.5} z={-3} w={0.15} d={10} />
+        <Wall x={8.75} z={-2.6} w={4.5} d={0.15} />
+        <Wall x={-8.75} z={-0.5} w={4.5} d={0.15} />
 
+        {/* Reception desk: walnut with a brass top and a lamp */}
+        <group position={[0, 0, 6.6]}>
+          <mesh position={[0, 0.5, 0]} castShadow receiveShadow>
+            <boxGeometry args={[2.4, 1, 0.55]} />
+            <meshStandardMaterial color="#3a2416" roughness={0.45} />
+          </mesh>
+          <mesh position={[0, 1.02, 0]}>
+            <boxGeometry args={[2.5, 0.04, 0.62]} />
+            <meshStandardMaterial color="#c5a46d" metalness={0.9} roughness={0.25} />
+          </mesh>
+          <mesh position={[0.8, 1.25, 0]}>
+            <sphereGeometry args={[0.1, 16, 12]} />
+            <meshBasicMaterial color="#ffd7a3" toneMapped={false} />
+          </mesh>
+        </group>
+
+        <Facade />
         <VaultRibs />
+        <Pendants spots={pendantSpots} />
+        <Fans />
         <Hearth />
-        <WineRacks />
+        <WineVault />
+        <SalonBar />
+        <Barrels />
+        <Palms spots={PALMS} />
+        <TableDressing tables={tables} />
 
         {tables.map(({ table, state }) => (
           <Table3D
@@ -353,6 +422,7 @@ export default function FloorPlanScene({ mode, tables, selectedId, onSelectTable
             />
           ))}
 
+        <StaticShadows version={tables.map((x) => x.table.id).join()} />
         <CameraRig focus={focus} />
       </Canvas>
       <p className="pointer-events-none absolute bottom-3 left-4 text-[10px] uppercase tracking-[0.2em] text-muted">{t.plan.drag}</p>
