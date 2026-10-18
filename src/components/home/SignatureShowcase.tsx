@@ -10,6 +10,12 @@ import { cn, pad2 } from '@/lib/utils';
 import { ease } from '@/motion/tokens';
 import type { MenuItem } from '@/types';
 
+/** Where the food sits in tall photos, so the cropped frame centres on the plate rather than the dark backdrop. */
+const FOCUS: Partial<Record<MenuItem['image'], string>> = {
+  's-wagyu': '50% 68%',
+  's-filet-butter': '50% 55%',
+};
+
 function Meta({ item }: { item: MenuItem }) {
   const { t, c } = useI18n();
   const notes = [
@@ -109,7 +115,11 @@ export function SignatureShowcase() {
 
         <div className="hidden lg:col-span-6 lg:block">
           <div className="sticky top-28">
-            <div className="relative aspect-[4/5] overflow-hidden bg-charcoal" data-cursor={t.common.viewCursor}>
+            {/* Never taller than the screen, so the photo and the description below it fit on a laptop. */}
+            <div
+              className="relative aspect-[4/5] max-h-[calc(100svh-16rem)] min-h-[320px] w-full overflow-hidden bg-charcoal"
+              data-cursor={t.common.viewCursor}
+            >
               <AnimatePresence initial={false}>
                 <motion.div
                   key={current.id}
@@ -122,7 +132,13 @@ export function SignatureShowcase() {
                 >
                   <Link to={`/menu/${current.slug}`} aria-label={t.home.signatures.viewNamed(current.name)} tabIndex={-1}>
                     {/* Swapped on hover/tap without scrolling, so it loads straight away rather than lazily. */}
-                    <Img k={current.image} sizes="45vw" loading="eager" className="h-full w-full object-cover" />
+                    <Img
+                      k={current.image}
+                      sizes="45vw"
+                      loading="eager"
+                      className="h-full w-full object-cover"
+                      style={{ objectPosition: FOCUS[current.image] ?? '50% 50%' }}
+                    />
                   </Link>
                 </motion.div>
               </AnimatePresence>
